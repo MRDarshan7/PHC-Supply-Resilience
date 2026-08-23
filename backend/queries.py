@@ -4,6 +4,10 @@ Every consumer that needs "the facilities we actually use" goes through
 active_facilities() / active_phcs(). The filter is defined here and nowhere
 else. Exclusions are logged, never silent.
 
+demo_phcs() narrows active_phcs() to the subset the ledger, map and donor
+engine operate on: no placeholder coordinates, no known-bad rows, and no two
+facilities on the same point.
+
     py backend/queries.py      # prints verification output
 """
 
@@ -17,7 +21,10 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from config.settings import ACTIVE_FACILITY_STATE, ACTIVE_LAT_RANGE, ACTIVE_LON_RANGE  # noqa: E402
+from config.settings import (  # noqa: E402
+    ACTIVE_FACILITY_STATE, ACTIVE_LAT_RANGE, ACTIVE_LON_RANGE,
+    DEMO_EXCLUDED_FACILITY_IDS, DEMO_PLACEHOLDER_COORDINATES, DEMO_TARGET_FACILITY_ID,
+)
 from backend.db import create_tables, get_connection, table_columns  # noqa: E402
 
 log = logging.getLogger(__name__)
@@ -87,6 +94,82 @@ def active_facilities(conn, facility_type=None):
 def active_phcs(conn):
     """active_facilities() restricted to type = 'phc'."""
     return active_facilities(conn, facility_type="phc")
+
+
+# --------------------------------------------------------------------------- #
+# Demo subset
+# --------------------------------------------------------------------------- #
+
+def demo_exclusion_stats(conn):
+    """Apply the demo filters to active_phcs() one stage at a time and return
+    what each stage removed. demo_phcs() is the last stage's survivors.
+
+    Stages, in order:
+      1. drop every facility on a point in DEMO_PLACEHOLDER_COORDINATES
+         (all of them — a placeholder is not anyone's real location)
+      2. drop facility_id in DEMO_EXCLUDED_FACILITY_IDS (known-bad source rows)
+      3. drop any facility sharing an exact (lat, lon) with an earlier one —
+         first by name (then facility_id) is kept, so the choice is deterministic
+    """
+    active = active_phcs(conn)
+
+    excluded_placeholder = [f for f in active if on_placeholder(f)]
+    after_placeholder = [f for f in active if not on_placeholder(f)]
+    placeholder_counts = {}
+    for f in excluded_placeholder:
+        placeholder_counts[(f["lat"], f["lon"])] = placeholder_counts.get((f["lat"], f["lon"]), 0) + 1
+
+    excluded_ids = [f for f in after_placeholder if f["facility_id"] in DEMO_EXCLUDED_FACILITY_IDS]
+    after_ids = [f for f in after_placeholder if f["facility_id"] not in DEMO_EXCLUDED_FACILITY_IDS]
+    missing_ids = sorted(set(DEMO_EXCLUDED_FACILITY_IDS) - {f["facility_id"] for f in active})
+
+    kept, dropped, seen = [], [], {}
+    for f in sorted(after_ids, key=lambda f: (f["name"], f["facility_id"])):
+        key = (f["lat"], f["lon"])
+        if key in seen:
+            dropped.append({"dropped": f, "kept": seen[key]})
+        else:
+            seen[key] = f
+            kept.append(f)
+
+    return {
+        "active": len(active),
+        "excluded_placeholder": excluded_placeholder,
+        "placeholder_counts": placeholder_counts,       # {(lat, lon): rows dropped}
+        "excluded_facility_ids": excluded_ids,
+        "excluded_ids_not_found": missing_ids,          # configured ids absent from active set
+        "coordinate_collisions": dropped,               # [{"dropped": f, "kept": f}, ...]
+        "kept": kept,
+    }
+
+
+def on_placeholder(f, tolerance=1e-6):
+    """True when the facility sits on a configured placeholder coordinate."""
+    return any(abs(f["lat"] - lat) < tolerance and abs(f["lon"] - lon) < tolerance
+               for lat, lon in DEMO_PLACEHOLDER_COORDINATES)
+
+
+def demo_phcs(conn):
+    """active_phcs() minus placeholder-coordinate rows, known-bad rows and exact
+    coordinate duplicates. This is the facility set the ledger is generated
+    for. Ordered by name. Logs every exclusion stage."""
+    s = demo_exclusion_stats(conn)
+    log.info(
+        "demo phcs: kept %d of %d active | excluded %d on placeholder coordinates %s "
+        "| excluded %d by facility_id | dropped %d exact coordinate duplicates",
+        len(s["kept"]), s["active"], len(s["excluded_placeholder"]), DEMO_PLACEHOLDER_COORDINATES,
+        len(s["excluded_facility_ids"]), len(s["coordinate_collisions"]),
+    )
+    for missing in s["excluded_ids_not_found"]:
+        log.warning("demo phcs: DEMO_EXCLUDED_FACILITY_IDS entry %r is not an active PHC - "
+                    "the source row may have changed; check the exclusion is still needed", missing)
+    for c in s["coordinate_collisions"]:
+        log.info("  coordinate collision at %s, %s: kept %r (%s), dropped %r (%s)",
+                 c["kept"]["lat"], c["kept"]["lon"], c["kept"]["name"], c["kept"]["sub_district"],
+                 c["dropped"]["name"], c["dropped"]["sub_district"])
+    if not any(f["facility_id"] == DEMO_TARGET_FACILITY_ID for f in s["kept"]):
+        log.error("demo phcs: target facility %s is NOT in the demo set", DEMO_TARGET_FACILITY_ID)
+    return s["kept"]
 
 
 # --------------------------------------------------------------------------- #
@@ -199,6 +282,32 @@ if __name__ == "__main__":
         print(f"  lat range after filter: {min(lats):.5f} .. {max(lats):.5f}  (box {ACTIVE_LAT_RANGE})")
         print(f"  lon range after filter: {min(lons):.5f} .. {max(lons):.5f}  (box {ACTIVE_LON_RANGE})")
         print("  by type:", {t: sum(1 for f in facs if f["type"] == t) for t in sorted({f["type"] for f in facs})})
+
+        print("\n== demo_phcs() ==")
+        ds = demo_exclusion_stats(conn)
+        demo = demo_phcs(conn)
+        print(f"  active PHCs: {ds['active']}")
+        print(f"  excluded on placeholder coordinates: {len(ds['excluded_placeholder'])}")
+        for (plat, plon), n in ds["placeholder_counts"].items():
+            subs = sorted({f["sub_district"] for f in ds["excluded_placeholder"] if on_placeholder(f)})
+            print(f"    {n} rows at {plat}, {plon} (sub_district {subs})")
+        kept_urban = [f for f in demo if f["sub_district"] == "Urban Health Facilities"]
+        print(f"  'Urban Health Facilities' rows with genuine coordinates kept: {len(kept_urban)}")
+        print(f"  excluded by facility_id {DEMO_EXCLUDED_FACILITY_IDS}: "
+              f"{[(f['name'], f['lat'], f['lon']) for f in ds['excluded_facility_ids']]}")
+        if ds["excluded_ids_not_found"]:
+            print(f"  WARNING configured exclusions not found among active PHCs: {ds['excluded_ids_not_found']}")
+        print(f"  exact coordinate collisions: {len(ds['coordinate_collisions'])}")
+        for c in ds["coordinate_collisions"]:
+            print(f"    {c['kept']['lat']}, {c['kept']['lon']}: kept {c['kept']['facility_id']} "
+                  f"({c['kept']['sub_district']}), dropped {c['dropped']['facility_id']} ({c['dropped']['sub_district']})")
+        print(f"  demo count: {len(demo)}")
+        target = [f for f in demo if f["facility_id"] == DEMO_TARGET_FACILITY_ID]
+        assert target, f"{DEMO_TARGET_FACILITY_ID} missing from demo_phcs()"
+        print(f"  OK: target {DEMO_TARGET_FACILITY_ID} ({target[0]['name']}, {target[0]['sub_district']}) "
+              f"at {target[0]['lat']}, {target[0]['lon']} is in the demo set")
+        assert len({(f["lat"], f["lon"]) for f in demo}) == len(demo), "demo set still has duplicate coordinates"
+        print("  OK: every demo facility has a unique coordinate")
 
         print("\n== find_facilities_for_outbreak('Guntur', 'Thullur') ==")
         res = find_facilities_for_outbreak(conn, "Guntur", "Thullur")
