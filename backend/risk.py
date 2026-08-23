@@ -165,8 +165,12 @@ def main():
         assert band == "safe", f"expected safe, got {band}"
         print("  OK: band is safe")
 
-        print("\n=== 2. Boundary tests (risk_band via days_of_cover with burn_rate=1.0) ===")
-        for target_days, expected in [(6.9, "critical"), (7.1, "warning"), (14.1, "safe")]:
+        print("\n=== 2. Boundary tests (0.1 day either side of the configured thresholds) ===")
+        # Derived from settings, not hard-coded: the Phase 6 acceptance values
+        # (6.9 / 7.1 / 14.1) assumed CRITICAL_DAYS = 7; it has been 8 since Phase 8.
+        for target_days, expected in [(settings.CRITICAL_DAYS - 0.1, "critical"),
+                                      (settings.CRITICAL_DAYS + 0.1, "warning"),
+                                      (settings.WARNING_DAYS + 0.1, "safe")]:
             got = risk_band(target_days)
             status = "OK" if got == expected else "FAIL"
             print(f"  {target_days} days -> {got}  (expected {expected})  [{status}]")
