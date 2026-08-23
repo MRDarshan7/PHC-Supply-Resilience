@@ -47,6 +47,25 @@ Start the backend first (`py -m uvicorn backend.main:app` from the repo root).
 - Under 900 px the map keeps 36 vh at the top and the rail becomes one scrolling
   column; the medicine table drops its burn column under 640 px.
 
+## Boot and keepalive
+
+Render's free tier sleeps after ~15 minutes idle and the first request then
+takes up to ~50 s. `src/Boot.jsx` sits in front of the dashboard:
+
+- On load it probes `GET /health` (6 s per probe, 2 s between probes, 90 s
+  ceiling). An awake backend answers within the 500 ms grace window and the
+  console mounts directly — the warmup screen is never rendered, no flash.
+- Past the grace window a centred warmup screen shows the title, a spinner and
+  "Connecting to the backend"; elapsed seconds appear after 5 s. The console
+  mounts the moment a probe succeeds.
+- At the ceiling it shows the last error and a **Retry** button instead of an
+  empty dashboard.
+- While the console is open it pings `/health` every 10 minutes, silently, so a
+  long session never hits a cold start mid-interaction.
+
+`window.__phcBoot` (phase, startedAt, readyAt, warmupShown, probes,
+keepalivePings) is a read-only test hook.
+
 ## Demo flow (mouse only)
 
 1. Page loads: 104 real Guntur PHCs on the map, coloured by the worst medicine
@@ -80,8 +99,9 @@ To run the demo again from the start, reset the backend state
 
 ## Files
 
+- `src/Boot.jsx` — health-probe gate (warmup screen, ceiling + Retry) and the 10-minute keepalive
 - `src/App.jsx` — state and data flow (loads, ingest, recommend, approve, approve-all) and the shell layout
-- `src/api.js` — fetch wrapper; 120 s timeout so a Render cold start is not reported as failure
+- `src/api.js` — fetch wrapper; 120 s timeout so a Render cold start is not reported as failure (`timeoutMs` per call for the boot probes)
 - `src/components/Header.jsx`, `MapPanel.jsx`, `OutbreakStrip.jsx` (strip + over-map drawer),
   `FacilityList.jsx`, `FacilityDetail.jsx`, `Recommendation.jsx`, `common.jsx`
 - `src/index.css` — the whole stylesheet

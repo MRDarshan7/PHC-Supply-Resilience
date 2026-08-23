@@ -84,6 +84,26 @@ table { border-collapse: separate; border-spacing: 0; }
 .left { display: flex; flex-direction: column; min-height: 0; min-width: 0; border-right: 1px solid var(--border); container-type: inline-size; }
 .rail { display: flex; flex-direction: column; min-height: 0; min-width: 0; background: var(--panel); container-type: inline-size; }
 
+/* ================================================================ boot */
+/* Shown only while the backend is being woken (or has failed to wake).
+   An awake backend never shows it: the page stays on the bare background
+   for the few hundred milliseconds the first health probe takes. */
+.boot { height: 100vh; height: 100dvh; display: flex; align-items: center; justify-content: center; background: var(--bg); padding: 24px; }
+.boot-card {
+  width: min(480px, 100%); background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 26px 28px 22px;
+  text-align: center; animation: bootfade 280ms ease-out both;
+}
+@keyframes bootfade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.boot-card h1 { font-size: 20px; font-weight: 700; color: var(--ink); }
+.boot-card .sub { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+.boot-status { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 22px 0 8px; font-size: 15px; font-weight: 600; }
+.boot-status .spinner { width: 18px; height: 18px; border-width: 2.5px; }
+.boot-status .sec { color: var(--muted); font-weight: 500; font-variant-numeric: tabular-nums; }
+.boot-card.err .boot-status { color: var(--critical); }
+.boot-msg { color: var(--muted); font-size: 13px; line-height: 1.5; }
+.boot-err { margin: 0 0 10px; font-size: 12.5px; color: var(--muted); font-family: var(--mono); }
+.boot-url { margin-top: 16px; font-family: var(--mono); font-size: 11.5px; color: var(--faint); }
+
 /* ================================================================ header */
 .hdr {
   background: var(--ink); color: #fff;

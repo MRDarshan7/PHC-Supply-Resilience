@@ -8,28 +8,30 @@ export const backendUrl = BACKEND_URL
 export const backendConfigured = BACKEND_URL.length > 0
 
 // Render's free tier sleeps after inactivity; a cold start can take ~50 s.
-// Nothing here gives up before that.
+// Nothing here gives up before that, except the short health probes the
+// boot screen uses (they pass their own timeoutMs).
 const TIMEOUT_MS = 120_000
 
-function describeNetworkError(err) {
-  if (err.name === 'AbortError') return `No response from the backend after ${TIMEOUT_MS / 1000} s`
+function describeNetworkError(err, timeoutMs) {
+  if (err.name === 'AbortError') return `No response from the backend after ${Math.round(timeoutMs / 1000)} s`
   if (err instanceof TypeError) return `Could not reach the backend at ${BACKEND_URL} (${err.message})`
   return err.message
 }
 
 async function request(path, options = {}) {
   if (!backendConfigured) throw new Error('VITE_BACKEND_URL is not set')
+  const { timeoutMs = TIMEOUT_MS, ...init } = options
   const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
   let res
   try {
     res = await fetch(BACKEND_URL + path, {
-      ...options,
+      ...init,
       signal: controller.signal,
-      headers: { 'content-type': 'application/json', ...(options.headers || {}) },
+      headers: { 'content-type': 'application/json', ...(init.headers || {}) },
     })
   } catch (err) {
-    throw new Error(describeNetworkError(err))
+    throw new Error(describeNetworkError(err, timeoutMs))
   } finally {
     clearTimeout(timer)
   }
@@ -57,7 +59,8 @@ async function request(path, options = {}) {
 const enc = encodeURIComponent
 
 export const api = {
-  health: () => request('/health'),
+  // `timeoutMs` lets the boot probe give up early and poll again.
+  health: (opts = {}) => request('/health', opts),
   facilities: () => request('/facilities'),
   facility: (id) => request(`/facilities/${enc(id)}`),
   outbreaks: () => request('/outbreaks'),
