@@ -95,14 +95,27 @@ export default function Boot() {
   }, [attempt])
 
   // Keepalive: one quiet /health every ten minutes while the app is open.
-  // Failures are ignored — the next real request will show its own state.
+  // Browsers throttle or freeze timers in hidden tabs, so a tab that comes
+  // back after a long absence also pings at once — the instance is then
+  // already waking by the time the first click lands. Failures are ignored;
+  // the next real request shows its own waiting state.
   useEffect(() => {
     if (phase !== 'ready') return undefined
-    const id = setInterval(() => {
+    let lastPing = Date.now()
+    const ping = () => {
+      lastPing = Date.now()
       trace.keepalivePings += 1
       api.health({ timeoutMs: 60_000 }).catch(() => {})
-    }, KEEPALIVE_MS)
-    return () => clearInterval(id)
+    }
+    const id = setInterval(ping, KEEPALIVE_MS)
+    const onVisible = () => {
+      if (document.visibilityState === 'visible' && Date.now() - lastPing > KEEPALIVE_MS / 2) ping()
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => {
+      clearInterval(id)
+      document.removeEventListener('visibilitychange', onVisible)
+    }
   }, [phase])
 
   const retry = () => {
