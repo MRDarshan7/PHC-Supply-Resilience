@@ -3,7 +3,12 @@
     py backend/run_loaders.py          # load + summary
     py backend/run_loaders.py --quiet  # summary only, loaders silent
 
-Safe to run repeatedly — every loader is idempotent.
+Order: facilities -> medicines -> HMIS district caseload -> allocate the
+caseload across demo PHCs -> generate the seeded stock ledger. This is what
+backend.main runs at startup, so a fresh deploy builds the whole ledger.db
+(gitignored) from the committed data files.
+
+Safe to run repeatedly — every step is idempotent.
 """
 
 import sys
@@ -14,7 +19,7 @@ if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 from config.settings import LEDGER_DB, TARGET_DISTRICT  # noqa: E402
-from backend import load_facilities, load_hmis, load_medicines  # noqa: E402
+from backend import allocate_caseloads, generate_ledger, load_facilities, load_hmis, load_medicines  # noqa: E402
 from backend.db import TABLES, create_tables, district_caseload_id, get_connection, table_counts  # noqa: E402
 
 
@@ -62,21 +67,30 @@ def print_summary(conn):
     print(f"  {len(subs)} distinct: {subs}")
 
     print("\nCaseload rows stored:")
-    for r in conn.execute("SELECT * FROM caseloads"):
-        print(f"  {dict(r)}")
+    for r in conn.execute("SELECT * FROM caseloads WHERE facility_id LIKE 'district:%'"):
+        print(f"  district  {dict(r)}")
+    for r in conn.execute("SELECT disease, COUNT(*) n, SUM(cases_per_month) total, MIN(cases_per_month) mn, "
+                          "MAX(cases_per_month) mx FROM caseloads WHERE facility_id NOT LIKE 'district:%' GROUP BY disease"):
+        print(f"  facility  {r['disease']}: {r['n']} rows, {r['mn']:.2f}..{r['mx']:.2f}/month, sum {r['total']:.2f}/month")
 
-    print(f"\nJoin check - 5 PHCs alongside the {TARGET_DISTRICT} district diarrhoea caseload:")
+    print(f"\nJoin check - 5 PHCs with their allocated share of the {TARGET_DISTRICT} district diarrhoea caseload:")
     q = """
-        SELECT f.name AS facility, f.sub_district, f.state, c.disease, c.cases_per_month, c.source_period
+        SELECT f.name AS facility, f.sub_district, c.disease, c.cases_per_month, d.cases_per_month AS district_cases
         FROM facilities f
-        JOIN caseloads c ON c.facility_id = ?
+        JOIN caseloads c ON c.facility_id = f.facility_id
+        JOIN caseloads d ON d.facility_id = ? AND d.disease = c.disease
         WHERE f.type = 'phc' AND f.district = ?
-        ORDER BY f.name, f.state
+        ORDER BY f.name
         LIMIT 5
     """
     for r in conn.execute(q, (district_caseload_id(TARGET_DISTRICT), TARGET_DISTRICT)):
-        print(f"  {r['facility']:<16} {r['sub_district']:<14} {r['state']:<19} {r['disease']}  "
-              f"{r['cases_per_month']:.2f}/month  [{r['source_period']}]")
+        print(f"  {r['facility']:<16} {r['sub_district']:<14} {r['disease']}  {r['cases_per_month']:.2f}/month  "
+              f"= {100 * r['cases_per_month'] / r['district_cases']:.2f}% of district {r['district_cases']:.2f}")
+
+    print("\nSeeded ledger (source='seed'):")
+    for r in conn.execute("SELECT medicine_id, COUNT(*) n, SUM(delta) total, COUNT(DISTINCT facility_id) facs "
+                          "FROM stock_movements WHERE source='seed' GROUP BY medicine_id"):
+        print(f"  {r['medicine_id']:<18} {r['n']:>4} rows at {r['facs']} facilities, total {r['total']:g}")
     return counts
 
 
@@ -89,6 +103,10 @@ def main(verbose=True):
         load_medicines.load(conn, verbose=verbose)
         print("--- load_hmis ---")
         load_hmis.load(conn, verbose=verbose)
+        print("--- allocate_caseloads ---")
+        allocate_caseloads.allocate(conn, verbose=verbose)
+        print("--- generate_ledger ---")
+        generate_ledger.generate(conn, verbose=verbose)
         return print_summary(conn)
 
 

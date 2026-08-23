@@ -49,6 +49,10 @@ CREATE TABLE IF NOT EXISTS caseloads (
 );
 
 -- Append-only ledger. Stock is derived, never stored.
+-- batch / expiry describe the lot a receipt line (delta > 0) belongs to, the
+-- way a drug-management export (e-Aushadhi) carries batch number and expiry
+-- per receipt. Issue lines (delta < 0) may leave them NULL or name the lot
+-- they draw from. expiry is an ISO date (YYYY-MM-DD).
 CREATE TABLE IF NOT EXISTS stock_movements (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     facility_id   TEXT NOT NULL REFERENCES facilities(facility_id),
@@ -56,7 +60,9 @@ CREATE TABLE IF NOT EXISTS stock_movements (
     delta         REAL NOT NULL,
     source        TEXT NOT NULL,
     note          TEXT,
-    ts            TEXT NOT NULL
+    ts            TEXT NOT NULL,
+    batch         TEXT,
+    expiry        TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_stock_movements_fac_med
     ON stock_movements (facility_id, medicine_id);
@@ -105,6 +111,8 @@ COLUMN_MIGRATIONS = [
     ("outbreaks", "state", "TEXT"),
     ("outbreaks", "deaths", "INTEGER"),
     ("outbreaks", "status", "TEXT"),
+    ("stock_movements", "batch", "TEXT"),
+    ("stock_movements", "expiry", "TEXT"),
 ]
 
 
