@@ -172,3 +172,32 @@ SCORE_WEIGHTS = {
     "expiry_benefit": 0.30,
     "donor_comfort": 0.15,
 }
+
+# ---------------------------------------------------------------------------
+# Phase 9 - transfer memo (backend/memo.py) and API (backend/main.py)
+# ---------------------------------------------------------------------------
+# Gemini's second job: write the justification a District Medical Officer
+# signs, and - only where the top candidates score closely - choose between
+# them. It has no authority over quantities. Every number it writes is
+# cross-checked against the backend-computed input and any mismatch rejects
+# the whole response in favour of a deterministic template.
+#
+# A "close call" is any eligible donor whose score is within this margin of
+# the top score. Gemini may reorder donors only inside that set; when the set
+# holds one donor there is nothing to adjudicate and the backend's plan is
+# the only valid answer (PROJECT_CONTEXT.md section 5: do not manufacture
+# close calls). Scores are 0-1 weighted sums, so 0.05 is five points.
+MEMO_CLOSE_CALL_MARGIN = 0.05
+# How many ranked eligible donors the prompt describes in full (every
+# rejected candidate is always included - they are part of the product).
+MEMO_ELIGIBLE_IN_PROMPT = 10
+# Bumping this invalidates every cached memo (the version is part of the
+# cache key) - do it whenever the prompt or the input layout changes.
+MEMO_PROMPT_VERSION = 1
+# Memo responses are cached like IDSP extractions, under GEMINI_CACHE_DIR,
+# keyed by a hash of the exact input sent; only responses that passed
+# validation are cached, so a cached memo is always a valid memo.
+
+# Shown with every recommendation (PROJECT_CONTEXT.md section 6).
+DECISION_SUPPORT_NOTICE = ("Decision-support only. Recommendations require approval by the authorised "
+                           "District Medical Officer. The system executes nothing autonomously.")

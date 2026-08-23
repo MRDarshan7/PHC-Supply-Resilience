@@ -464,6 +464,87 @@ def _chosen_summary(d, n_eligible, unit):
 
 
 # --------------------------------------------------------------------------- #
+# Stage 3: allocation over an ordered donor list
+# --------------------------------------------------------------------------- #
+
+def allocate(recipient, ordered, unit, n_eligible=None):
+    """Stage 3 over `ordered` (eligible candidates, in the order they are to be
+    drawn on): each sends min(remaining need, its spare_units) until the need
+    is met or the list is exhausted. Returns (donors, remaining_units).
+
+    recommend() passes the scorer's ranking. backend/memo.py passes the same
+    candidates in the order Gemini chose among close-scoring donors - the
+    quantities still come from here, never from the model. Every donor is
+    re-checked against DONOR_SAFETY_FLOOR_DAYS after its quantity is fixed;
+    a failure raises DonorSafetyError rather than returning a plan."""
+    floor = settings.DONOR_SAFETY_FLOOR_DAYS
+    n_eligible = len(ordered) if n_eligible is None else n_eligible
+    remaining, donors = recipient["need_units"], []
+    for i, c in enumerate(ordered):
+        if remaining <= 0:
+            break
+        qty = min(remaining, c["spare_units"])
+        if qty < 1:
+            continue
+        given, kept = split_lots(c["transferable_lots"], qty)
+        retained = c["held_back_lots"] + kept
+        stock_after = c["stock"] - qty
+        cover_after = _cover(stock_after, c["burn_rate"])
+        d = {
+            **{k: c[k] for k in ("facility_id", "name", "sub_district", "lat", "lon", "distance_km", "burn_rate",
+                                 "baseline_burn_rate", "outbreak_surge", "score", "spare_units", "spare_nominal")},
+            "rank": c.get("rank", i + 1), "order": i + 1, "qty": qty, "lots_given": given, "lots_retained": retained,
+            "stock_before": c["stock"], "stock_after": stock_after,
+            "cover_before": c["days_of_cover"], "cover_after": cover_after,
+            "band_before": c["band"], "band_after": risk_band(cover_after),
+            "projected_cover_before": c["projected_cover_before"],
+            "projected_cover_after": _finite(fefo_projection(retained, c["burn_rate"])["cover_days"]),
+            "floor_check": {
+                "stock_after": stock_after, "burn_rate": c["burn_rate"], "floor_days": floor,
+                "cover_after": cover_after, "passes": cover_after is None or cover_after + 1e-9 >= floor,
+            },
+        }
+        if not d["floor_check"]["passes"]:
+            raise DonorSafetyError(
+                f"{c['name']} would be left with {cover_after:.3f} days of cover after sending {qty:g} {unit} "
+                f"({stock_after:g} / {c['burn_rate']:.4f}), below the {floor:g}-day floor")
+        d["summary"] = _chosen_summary(d, n_eligible, unit)
+        donors.append(d)
+        remaining -= qty
+    return donors, remaining
+
+
+def build_plan(recipient, donors, remaining):
+    """The recommendation dict for an allocation: donors, totals, the
+    recipient's nominal and FEFO-projected state after every lot arrives."""
+    total_qty = recipient["need_units"] - remaining
+    stock_after = recipient["stock"] + total_qty
+    incoming = [{**l, "from_facility_id": d["facility_id"], "from_name": d["name"]} for d in donors for l in d["lots_given"]]
+    proj = recipient_projection(recipient, incoming)
+    incoming_detail = []
+    for l in proj["lots"]:
+        if not l.get("incoming"):
+            continue
+        incoming_detail.append({
+            "from_facility_id": l["from_facility_id"], "from_name": l["from_name"], "batch": l["batch"],
+            "expiry": l["expiry"], "days_to_expiry": l["days_to_expiry"], "qty": l["qty"],
+            "near_expiry": l["days_to_expiry"] is not None and l["days_to_expiry"] <= settings.NEAR_EXPIRY_DAYS,
+            "consumed_by_day": l["finished_day"], "consumed_in_time": l["wasted"] <= EPS,
+            "wasted": l["wasted"],
+        })
+    return {
+        "donors": donors, "total_qty": total_qty, "need_units": recipient["need_units"], "shortfall": remaining,
+        "met": remaining <= 0, "split": len(donors) > 1,
+        "recipient_after": {
+            "stock": stock_after, "days_of_cover": _cover(stock_after, recipient["burn_rate"]),
+            "band": risk_band(_cover(stock_after, recipient["burn_rate"])),
+            "projected_cover_days": _finite(proj["cover_days"]),
+        },
+        "incoming_lots": incoming_detail,
+    }
+
+
+# --------------------------------------------------------------------------- #
 # The engine
 # --------------------------------------------------------------------------- #
 
@@ -519,68 +600,13 @@ def recommend(conn, recipient_id, medicine_id, surge=None, today=None, risk_rows
     eligible = [c for c in candidates if c["eligible"]]
     score_candidates(eligible, recipient)
     ranked = rank(eligible)
+    for i, c in enumerate(ranked):
+        c["rank"] = i + 1  # the scorer's rank, kept on the candidate whatever order it is later allocated in
     result.update(candidates=candidates, eligible=ranked, rejected=[c for c in candidates if not c["eligible"]])
 
     # ---- Stage 3 allocation, in rank order ------------------------------ #
-    floor = settings.DONOR_SAFETY_FLOOR_DAYS
-    remaining, donors = recipient["need_units"], []
-    for i, c in enumerate(ranked):
-        if remaining <= 0:
-            break
-        qty = min(remaining, c["spare_units"])
-        if qty < 1:
-            continue
-        given, kept = split_lots(c["transferable_lots"], qty)
-        retained = c["held_back_lots"] + kept
-        stock_after = c["stock"] - qty
-        cover_after = _cover(stock_after, c["burn_rate"])
-        d = {
-            **{k: c[k] for k in ("facility_id", "name", "sub_district", "lat", "lon", "distance_km", "burn_rate",
-                                 "baseline_burn_rate", "outbreak_surge", "score", "spare_units", "spare_nominal")},
-            "rank": i + 1, "qty": qty, "lots_given": given, "lots_retained": retained,
-            "stock_before": c["stock"], "stock_after": stock_after,
-            "cover_before": c["days_of_cover"], "cover_after": cover_after,
-            "band_before": c["band"], "band_after": risk_band(cover_after),
-            "projected_cover_before": c["projected_cover_before"],
-            "projected_cover_after": _finite(fefo_projection(retained, c["burn_rate"])["cover_days"]),
-            "floor_check": {
-                "stock_after": stock_after, "burn_rate": c["burn_rate"], "floor_days": floor,
-                "cover_after": cover_after, "passes": cover_after is None or cover_after + 1e-9 >= floor,
-            },
-        }
-        if not d["floor_check"]["passes"]:
-            raise DonorSafetyError(
-                f"{c['name']} would be left with {cover_after:.3f} days of cover after sending {qty:g} {unit} "
-                f"({stock_after:g} / {c['burn_rate']:.4f}), below the {floor:g}-day floor")
-        d["summary"] = _chosen_summary(d, len(ranked), unit)
-        donors.append(d)
-        remaining -= qty
-
-    total_qty = recipient["need_units"] - remaining
-    stock_after = recipient["stock"] + total_qty
-    incoming = [{**l, "from_facility_id": d["facility_id"], "from_name": d["name"]} for d in donors for l in d["lots_given"]]
-    proj = recipient_projection(recipient, incoming)
-    incoming_detail = []
-    for l in proj["lots"]:
-        if not l.get("incoming"):
-            continue
-        incoming_detail.append({
-            "from_facility_id": l["from_facility_id"], "from_name": l["from_name"], "batch": l["batch"],
-            "expiry": l["expiry"], "days_to_expiry": l["days_to_expiry"], "qty": l["qty"],
-            "near_expiry": l["days_to_expiry"] is not None and l["days_to_expiry"] <= settings.NEAR_EXPIRY_DAYS,
-            "consumed_by_day": l["finished_day"], "consumed_in_time": l["wasted"] <= EPS,
-            "wasted": l["wasted"],
-        })
-    result["recommendation"] = {
-        "donors": donors, "total_qty": total_qty, "need_units": recipient["need_units"], "shortfall": remaining,
-        "met": remaining <= 0, "split": len(donors) > 1,
-        "recipient_after": {
-            "stock": stock_after, "days_of_cover": _cover(stock_after, recipient["burn_rate"]),
-            "band": risk_band(_cover(stock_after, recipient["burn_rate"])),
-            "projected_cover_days": _finite(proj["cover_days"]),
-        },
-        "incoming_lots": incoming_detail,
-    }
+    donors, remaining = allocate(recipient, ranked, unit)
+    result["recommendation"] = build_plan(recipient, donors, remaining)
     result["status"] = "ok" if remaining <= 0 else ("partial" if donors else "no_eligible_donors")
     return result
 
