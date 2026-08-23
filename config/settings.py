@@ -10,7 +10,14 @@ GEMINI_RETRY_DELAY_SECONDS = 5
 TARGET_STATE = "Andhra Pradesh"
 TARGET_DISTRICT = "Guntur"
 
-CRITICAL_DAYS = 7
+# 8 days reflects a realistic restocking horizon for a rural PHC: a district
+# store needs roughly a week to receive a request, pick, and deliver, so a
+# facility with under 8 days of cover is the one that will run dry before
+# the next lorry arrives. The previous value (7) left the demo facility
+# (Thulluru / ORS, 6.884 d after the week-45 surge) only 0.116 days of margin
+# below the line - too tight to be robust against any upstream change
+# (scaling factor, seed, rule table, facility set). WARNING_DAYS stays at 14.
+CRITICAL_DAYS = 8
 WARNING_DAYS = 14
 
 DONOR_SAFETY_FLOOR_DAYS = 14
@@ -119,3 +126,49 @@ OUTBREAK_LOCAL_BOOST = 5.0
 # Allocated cases are assumed to present over this many days:
 # extra_cases_per_day = allocated_cases / OUTBREAK_WINDOW_DAYS.
 OUTBREAK_WINDOW_DAYS = 7
+
+# ---------------------------------------------------------------------------
+# Phase 8 - redistribution engine (backend/redistribute.py)
+# ---------------------------------------------------------------------------
+# DONOR_SAFETY_FLOOR_DAYS, TARGET_COVER_DAYS and MAX_TRANSFER_RADIUS_KM above
+# are the engine's primary parameters. The safety rule is
+#     spare = donor_stock - donor_burn_rate x DONOR_SAFETY_FLOOR_DAYS
+# with donor_burn_rate INCLUDING outbreak surge; spare <= 0 means not eligible.
+#
+# Expiry. A lot may only travel if it will still be usable after it arrives:
+# it must expire strictly later than today + TRANSFER_TRANSIT_DAYS +
+# TRANSFER_MIN_USE_DAYS (the "transit-and-use window"). Straight-line
+# distances under MAX_TRANSFER_RADIUS_KM are a one-day vehicle trip; two days
+# covers approval-to-shelf. Five days is the least dispensing time that
+# makes moving a lot worthwhile at all.
+TRANSFER_TRANSIT_DAYS = 2
+TRANSFER_MIN_USE_DAYS = 5
+
+# Stage 4 scoring weights. Every component is normalised to 0-1 before
+# weighting; the weights sum to 1.0 so a score is itself 0-1.
+#   sufficiency   fraction of the recipient's need this donor alone can meet
+#   proximity     linear distance decay, 1 - distance / MAX_TRANSFER_RADIUS_KM,
+#                 clamped 0-1. Absolute, not relative to the candidate set: a
+#                 single very close donor cannot collapse every other
+#                 candidate's proximity to near zero (inverse distance
+#                 normalised over candidates did exactly that - one donor at
+#                 0.2 km left everything at 19 km scoring 0.01)
+#   expiry_benefit units moved that would otherwise have expired unused at the
+#                 donor AND that the recipient will consume before expiry, as
+#                 a fraction of the recipient's need
+#   donor_comfort how far above the safety floor the donor remains after the
+#                 transfer, as a fraction of the floor (capped: a donor left
+#                 with 2 x DONOR_SAFETY_FLOOR_DAYS of cover scores 1.0)
+#
+# PROJECT_CONTEXT.md section 10 gave sufficiency 0.40 / expiry 0.20. At 0.40,
+# sufficiency over-rewarded large donors: any facility with spare >= need
+# scored a full 0.40 and a near-expiry donor could not catch up. Rescuing
+# stock from certain expiry is worth as much as meeting the last fraction of
+# need in one movement, so the two now carry equal weight. Proximity and
+# comfort are unchanged.
+SCORE_WEIGHTS = {
+    "sufficiency": 0.30,
+    "proximity": 0.25,
+    "expiry_benefit": 0.30,
+    "donor_comfort": 0.15,
+}
