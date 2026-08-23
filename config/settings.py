@@ -87,3 +87,35 @@ NEAR_EXPIRY_DAYS = 30
 # The generator guarantees at least this many demo facilities hold a
 # near-expiry batch — near-expiry redistribution is a core part of the demo.
 NEAR_EXPIRY_MIN_FACILITIES = 3
+
+# ---------------------------------------------------------------------------
+# Phase 7 — IDSP pipeline (backend/ingest_idsp.py, backend/outbreak_demand.py)
+# ---------------------------------------------------------------------------
+# Every Gemini response is cached here, keyed by the SHA-256 of the input PDF.
+# A second ingest of the same file must make zero Gemini calls. The directory
+# is gitignored (.cache/), so a fresh clone re-extracts once per PDF.
+GEMINI_CACHE_DIR = PROJECT_ROOT / ".cache" / "gemini"
+# The report the demo is built around (IDSP week 45, 2025 - see PROJECT_CONTEXT.md section 7).
+DEMO_IDSP_PDF = IDSP_PDF_DIR / "idsp_2025_w45.pdf"
+
+# Outbreak -> extra burn rate. An outbreak's cases are allocated across the
+# demo facilities by each facility's share of the district caseload for that
+# disease, with facilities localised to the outbreak's sub-district boosted.
+#
+# Why a boost at all: allocation by district caseload share alone
+# under-represents geographic concentration. The source PDF places the 457
+# Guntur cases at a university hostel in Thullur village, so patients present
+# at the nearest facilities rather than in proportion to district-wide
+# caseload. The boost applies to facilities matched at tier 1 or tier 2 by
+# backend.queries.find_facilities_for_outbreak, and weights are renormalised
+# so allocated cases still sum to the outbreak total.
+#
+# Why 5.0: at 2.0 the surge/baseline ratio for an unboosted facility is
+# (457/7) / (418.71/30 x CONSUMPTION_SCALING_FACTOR) = 0.585, which takes the
+# Thulluru PHC from 26.4 to 12.2 days of ORS cover (warning, not critical) and
+# pushes no facility below CRITICAL_DAYS. At 5.0 Thulluru lands just under the
+# 7-day line (~6.9 days); backend/test_demo.py asserts this and prints the margin.
+OUTBREAK_LOCAL_BOOST = 5.0
+# Allocated cases are assumed to present over this many days:
+# extra_cases_per_day = allocated_cases / OUTBREAK_WINDOW_DAYS.
+OUTBREAK_WINDOW_DAYS = 7

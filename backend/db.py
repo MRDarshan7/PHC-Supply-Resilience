@@ -68,7 +68,13 @@ CREATE INDEX IF NOT EXISTS idx_stock_movements_fac_med
     ON stock_movements (facility_id, medicine_id);
 
 -- Columns mirror the Gemini extraction output in PROJECT_CONTEXT.md section 5
--- (state, deaths, status) on top of the section 10 schema.
+-- (state, deaths, status) on top of the section 10 schema. The last three are
+-- the validation verdict backend/ingest_idsp.py reached when the row was
+-- stored: in_scope (district exists in the facilities table for the target
+-- state), disease_key (rules.yaml key matched via disease_aliases, NULL when
+-- the disease is not in the rule table - no surge is ever applied to such a
+-- row) and review_flags (comma-separated reasons a reviewer should look,
+-- NULL when clean). Re-ingesting the file (cached, free) refreshes them.
 CREATE TABLE IF NOT EXISTS outbreaks (
     outbreak_id   TEXT PRIMARY KEY,
     state         TEXT,
@@ -80,7 +86,10 @@ CREATE TABLE IF NOT EXISTS outbreaks (
     week          INTEGER NOT NULL,
     year          INTEGER NOT NULL,
     status        TEXT,
-    source_file   TEXT NOT NULL
+    source_file   TEXT NOT NULL,
+    in_scope      INTEGER,
+    disease_key   TEXT,
+    review_flags  TEXT
 );
 
 CREATE TABLE IF NOT EXISTS transfers (
@@ -111,6 +120,9 @@ COLUMN_MIGRATIONS = [
     ("outbreaks", "state", "TEXT"),
     ("outbreaks", "deaths", "INTEGER"),
     ("outbreaks", "status", "TEXT"),
+    ("outbreaks", "in_scope", "INTEGER"),
+    ("outbreaks", "disease_key", "TEXT"),
+    ("outbreaks", "review_flags", "TEXT"),
     ("stock_movements", "batch", "TEXT"),
     ("stock_movements", "expiry", "TEXT"),
 ]
