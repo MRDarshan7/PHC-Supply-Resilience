@@ -1,0 +1,6 @@
+medicine_id,name,unit,aliases
+ors_packets,ORS (Oral Rehydration Salts),packets,ORS|oral rehydration salt|ORS sachets
+zinc_20mg,Zinc Sulphate 20mg,tablets,zinc|zinc sulphate|zinc tablets
+paracetamol_500,Paracetamol 500mg,tablets,paracetamol|PCM|acetaminophen
+iv_fluids_rl,IV Fluids (Ringer Lactate),litres,IV fluids|ringer lactate|RL|IV
+ciprofloxacin_500,Ciprofloxacin 500mg,tablets,ciprofloxacin|cipro

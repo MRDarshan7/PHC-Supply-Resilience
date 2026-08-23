@@ -1,0 +1,29 @@
+# Clinical rule table: patient cases -> medicine quantities.
+#
+# Gemini must NEVER write to or modify this file, and must never invent or
+# supply a missing row. If an outbreak's disease is not found here (via
+# disease_aliases below), the outbreak is still recorded, but NO demand
+# surge is applied, and it is flagged for manual review.
+
+disease_aliases:
+  "Acute Diarrhoeal Disease": acute_diarrhoeal_disease
+  "Dengue": dengue
+
+acute_diarrhoeal_disease:
+  - medicine: ors_packets
+    per_case: 4
+    source: "WHO/IAP ORS regimen"
+  - medicine: zinc_20mg
+    per_case: 14
+    source: "14-day zinc supplementation course"
+  - medicine: iv_fluids_rl
+    per_case: 0.3
+    source: "severe dehydration fraction ~30%"
+
+dengue:
+  - medicine: paracetamol_500
+    per_case: 20
+    source: "WHO dengue clinical management guidance"
+  - medicine: iv_fluids_rl
+    per_case: 1.5
+    source: "WHO dengue clinical management guidance"
