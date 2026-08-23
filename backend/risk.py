@@ -3,8 +3,9 @@
 Two inputs, nothing else: current_stock (SUM of stock_movements, read
 through the current_stock view) and burn_rate (the same derived daily
 consumption backend.generate_ledger used to seed the ledger - caseloads x
-rules.yaml x CONSUMPTION_SCALING_FACTOR - plus outbreak_surge, 0 until
-Phase 7 supplies one). burn_rate is deliberately NOT recomputed from
+rules.yaml x CONSUMPTION_SCALING_FACTOR - plus outbreak_surge, the extra
+units/day backend.outbreak_demand allocates from IDSP outbreaks on record).
+burn_rate is deliberately NOT recomputed from
 scratch here: it calls generate_ledger.daily_consumption(), the exact
 function the seed generator used, so the two can never diverge.
 
@@ -17,7 +18,7 @@ Risk is a property of a (facility, medicine) pair, not of a facility.
 facility_worst_band() takes the worst band across a facility's medicines for
 map colouring; it is not a blended "facility risk score".
 
-    py backend/risk.py     # Phase 6 verification output
+    py backend/risk.py     # Phase 6 verification output (baseline, no surge)
 """
 
 import sys
@@ -97,33 +98,43 @@ def risk_band(days):
     return "safe"
 
 
-def all_risk(conn):
+def all_risk(conn, surge=None):
     """One row per (facility, medicine) for every demo facility:
     facility_id, name, sub_district, lat, lon, medicine_id, stock,
-    burn_rate, days_of_cover, band."""
+    burn_rate, outbreak_surge, days_of_cover, band.
+
+    surge is {facility_id: {medicine_id: extra units/day}} from
+    backend.outbreak_demand.surge_table() - the IDSP outbreaks currently on
+    record, already allocated. None / {} means no outbreak surge (the
+    baseline picture). Each value goes straight into burn_rate()'s
+    outbreak_surge parameter; there is no second formula."""
+    surge = surge or {}
     facilities = demo_phcs(conn)
     medicines = [r["medicine_id"] for r in conn.execute("SELECT medicine_id FROM medicines ORDER BY medicine_id")]
     rows = []
     for f in facilities:
         for mid in medicines:
+            extra = surge.get(f["facility_id"], {}).get(mid, 0.0)
             stock = current_stock(conn, f["facility_id"], mid)
-            rate = burn_rate(conn, f["facility_id"], mid)
+            rate = burn_rate(conn, f["facility_id"], mid, outbreak_surge=extra)
             days = None if rate == 0 else stock / rate
             rows.append({
                 "facility_id": f["facility_id"], "name": f["name"], "sub_district": f["sub_district"],
                 "lat": f["lat"], "lon": f["lon"], "medicine_id": mid,
-                "stock": stock, "burn_rate": rate, "days_of_cover": days, "band": risk_band(days),
+                "stock": stock, "burn_rate": rate, "outbreak_surge": extra,
+                "days_of_cover": days, "band": risk_band(days),
             })
     return rows
 
 
-def facility_worst_band(conn):
+def facility_worst_band(conn, surge=None):
     """One row per facility: facility_id, name, sub_district, lat, lon,
     band (the worst band across its medicines, critical > warning > safe >
     unknown), worst_medicine_id (which medicine produced it). For map
-    colouring - never a single blended facility risk score."""
+    colouring - never a single blended facility risk score. surge as in
+    all_risk()."""
     by_facility = {}
-    for r in all_risk(conn):
+    for r in all_risk(conn, surge=surge):
         fid = r["facility_id"]
         if fid not in by_facility or SEVERITY[r["band"]] > SEVERITY[by_facility[fid]["band"]]:
             by_facility[fid] = {
