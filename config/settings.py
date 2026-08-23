@@ -25,7 +25,7 @@ ACTIVE_FACILITY_STATE = "Andhra Pradesh"
 # Guntur bounding box. Two source rows carry coordinates hundreds of km away
 # (a sub-centre placed in Hyderabad, a PHC placed near Kadapa); the box drops them.
 ACTIVE_LAT_RANGE = (15.5, 17.0)
-ACTIVE_LON_RANGE = (79.5, 81.2)
+ACTIVE_LON_RANGE = (79.3, 81.2)
 
 DATA_DIR = PROJECT_ROOT / "data"
 IDSP_PDF_DIR = DATA_DIR / "idsp_pdfs"
