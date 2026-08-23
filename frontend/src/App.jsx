@@ -260,9 +260,7 @@ export default function App() {
                 'Ingest IDSP report'
               )}
             </button>
-            <span className="hdr-file">
-              {DEMO_PDF} · MoHFW IDSP weekly outbreak report, week 45 of 2025
-            </span>
+            <span className="hdr-file">{DEMO_PDF} · MoHFW weekly outbreak report, week 45 of 2025</span>
           </div>
           <span className="badge-sim">Inventory data simulated · facility and outbreak data are real</span>
         </div>
@@ -314,20 +312,16 @@ export default function App() {
           autonomously.
         </p>
         <p>
-          Days of cover = stock ÷ daily consumption. Consumption = HMIS caseload × clinical rule table, plus any IDSP outbreak surge allocated by
-          caseload share — an outbreak changes how fast stock is used, not how much there is.
+          Days of cover = stock ÷ daily consumption; consumption = HMIS caseload × clinical rule table + IDSP outbreak surge allocated by caseload share.
           {thresholds
             ? ` Critical below ${thresholds.critical_days} days · warning ${thresholds.critical_days}–${thresholds.warning_days} · safe above ${thresholds.warning_days} · donor safety floor ${thresholds.donor_safety_floor_days} days.`
-            : ''}
-        </p>
-        <p>
-          Sources: facility directory (data.gov.in, 2016) · caseloads (MoHFW HMIS 2019-20, Andhra Pradesh) · outbreaks (MoHFW IDSP weekly reports) ·
-          medicines (NLEM 2022). The inventory ledger is simulated from real caseloads with a fixed seed. Distances are straight-line. Transfers are
-          shown as projected, not instant.
+            : ''}{' '}
+          Sources: data.gov.in facility directory (2016) · MoHFW HMIS 2019-20 caseloads · MoHFW IDSP weekly reports · NLEM 2022. Inventory ledger simulated
+          from real caseloads with a fixed seed. Distances straight-line; transfers shown as projected.
           {backendConfigured ? (
             <>
               {' '}
-              Backend: <span className="mono">{backendUrl}</span>
+              Backend <span className="mono">{backendUrl}</span>
             </>
           ) : null}
         </p>

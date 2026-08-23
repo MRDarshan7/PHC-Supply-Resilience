@@ -30,21 +30,29 @@ Start the backend first (`py -m uvicorn backend.main:app` from the repo root).
 ## Demo flow (mouse only)
 
 1. Page loads: 104 real Guntur PHCs on the map, coloured by the worst medicine
-   (critical red · warning amber · safe green · unknown grey). Outbreaks panel is empty.
+   (critical red · warning amber · safe green · unknown grey). Critical and warning
+   markers are larger and always drawn on top; the wheel zooms, drag pans, **Fit district**
+   resets the view. The outbreaks panel is empty. The facility list shows only
+   warning-or-worse facilities (safe ones are the green dots) with a **Show all** toggle.
 2. **Ingest IDSP report** reads `idsp_2025_w45.pdf` through the backend (Gemini,
    cached after the first run). The outbreaks panel fills, the map recolours,
-   and the ingest summary shows band counts before → after.
-3. Click a facility row (or its marker) to expand it inline: per-medicine
-   stock, baseline and outbreak-surge burn rates shown separately, days of
-   cover and band. A facility can be critical on one medicine and safe on another.
-4. **Find donors** on a warning/critical medicine: recommended donor(s) with
-   quantity, lot, distance, score breakdown and the safety check arithmetic;
-   every rejected candidate with its reason (safety-floor rejections first);
-   the memo with an English / తెలుగు toggle.
-5. **Approve transfer** writes the ledger at both facilities and shows the
-   before/after figures. After the ORS transfer at Thulluru the ORS row turns
-   green while the marker stays red — zinc and IV fluids are still critical.
-6. **Approve all recommended** resolves the remaining medicines; the marker turns green.
+   and a two-line summary gives band counts before → after.
+3. Click a facility row (or its marker) to expand it inline: one line of outbreak
+   context, then per-medicine stock, baseline and outbreak-surge burn shown
+   separately, days of cover and band. A facility can be critical on one
+   medicine and safe on another.
+4. **Find donors** on a warning/critical medicine. Always visible: the donor,
+   quantity, lot, distance, recipient and donor before → after with the safety
+   margin, and the memo with an English / తెలుగు toggle. One click away: the score
+   breakdown, "Why not the other N facilities?" (every rejection with its reason,
+   safety-floor first) and the full ranking.
+5. **Approve transfer** writes the ledger at both facilities. The recommendation
+   collapses to one line (donor → recipient, quantity, before → after; **Details**
+   re-expands it) and a status line explains the facility-level result: after the
+   ORS transfer at Thulluru the ORS row turns green while the marker stays red —
+   zinc and IV fluids are still critical.
+6. **Approve all recommended** resolves the remaining medicines: three compact
+   lines, the status line turns green, the marker turns green.
 
 To run the demo again from the start, reset the backend state
 (`py scratch/reset_demo_state.py` from the repo root) and reload the page.
@@ -56,3 +64,4 @@ To run the demo again from the start, reset the backend state
 - `src/components/MapView.jsx` — Leaflet circle markers, restyled in place on every refresh
 - `src/components/OutbreaksPanel.jsx`, `FacilityList.jsx`, `FacilityDetail.jsx`, `Recommendation.jsx`
 - `src/index.css` — the whole stylesheet; tables become stacked cards under 640 px
+- `MapView` exposes the Leaflet instance as `containerEl.__leafletMap` for scripted checks (zoom, bounds)

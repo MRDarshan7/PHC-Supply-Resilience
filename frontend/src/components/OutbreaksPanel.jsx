@@ -83,7 +83,7 @@ export default function OutbreaksPanel({ outbreaks, loading, error, onRetry, ing
           <div style={{ padding: all.length ? '8px 12px 0' : 0 }}>
             <Waiting
               label={`Reading ${ingest.filename} with Gemini…`}
-              hint="A real MoHFW IDSP weekly report. First extraction of a PDF can take up to a minute; repeat runs are served from the on-disk cache with zero model calls."
+              hint="A real MoHFW IDSP weekly report. The first extraction of a PDF can take up to a minute; repeats come from the on-disk cache."
             />
           </div>
         ) : null}
@@ -93,21 +93,17 @@ export default function OutbreaksPanel({ outbreaks, loading, error, onRetry, ing
           </div>
         ) : null}
         {ingest?.result ? (
-          <div className="note note-ok" style={{ margin: all.length ? '8px 12px' : '0 0 8px' }}>
-            <h4>
-              {ingest.result.source_file}: {ingest.result.extracted} outbreaks extracted, {ingest.result.stored} stored
-              {ingest.result.gemini_calls === 0 ? ' — served from cache, 0 Gemini calls' : ` — ${ingest.result.gemini_calls} Gemini call${ingest.result.gemini_calls === 1 ? '' : 's'}`}
-            </h4>
-            <div className="small">
-              {ingest.result.out_of_scope} outside Guntur · {ingest.result.unknown_disease} diseases not in the rule table (recorded, no surge applied)
+          <div className="note note-ok ingest-result" style={{ margin: all.length ? '8px 12px' : '0 0 8px' }}>
+            <div>
+              <b>{ingest.result.extracted} outbreaks</b> extracted from {ingest.result.source_file}
+              {ingest.result.gemini_calls === 0 ? ' (cached, 0 Gemini calls)' : ` (${ingest.result.gemini_calls} Gemini call${ingest.result.gemini_calls === 1 ? '' : 's'})`} ·{' '}
+              <b>{ingest.result.extracted - ingest.result.out_of_scope}</b> in scope for Guntur · {ingest.result.unknown_disease} not in the rule table, no surge applied
               {ingest.result.rejected?.length ? ` · ${ingest.result.rejected.length} rows rejected` : ''}
             </div>
-            <div className="small">
-              Facilities changed band: <b>{ingest.result.facilities_changed_band?.length ?? 0}</b> · critical{' '}
-              {ingest.result.band_counts_before.critical} → <b>{ingest.result.band_counts_after.critical}</b>, warning{' '}
-              {ingest.result.band_counts_before.warning} → <b>{ingest.result.band_counts_after.warning}</b>, safe{' '}
-              {ingest.result.band_counts_before.safe} → <b>{ingest.result.band_counts_after.safe}</b>. Stock did not change — consumption
-              rates did.
+            <div>
+              Facilities: critical {ingest.result.band_counts_before.critical} → <b>{ingest.result.band_counts_after.critical}</b> · warning{' '}
+              {ingest.result.band_counts_before.warning} → <b>{ingest.result.band_counts_after.warning}</b> · safe {ingest.result.band_counts_before.safe} →{' '}
+              <b>{ingest.result.band_counts_after.safe}</b>. <span className="muted">Stock did not change — consumption rates did.</span>
             </div>
           </div>
         ) : null}
@@ -117,7 +113,7 @@ export default function OutbreaksPanel({ outbreaks, loading, error, onRetry, ing
 
         {outbreaks && all.length === 0 && !ingest?.loading ? (
           <p className="muted" style={{ margin: 0 }}>
-            No outbreak report has been ingested. Use <b>Ingest IDSP report</b> above to read the MoHFW IDSP weekly report for week 45, 2025.
+            None yet. <b>Ingest IDSP report</b> reads the MoHFW weekly outbreak report for week 45, 2025.
           </p>
         ) : null}
 
@@ -130,7 +126,7 @@ export default function OutbreaksPanel({ outbreaks, loading, error, onRetry, ing
         {outScope.length ? (
           <details className="fold" style={{ margin: '6px 12px 8px' }}>
             <summary>
-              Show the other {outScope.length} outbreaks extracted from the same report (outside Guntur — recorded, no surge applied)
+              The other {outScope.length} outbreaks in the same report — outside Guntur, recorded, no surge applied
             </summary>
             <div className="fold-body">
               <Table rows={outScope} dim />

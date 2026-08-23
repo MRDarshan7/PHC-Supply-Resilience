@@ -1,4 +1,5 @@
-import { fmtDays, shortMed, BAND_SEVERITY } from '../format.js'
+import { useState } from 'react'
+import { fmtDays, needsDonors, shortMed, BAND_SEVERITY } from '../format.js'
 import { Band, Dot, Waiting, ErrorNote } from './common.jsx'
 import FacilityDetail from './FacilityDetail.jsx'
 
@@ -12,16 +13,40 @@ function sortWorstFirst(list) {
 }
 
 export default function FacilityList({ facilities, loading, error, refreshing, onRetry, selectedId, onToggle, details, recs, medNames, approveAll, onFindDonors, onApprove, onApproveAll, onRetryDetail }) {
-  const rows = facilities ? sortWorstFirst(facilities) : []
+  // Safe facilities are already visible as green dots; the list defaults to
+  // the ones that need attention. The selected facility always stays listed,
+  // so a row does not vanish the moment its transfers make it safe.
+  const [showAll, setShowAll] = useState(false)
+  const all = facilities ? sortWorstFirst(facilities) : []
+  const attention = all.filter((f) => needsDonors(f.band))
+  const rows = showAll ? all : all.filter((f) => needsDonors(f.band) || f.id === selectedId)
+
   return (
     <section className="panel" aria-labelledby="facilities-h">
       <div className="panel-head">
         <h2 id="facilities-h">Facilities</h2>
-        <span className="meta">
-          {facilities ? `${facilities.length} primary health centres · worst medicine first · click a row for the per-medicine picture` : ''}
-        </span>
+        {facilities ? (
+          <span className="meta">
+            {showAll ? (
+              <>
+                all {all.length} PHCs, worst first
+              </>
+            ) : attention.length ? (
+              <>
+                <b>{attention.length}</b> of {all.length} PHCs at warning or worse, worst first
+              </>
+            ) : (
+              <>none of the {all.length} PHCs is at warning or worse</>
+            )}
+          </span>
+        ) : null}
+        {facilities ? (
+          <button type="button" className="btn-link right" onClick={() => setShowAll((v) => !v)}>
+            {showAll ? 'Show only warning and critical' : `Show all ${all.length}`}
+          </button>
+        ) : null}
         {refreshing ? (
-          <span className="right">
+          <span className="small muted">
             <Waiting inline label="Updating…" />
           </span>
         ) : null}
@@ -37,6 +62,11 @@ export default function FacilityList({ facilities, loading, error, refreshing, o
             <ErrorNote title="Could not load facilities" error={error} onRetry={onRetry} />
           </div>
         ) : null}
+        {facilities && rows.length === 0 ? (
+          <p className="muted small" style={{ margin: 0, padding: '8px 12px' }}>
+            Every facility is above the warning line. Click a marker on the map to inspect one.
+          </p>
+        ) : null}
         <ul className="fac-list">
           {rows.map((f) => {
             const open = f.id === selectedId
@@ -46,12 +76,6 @@ export default function FacilityList({ facilities, loading, error, refreshing, o
                   <Dot band={f.band} />
                   <span className="fac-name">
                     {f.name}
-                    {f.outbreak_surge ? (
-                      <>
-                        {' '}
-                        <span className="tag tag-surge">outbreak surge</span>
-                      </>
-                    ) : null}
                     <span className="sub">{f.sub_district}</span>
                   </span>
                   <span className="fac-worst">

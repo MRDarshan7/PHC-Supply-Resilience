@@ -1,22 +1,24 @@
 import { useEffect, useRef } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { BANDS, BAND_LABEL, fmtDays, shortMed } from '../format.js'
+import { BANDS, BAND_LABEL, BAND_SEVERITY, fmtDays, shortMed } from '../format.js'
 import { Dot } from './common.jsx'
 
-// Marker fill per band. The stroke turns dark and the dot grows when selected.
+// Marker fill per band. Critical and warning are drawn larger and always on
+// top, so a red dot is never hidden behind a healthy neighbour.
 const FILL = {
   critical: '#c62828',
   warning: '#e08a00',
   safe: '#2e7d32',
   unknown: '#9aa0a8',
 }
+const RADIUS = { critical: 8.5, warning: 7.5, safe: 5.5, unknown: 5 }
 
 function markerStyle(band, selected) {
   return {
-    radius: selected ? 10 : 7,
+    radius: (RADIUS[band] || RADIUS.unknown) + (selected ? 3 : 0),
     color: selected ? '#111' : '#fff',
-    weight: selected ? 3 : 1.5,
+    weight: selected ? 3 : 1.25,
     fillColor: FILL[band] || FILL.unknown,
     fillOpacity: 0.95,
     opacity: 1,
@@ -32,10 +34,32 @@ function tooltipHtml(f) {
   return `<b>${esc(f.name)}</b><br><span>${esc(f.sub_district || '')}</span><br><span>${esc(BAND_LABEL[f.band] || f.band)}${days}</span>`
 }
 
+// "Fit district": a Leaflet control that resets the view to every marker.
+const FitControl = L.Control.extend({
+  options: { position: 'topleft' },
+  onAdd() {
+    const div = L.DomUtil.create('div', 'leaflet-bar leaflet-control-fit')
+    const a = L.DomUtil.create('a', '', div)
+    a.href = '#'
+    a.title = 'Fit to district'
+    a.setAttribute('role', 'button')
+    a.setAttribute('aria-label', 'Fit map to district')
+    a.textContent = 'Fit district'
+    L.DomEvent.disableClickPropagation(div)
+    L.DomEvent.disableScrollPropagation(div)
+    L.DomEvent.on(a, 'click', (e) => {
+      L.DomEvent.preventDefault(e)
+      this.options.onFit()
+    })
+    return div
+  },
+})
+
 export default function MapView({ facilities, selectedId, onSelect }) {
   const containerRef = useRef(null)
   const mapRef = useRef(null)
   const markersRef = useRef(new Map())
+  const boundsRef = useRef(null)
   const fittedRef = useRef(false)
   const onSelectRef = useRef(onSelect)
   useEffect(() => {
@@ -44,7 +68,7 @@ export default function MapView({ facilities, selectedId, onSelect }) {
 
   useEffect(() => {
     const map = L.map(containerRef.current, {
-      scrollWheelZoom: false, // the page scrolls; the wheel must not hijack it
+      scrollWheelZoom: true,
       zoomControl: true,
       attributionControl: true,
     })
@@ -53,8 +77,13 @@ export default function MapView({ facilities, selectedId, onSelect }) {
       maxZoom: 18,
     }).addTo(map)
     map.setView([16.3, 80.3], 9) // Guntur district; replaced by fitBounds once facilities arrive
+    const fit = () => {
+      if (boundsRef.current) map.fitBounds(boundsRef.current, { padding: [18, 18] })
+    }
+    new FitControl({ onFit: fit }).addTo(map)
     const markers = markersRef.current
     mapRef.current = map
+    containerRef.current.__leafletMap = map // test hook: lets a script read zoom/bounds
     fittedRef.current = false
     return () => {
       map.remove()
@@ -66,15 +95,18 @@ export default function MapView({ facilities, selectedId, onSelect }) {
 
   // Keep markers in sync with the facility list: create once, restyle in
   // place on every update so a band change recolours without a rebuild.
+  // Drawing order is severity: unknown, safe, warning, critical, selected.
   useEffect(() => {
     const map = mapRef.current
     if (!map || !facilities) return
     const markers = markersRef.current
     const seen = new Set()
     const points = []
+    const ordered = [...facilities]
+      .filter((f) => typeof f.lat === 'number' && typeof f.lon === 'number')
+      .sort((a, b) => BAND_SEVERITY[a.band] - BAND_SEVERITY[b.band])
     let selectedMarker = null
-    for (const f of facilities) {
-      if (typeof f.lat !== 'number' || typeof f.lon !== 'number') continue
+    for (const f of ordered) {
       seen.add(f.id)
       const selected = f.id === selectedId
       const style = markerStyle(f.band, selected)
@@ -89,6 +121,7 @@ export default function MapView({ facilities, selectedId, onSelect }) {
         m.setRadius(style.radius)
         m.setTooltipContent(tooltipHtml(f))
       }
+      m.bringToFront()
       if (selected) selectedMarker = m
       points.push([f.lat, f.lon])
     }
@@ -99,9 +132,12 @@ export default function MapView({ facilities, selectedId, onSelect }) {
       }
     }
     if (selectedMarker) selectedMarker.bringToFront()
-    if (!fittedRef.current && points.length) {
-      map.fitBounds(points, { padding: [18, 18] })
-      fittedRef.current = true
+    if (points.length) {
+      boundsRef.current = L.latLngBounds(points)
+      if (!fittedRef.current) {
+        map.fitBounds(boundsRef.current, { padding: [18, 18] })
+        fittedRef.current = true
+      }
     }
   }, [facilities, selectedId])
 
