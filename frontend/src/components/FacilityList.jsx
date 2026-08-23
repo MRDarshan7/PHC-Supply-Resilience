@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { fmtDays, needsDonors, shortMed, BAND_SEVERITY } from '../format.js'
 import { Band, Dot, Waiting, ErrorNote } from './common.jsx'
-import FacilityDetail from './FacilityDetail.jsx'
 
 function sortWorstFirst(list) {
   return [...list].sort(
@@ -12,46 +11,51 @@ function sortWorstFirst(list) {
   )
 }
 
-export default function FacilityList({ facilities, loading, error, refreshing, onRetry, selectedId, onToggle, details, recs, medNames, approveAll, onFindDonors, onApprove, onApproveAll, onRetryDetail }) {
+export default function FacilityList({ facilities, loading, error, onRetry, selectedId, onSelect, filter, onFilter, collapsed, onToggleCollapsed }) {
+  const all = facilities ? sortWorstFirst(facilities) : []
+  const attention = all.filter((f) => needsDonors(f.band))
   // Safe facilities are already visible as green dots; the list defaults to
   // the ones that need attention. The selected facility always stays listed,
   // so a row does not vanish the moment its transfers make it safe.
-  const [showAll, setShowAll] = useState(false)
-  const all = facilities ? sortWorstFirst(facilities) : []
-  const attention = all.filter((f) => needsDonors(f.band))
-  const rows = showAll ? all : all.filter((f) => needsDonors(f.band) || f.id === selectedId)
+  const rows = filter === 'all' ? all : all.filter((f) => needsDonors(f.band) || f.id === selectedId)
+  const hasSelection = Boolean(selectedId)
+
+  // Keep the selected row in view when it was chosen on the map or re-sorted.
+  const bodyRef = useRef(null)
+  useEffect(() => {
+    if (!selectedId || collapsed) return
+    const el = bodyRef.current?.querySelector(`[data-fac="${CSS.escape(selectedId)}"]`)
+    if (el) el.scrollIntoView({ block: 'nearest' })
+  }, [selectedId, collapsed, rows.length])
+
+  const cls = ['rail-list', hasSelection && !collapsed ? 'shrunk' : '', hasSelection && collapsed ? 'collapsed' : ''].filter(Boolean).join(' ')
 
   return (
-    <section className="panel" aria-labelledby="facilities-h">
-      <div className="panel-head">
+    <section className={cls} aria-labelledby="facilities-h">
+      <div className="list-head">
         <h2 id="facilities-h">Facilities</h2>
         {facilities ? (
           <span className="meta">
-            {showAll ? (
-              <>
-                all {all.length} PHCs, worst first
-              </>
-            ) : attention.length ? (
-              <>
-                <b>{attention.length}</b> of {all.length} PHCs at warning or worse, worst first
-              </>
-            ) : (
-              <>none of the {all.length} PHCs is at warning or worse</>
-            )}
+            {filter === 'all' ? `all ${all.length} PHCs, worst first` : attention.length ? `${attention.length} of ${all.length} at warning or worse` : `none of ${all.length} at warning or worse`}
           </span>
         ) : null}
         {facilities ? (
-          <button type="button" className="btn-link right" onClick={() => setShowAll((v) => !v)}>
-            {showAll ? 'Show only warning and critical' : `Show all ${all.length}`}
+          <div className="seg" role="group" aria-label="Filter">
+            <button type="button" className={filter === 'attention' ? 'on' : ''} onClick={() => onFilter('attention')} aria-pressed={filter === 'attention'}>
+              Attention <b>{attention.length}</b>
+            </button>
+            <button type="button" className={filter === 'all' ? 'on' : ''} onClick={() => onFilter('all')} aria-pressed={filter === 'all'}>
+              All <b>{all.length}</b>
+            </button>
+          </div>
+        ) : null}
+        {hasSelection ? (
+          <button type="button" className="btn-icon" onClick={onToggleCollapsed} title={collapsed ? 'Show the list' : 'Collapse the list'} aria-label={collapsed ? 'Show the list' : 'Collapse the list'} aria-expanded={!collapsed}>
+            {collapsed ? '▾' : '▴'}
           </button>
         ) : null}
-        {refreshing ? (
-          <span className="small muted">
-            <Waiting inline label="Updating…" />
-          </span>
-        ) : null}
       </div>
-      <div className="panel-body tight">
+      <div className="list-body" ref={bodyRef}>
         {loading && !facilities ? (
           <div style={{ padding: 12 }}>
             <Waiting label="Loading facilities and risk bands…" />
@@ -63,43 +67,26 @@ export default function FacilityList({ facilities, loading, error, refreshing, o
           </div>
         ) : null}
         {facilities && rows.length === 0 ? (
-          <p className="muted small" style={{ margin: 0, padding: '8px 12px' }}>
-            Every facility is above the warning line. Click a marker on the map to inspect one.
-          </p>
+          <p className="list-empty">Every facility is above the warning line. Click a marker on the map, or switch to All, to inspect one.</p>
         ) : null}
         <ul className="fac-list">
           {rows.map((f) => {
-            const open = f.id === selectedId
+            const on = f.id === selectedId
             return (
-              <li key={f.id} id={`fac-${f.id}`} className={`fac ${open ? 'fac-open' : ''}`}>
-                <button type="button" className="fac-head" onClick={() => onToggle(f.id)} aria-expanded={open}>
+              <li key={f.id}>
+                <button type="button" className={`fac-row ${on ? 'on' : ''}`} data-fac={f.id} onClick={() => onSelect(f.id)} aria-pressed={on}>
                   <Dot band={f.band} />
-                  <span className="fac-name">
+                  <span className="name">
                     {f.name}
                     <span className="sub">{f.sub_district}</span>
                   </span>
-                  <span className="fac-worst">
-                    <Band band={f.band} />
-                    <span className="fac-days">{f.days_of_cover == null ? '—' : `${fmtDays(f.days_of_cover)} d`}</span>
-                    <span className="fac-med">{f.worst_medicine_id ? shortMed(f.worst_medicine_id, f.worst_medicine_name) : ''}</span>
+                  <span className={`days c-${f.band}`}>
+                    {f.days_of_cover == null ? '—' : fmtDays(f.days_of_cover)}
+                    {f.days_of_cover == null ? null : <small>d</small>}
+                    <span className="med">{f.worst_medicine_id ? shortMed(f.worst_medicine_id, f.worst_medicine_name) : 'no demand recorded'}</span>
                   </span>
-                  <span className="chev" aria-hidden="true">
-                    {open ? '▾' : '▸'}
-                  </span>
+                  <Band band={f.band} />
                 </button>
-                {open ? (
-                  <FacilityDetail
-                    facility={f}
-                    detail={details[f.id]}
-                    recs={recs}
-                    medNames={medNames}
-                    approveAll={approveAll}
-                    onFindDonors={(mid) => onFindDonors(f.id, mid)}
-                    onApprove={onApprove}
-                    onApproveAll={onApproveAll}
-                    onRetryDetail={() => onRetryDetail(f.id)}
-                  />
-                ) : null}
               </li>
             )
           })}

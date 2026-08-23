@@ -1,6 +1,6 @@
+import { useEffect, useRef, useState } from 'react'
 import { fmtDays, fmtQty, fmtRate, needsDonors, shortMed, BAND_SEVERITY } from '../format.js'
 import { Band, Waiting, ErrorNote } from './common.jsx'
-import { useMediaQuery, PHONE_QUERY } from '../hooks.js'
 import Recommendation from './Recommendation.jsx'
 
 // Fixed row order so a medicine stays in place when its band changes —
@@ -16,102 +16,70 @@ function joinNames(names) {
   return `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`
 }
 
+function ExpiryTag({ b }) {
+  if (b.expired) return <span className="tag tag-expiry">expired</span>
+  if (b.near_expiry) return <span className="tag tag-expiry">{b.days_to_expiry} d left</span>
+  return null
+}
+
+// One lot: batch and expiry. Several: the count and the earliest expiry, so
+// a near-expiry tag is never pushed out of view; the full list is the title.
 function Lots({ batches }) {
   if (!batches?.length) return null
+  const full = batches.map((b) => `${b.batch} exp ${b.expiry}`).join(', ')
+  if (batches.length === 1) {
+    const b = batches[0]
+    return (
+      <span className="lots" title={full}>
+        {b.batch} exp {b.expiry} <ExpiryTag b={b} />
+      </span>
+    )
+  }
+  const earliest = [...batches].sort((a, b) => String(a.expiry).localeCompare(String(b.expiry)))[0]
   return (
-    <span className="lots">
-      {batches.map((b, i) => (
-        <span key={b.batch}>
-          {i ? ' · ' : ''}
-          <span className="nowrap">{b.batch}</span> exp <span className="nowrap">{b.expiry}</span>
-          {b.expired ? (
-            <>
-              {' '}
-              <span className="tag tag-expiry">expired</span>
-            </>
-          ) : b.near_expiry ? (
-            <>
-              {' '}
-              <span className="tag tag-expiry">{b.days_to_expiry} d left</span>
-            </>
-          ) : null}
-        </span>
-      ))}
+    <span className="lots" title={full}>
+      {batches.length} lots · exp {earliest.expiry} <ExpiryTag b={earliest} />
     </span>
   )
 }
 
-function action(m, rec, onFindDonors, busy) {
-  if (rec?.approvals?.length > 0) return <span className="tag tag-ok">approved</span>
-  if (!needsDonors(m.band)) return null
-  return (
-    <button type="button" className="btn btn-sm btn-primary" onClick={() => onFindDonors(m.medicine_id)} disabled={busy || rec?.loading}>
-      {rec?.loading ? 'Finding…' : rec?.data ? 'Refresh donors' : 'Find donors'}
-    </button>
-  )
-}
-
-function MedicineRow({ m, rec, onFindDonors, busy }) {
+function MedicineRow({ m, rec, onFindDonors, busy, changed }) {
   const unknown = m.band === 'unknown'
+  const approved = rec?.approvals?.length > 0
   return (
-    <tr className={`m-${m.band}`}>
+    <tr className={`m-${m.band} ${changed ? 'm-changed' : ''}`} data-med={m.medicine_id}>
       <td className="medname">
         {m.name}
         {unknown ? <span className="lots">no stock, no recorded demand</span> : <Lots batches={m.batches} />}
       </td>
-      <td className="num">
-        {unknown ? '—' : fmtQty(m.stock)} <span className="muted small">{unknown ? '' : m.unit}</span>
+      <td className="num tnum">
+        {unknown ? '—' : fmtQty(m.stock)} <span className="muted xs">{unknown ? '' : m.unit}</span>
       </td>
-      <td className="num">{unknown ? '—' : fmtRate(m.baseline_burn_rate)}</td>
-      <td className={`num ${m.outbreak_surge > 0 ? 'surge-pos' : 'muted'}`}>{unknown ? '—' : m.outbreak_surge > 0 ? `+${fmtRate(m.outbreak_surge)}` : '0'}</td>
-      <td className="num">{unknown ? '—' : fmtRate(m.burn_rate)}</td>
-      <td className="num days">{unknown ? '—' : fmtDays(m.days_of_cover)}</td>
-      <td>
+      <td className="num tnum burn">
+        {unknown ? '—' : fmtRate(m.burn_rate)}
+        {!unknown && m.outbreak_surge > 0 ? (
+          <span className="parts">
+            {fmtRate(m.baseline_burn_rate)} + <span className="surge">{fmtRate(m.outbreak_surge)} surge</span>
+          </span>
+        ) : !unknown ? (
+          <span className="parts">baseline, no surge</span>
+        ) : null}
+      </td>
+      <td className="num days">
+        {unknown ? '—' : fmtDays(m.days_of_cover)}
+        {unknown ? null : <small>d</small>}
         <Band band={m.band} />
       </td>
-      <td className="nowrap act">{action(m, rec, onFindDonors, busy)}</td>
+      <td className="act">
+        {approved ? (
+          <span className="tag tag-ok">✓ approved</span>
+        ) : needsDonors(m.band) ? (
+          <button type="button" className="btn btn-sm btn-outline" onClick={() => onFindDonors(m.medicine_id)} disabled={busy || rec?.loading}>
+            {rec?.loading ? 'Finding…' : rec?.data ? 'Refresh' : 'Find donors'}
+          </button>
+        ) : null}
+      </td>
     </tr>
-  )
-}
-
-// Phone layout: one card per medicine, the verdict (days + band) first.
-function MedicineCard({ m, rec, onFindDonors, busy }) {
-  const unknown = m.band === 'unknown'
-  return (
-    <div className={`med-card m-${m.band}`}>
-      <div className="med-card-head">
-        <span className="medname">{m.name}</span>
-        <span className="med-card-verdict">
-          <span className="days">{unknown ? '—' : `${fmtDays(m.days_of_cover)} d`}</span>
-          <Band band={m.band} />
-        </span>
-      </div>
-      {unknown ? (
-        <div className="small muted">no stock, no recorded demand</div>
-      ) : (
-        <div className="small">
-          <b>
-            {fmtQty(m.stock)} {m.unit}
-          </b>{' '}
-          · <b>{fmtRate(m.burn_rate)}/day</b>
-          <span className="muted">
-            {' '}
-            ({fmtRate(m.baseline_burn_rate)} baseline
-            {m.outbreak_surge > 0 ? (
-              <>
-                {' '}
-                + <span className="surge-pos">{fmtRate(m.outbreak_surge)} surge</span>
-              </>
-            ) : null}
-            )
-          </span>
-          <div className="muted">
-            <Lots batches={m.batches} />
-          </div>
-        </div>
-      )}
-      <div className="med-card-action">{action(m, rec, onFindDonors, busy)}</div>
-    </div>
   )
 }
 
@@ -123,123 +91,180 @@ function FacilityStatus({ facility, meds, approvedMeds }) {
   const approvedNames = joinNames(approvedMeds.map((m) => shortMed(m.medicine_id, m.name)))
   if (!remaining.length) {
     return (
-      <div className="status status-ok">
-        <b>{approvedNames}</b> {approvedMeds.length === 1 ? 'transfer' : 'transfers'} approved — <b>{facility.name}</b> is safe on every medicine. Its map marker is
-        now green.
+      <div className="status status-ok" data-status="resolved">
+        <b>{approvedNames}</b> {approvedMeds.length === 1 ? 'transfer' : 'transfers'} approved — <b>{facility.name}</b> is now safe on every medicine and its map marker
+        has turned green.
       </div>
     )
   }
   const band = remaining.some((m) => m.band === 'critical') ? 'critical' : 'warning'
   return (
-    <div className={`status status-${band}`}>
-      <b>{approvedNames}</b> approved and now safe here — but <b>{facility.name}</b> and its map marker stay <Band band={band} />:{' '}
-      <b>{joinNames(remaining.map((m) => m.name))}</b> {remaining.length === 1 ? 'is' : 'are'} still below the line. Risk belongs to each (facility, medicine) pair,
-      not to the facility.
+    <div className={`status status-${band}`} data-status="partial">
+      <b>{approvedNames}</b> approved and now safe here — but <b>{facility.name}</b> and its marker stay <Band band={band} />:{' '}
+      <b>{joinNames(remaining.map((m) => shortMed(m.medicine_id, m.name)))}</b> {remaining.length === 1 ? 'is' : 'are'} still below the line. Risk belongs to each
+      (facility, medicine) pair, not to the facility.
     </div>
   )
 }
 
-export default function FacilityDetail({ facility, detail, recs, medNames, approveAll, onFindDonors, onApprove, onApproveAll, onRetryDetail }) {
-  const phone = useMediaQuery(PHONE_QUERY)
-  if (!detail) return null
-  const { loading, error, data } = detail
-  if (loading && !data) {
-    return (
-      <div className="fac-detail">
-        <Waiting label={`Loading per-medicine stock for ${facility.name}…`} />
-      </div>
-    )
+export default function FacilityDetail({ facility, detail, recs, medNames, approveAll, onFindDonors, onApprove, onApproveAll, onRetryDetail, onClose }) {
+  const data = detail?.data
+  const loading = detail?.loading
+  const error = detail?.error
+
+  // Flash a medicine row whose band just changed (an approval landed). The
+  // previous payload is kept in state and compared during render — the
+  // "store information from previous renders" pattern — so no effect is
+  // needed. The component is keyed by facility, so state resets on switch.
+  const [prevData, setPrevData] = useState(null)
+  const [changed, setChanged] = useState(() => new Set())
+  if (data !== prevData) {
+    setPrevData(data)
+    const next = new Set()
+    if (prevData && data) {
+      for (const m of data.medicines) {
+        const before = prevData.medicines.find((x) => x.medicine_id === m.medicine_id)
+        if (before && before.band !== m.band) next.add(m.medicine_id)
+      }
+    }
+    setChanged(next)
   }
-  if (error && !data) {
-    return (
-      <div className="fac-detail">
-        <ErrorNote title="Could not load facility detail" error={error} onRetry={onRetryDetail} />
-      </div>
-    )
-  }
-  const meds = [...data.medicines].sort((a, b) => medOrder(a) - medOrder(b) || BAND_SEVERITY[b.band] - BAND_SEVERITY[a.band])
+
+  const meds = data ? [...data.medicines].sort((a, b) => medOrder(a) - medOrder(b) || BAND_SEVERITY[b.band] - BAND_SEVERITY[a.band]) : []
   const recFor = (m) => recs[`${facility.id}/${m.medicine_id}`]
   const pending = meds.filter((m) => needsDonors(m.band))
   const approvedMeds = meds.filter((m) => recFor(m)?.approvals?.length > 0)
   const running = approveAll?.running && approveAll.facilityId === facility.id
   const medsWithRecs = meds.filter((m) => recFor(m))
+  // An approval collapses its recommendation to one line; bring the panel
+  // back to the top so the facility header, the status banner and the
+  // per-medicine table are in frame with the map.
+  const rootRef = useRef(null)
+  const nApproved = approvedMeds.length
+  useEffect(() => {
+    if (!nApproved) return
+    rootRef.current?.closest('.rail-detail')?.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [nApproved])
+
+  const worstBand = data?.band || facility.band
+  const worstDays = data ? data.days_of_cover : facility.days_of_cover
+  const worstMed = data ? data.worst_medicine_id : facility.worst_medicine_id
 
   return (
-    <div className="fac-detail">
-      <div className="detail-bar">
-        {data.outbreaks_affecting?.length ? (
-          <span className="detail-ctx">
-            {data.outbreaks_affecting.map((o) => (
-              <span key={o.outbreak_id}>
-                <b>{o.disease}</b>, {o.cases} cases, {o.sub_district || o.district}
-                {o.localised_here ? ' — localised here' : ''}: +{fmtRate(o.cases_per_day)} cases/day →{' '}
-                {Object.entries(o.extra_burn)
-                  .map(([mid, v]) => `${shortMed(mid, medNames[mid])} +${fmtRate(v)}`)
-                  .join(', ')}{' '}
-                per day. Stock unchanged; consumption rose.
-              </span>
-            ))}
+    <div data-detail={facility.id} ref={rootRef}>
+      <div className="det-head">
+        <div className="ident">
+          <h2>{facility.name}</h2>
+          <div className="sub">
+            {facility.sub_district} · primary health centre
+            {loading && data ? (
+              <>
+                {' '}
+                · <Waiting inline label="updating" slow={null} />
+              </>
+            ) : null}
+          </div>
+        </div>
+        <div className="worst">
+          <span className={`days c-${worstBand}`}>
+            {worstDays == null ? '—' : fmtDays(worstDays)}
+            {worstDays == null ? null : <small>d</small>}
           </span>
-        ) : (
-          <span className="detail-ctx muted">No outbreak surge at this facility.</span>
-        )}
-        {loading ? <span className="small muted nowrap">updating…</span> : null}
+          <span className="lbl">
+            <Band band={worstBand} />
+            {worstMed ? ` ${shortMed(worstMed, data?.worst_medicine_name || facility.worst_medicine_name)}` : ''}
+          </span>
+        </div>
         {pending.length > 0 ? (
-          <button type="button" className="btn btn-approve btn-sm" onClick={() => onApproveAll(facility.id)} disabled={running}>
+          <button type="button" className="btn btn-primary btn-sm" onClick={() => onApproveAll(facility.id)} disabled={running} data-action="approve-all">
             {running ? (
               <>
                 <span className="spinner light" /> {approveAll.step || 'Working…'}
               </>
             ) : (
-              <>
-                Approve all recommended ({pending.length} {pending.length === 1 ? 'medicine' : 'medicines'})
-              </>
+              `Approve all recommended (${pending.length})`
             )}
           </button>
         ) : null}
+        <button type="button" className="btn-icon" onClick={onClose} aria-label="Close facility" title="Close">
+          ×
+        </button>
       </div>
-      {approveAll?.error && approveAll.facilityId === facility.id ? <ErrorNote title="Approve all stopped" error={approveAll.error} /> : null}
-      <FacilityStatus facility={facility} meds={meds} approvedMeds={approvedMeds} />
 
-      {phone ? (
-        <div className="med-cards">
-          {meds.map((m) => (
-            <MedicineCard key={m.medicine_id} m={m} rec={recFor(m)} onFindDonors={onFindDonors} busy={running} />
-          ))}
-        </div>
-      ) : (
-        <div className="tbl-scroll">
-          <table className="tbl med-tbl">
-            <thead>
-              <tr>
-                <th>Medicine</th>
-                <th className="num">Stock</th>
-                <th className="num">Baseline /day</th>
-                <th className="num">Surge /day</th>
-                <th className="num">Burn /day</th>
-                <th className="num">Days of cover</th>
-                <th>Band</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {meds.map((m) => (
-                <MedicineRow key={m.medicine_id} m={m} rec={recFor(m)} onFindDonors={onFindDonors} busy={running} />
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      <div className="det-body">
+        {loading && !data ? <Waiting label={`Loading per-medicine stock for ${facility.name}…`} /> : null}
+        {error && !data ? <ErrorNote title="Could not load facility detail" error={error} onRetry={onRetryDetail} /> : null}
+        {data ? (
+          <>
+            <div className="ctx">
+              {data.outbreaks_affecting?.length ? (
+                data.outbreaks_affecting.map((o) => (
+                  <div key={o.outbreak_id}>
+                    <b>{o.disease}</b>, {fmtQty(o.cases)} cases in {o.sub_district || o.district}
+                    {o.localised_here ? ' — localised here' : ''}: <b>+{fmtRate(o.cases_per_day)} cases/day</b> allocated to this PHC →
+                    <span className="burns">
+                      {Object.entries(o.extra_burn).map(([mid, v]) => (
+                        <span key={mid}>
+                          {shortMed(mid, medNames[mid])} <span className="surge">+{fmtRate(v)}/day</span>
+                        </span>
+                      ))}
+                    </span>
+                    . Stock unchanged; consumption rose.
+                  </div>
+                ))
+              ) : (
+                <span>No outbreak surge at this facility — consumption is the HMIS baseline.</span>
+              )}
+            </div>
 
-      {medsWithRecs.map((m) => (
-        <Recommendation
-          key={`${facility.id}/${m.medicine_id}`}
-          rec={recFor(m)}
-          medicine={m}
-          onApprove={() => onApprove(facility.id, m.medicine_id)}
-          onRetry={() => onFindDonors(m.medicine_id)}
-        />
-      ))}
+            {approveAll?.error && approveAll.facilityId === facility.id ? <ErrorNote title="Approve all stopped" error={approveAll.error} /> : null}
+            <FacilityStatus facility={facility} meds={meds} approvedMeds={approvedMeds} />
+
+            <div>
+              <div className="sec-title" style={{ marginBottom: 5 }}>
+                Stock by medicine
+                <span className="right muted">
+                  critical &lt; {data.thresholds.critical_days} d · warning {data.thresholds.critical_days}–{data.thresholds.warning_days} d · safe &gt;{' '}
+                  {data.thresholds.warning_days} d
+                </span>
+              </div>
+              <table className="med-tbl">
+                <colgroup>
+                  <col />
+                  <col className="c-stock" />
+                  <col className="c-burn" />
+                  <col className="c-cover" />
+                  <col className="c-act" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Medicine</th>
+                    <th className="num">Stock</th>
+                    <th className="num">Burn /day</th>
+                    <th className="num">Cover</th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>
+                  {meds.map((m) => (
+                    <MedicineRow key={m.medicine_id} m={m} rec={recFor(m)} onFindDonors={onFindDonors} busy={running} changed={changed.has(m.medicine_id)} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {medsWithRecs.map((m) => (
+              <Recommendation
+                key={`${facility.id}/${m.medicine_id}`}
+                rec={recFor(m)}
+                medicine={m}
+                onApprove={() => onApprove(facility.id, m.medicine_id)}
+                onRetry={() => onFindDonors(m.medicine_id)}
+              />
+            ))}
+          </>
+        ) : null}
+      </div>
     </div>
   )
 }

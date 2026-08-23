@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { api, backendConfigured, backendUrl } from './api.js'
 import { needsDonors, shortMed, BAND_SEVERITY } from './format.js'
-import { Waiting, ErrorNote } from './components/common.jsx'
-import MapView from './components/MapView.jsx'
-import OutbreaksPanel from './components/OutbreaksPanel.jsx'
+import Header from './components/Header.jsx'
+import MapPanel from './components/MapPanel.jsx'
+import OutbreakStrip, { OutbreakDrawer } from './components/OutbreakStrip.jsx'
 import FacilityList from './components/FacilityList.jsx'
+import FacilityDetail from './components/FacilityDetail.jsx'
 
 // The one report the demo is built around: MoHFW IDSP weekly outbreak
 // report, week 45 of 2025 (3–9 November). It lives in data/idsp_pdfs/ on the
@@ -24,7 +25,9 @@ export default function App() {
   const [recs, setRecs] = useState({})
   const [ingest, setIngest] = useState({ loading: false, error: null, result: null, filename: DEMO_PDF })
   const [approveAll, setApproveAll] = useState({ running: false, facilityId: null, step: '', error: null, summary: null })
-  const scrollToRef = useRef(null)
+  const [listFilter, setListFilter] = useState('attention')
+  const [listCollapsed, setListCollapsed] = useState(false)
+  const [othersOpen, setOthersOpen] = useState(false)
   const recsRef = useRef(recs)
   const selectedRef = useRef(selectedId)
   useEffect(() => {
@@ -33,18 +36,36 @@ export default function App() {
   }, [recs, selectedId])
 
   // ---------------------------------------------------------------- loads
+  const loadDetail = useCallback(async (id) => {
+    setDetails((d) => ({ ...d, [id]: { ...(d[id] || {}), loading: true, error: null } }))
+    try {
+      const data = await api.facility(id)
+      setDetails((d) => ({ ...d, [id]: { loading: false, error: null, data } }))
+      return data
+    } catch (err) {
+      setDetails((d) => ({ ...d, [id]: { ...(d[id] || {}), loading: false, error: err } }))
+      return null
+    }
+  }, [])
+
+  // One detail fetch up front: it carries the thresholds the legend cites.
+  const primedRef = useRef(false)
   const loadFacilities = useCallback(async (mode = 'initial') => {
     setFacState((s) => ({ ...s, loading: mode === 'initial', refreshing: mode !== 'initial', error: null }))
     try {
       const data = await api.facilities()
       setFacilities(data)
       setFacState({ loading: false, refreshing: false, error: null })
+      if (data?.length && !primedRef.current) {
+        primedRef.current = true
+        loadDetail(data[0].id)
+      }
       return data
     } catch (err) {
       setFacState({ loading: false, refreshing: false, error: err })
       return null
     }
-  }, [])
+  }, [loadDetail])
 
   const loadOutbreaks = useCallback(async () => {
     setObState((s) => ({ ...s, loading: true, error: null }))
@@ -59,65 +80,32 @@ export default function App() {
     }
   }, [])
 
-  const loadDetail = useCallback(async (id) => {
-    setDetails((d) => ({ ...d, [id]: { ...(d[id] || {}), loading: true, error: null } }))
-    try {
-      const data = await api.facility(id)
-      setDetails((d) => ({ ...d, [id]: { loading: false, error: null, data } }))
-      return data
-    } catch (err) {
-      setDetails((d) => ({ ...d, [id]: { ...(d[id] || {}), loading: false, error: err } }))
-      return null
-    }
-  }, [])
-
   useEffect(() => {
     if (!backendConfigured) return
     loadFacilities('initial')
     loadOutbreaks()
   }, [loadFacilities, loadOutbreaks])
 
-  // One detail fetch up front: it carries the thresholds the footer legend cites.
-  const primedRef = useRef(false)
-  useEffect(() => {
-    if (facilities?.length && !primedRef.current) {
-      primedRef.current = true
-      loadDetail(facilities[0].id)
-    }
-  }, [facilities, loadDetail])
-
   // ------------------------------------------------------------ selection
-  const toggleFacility = useCallback(
+  const selectFacility = useCallback(
     (id) => {
-      setSelectedId((prev) => (prev === id ? null : id))
-      if (selectedId !== id) loadDetail(id)
-    },
-    [selectedId, loadDetail],
-  )
-
-  const selectFromMap = useCallback(
-    (id) => {
-      scrollToRef.current = id
       setSelectedId(id)
       loadDetail(id)
     },
     [loadDetail],
   )
+  const closeFacility = useCallback(() => setSelectedId(null), [])
 
-  // Scroll the selected row into view when a map click selected it, or when
-  // a bulk approval has just re-sorted it down the worst-first list.
-  const [scrollTick, setScrollTick] = useState(0)
-  useEffect(() => {
-    if (selectedId && scrollToRef.current === selectedId) {
-      scrollToRef.current = null
-      const el = document.getElementById(`fac-${selectedId}`)
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
-  }, [selectedId, scrollTick])
+  // Retry from the map or the list: everything that failed, not just one call.
+  const retryLoads = useCallback(() => {
+    loadFacilities('initial')
+    loadOutbreaks()
+  }, [loadFacilities, loadOutbreaks])
 
   // --------------------------------------------------------------- ingest
   const runIngest = useCallback(async () => {
     setIngest({ loading: true, error: null, result: null, filename: DEMO_PDF })
+    setOthersOpen(false)
     try {
       const result = await api.ingest(DEMO_PDF)
       setIngest({ loading: false, error: null, result, filename: DEMO_PDF })
@@ -211,13 +199,9 @@ export default function App() {
         const still = detail ? detail.medicines.filter((m) => needsDonors(m.band)).map((m) => m.name) : []
         const name = detail?.name || 'The facility'
         let summary = `${nApproved} transfer${nApproved === 1 ? '' : 's'} approved.`
-        if (!still.length) summary += ` ${name} is now safe on every medicine — its map marker has turned green.`
+        if (!still.length) summary += ` ${name} is now safe on every medicine.`
         else summary += ` ${name} is still below the line on ${still.join(', ')}${skipped.length ? ' (no eligible donor)' : ''}.`
         setApproveAll({ running: false, facilityId: fid, step: '', error: null, summary })
-        if (selectedRef.current === fid) {
-          scrollToRef.current = fid
-          setScrollTick((t) => t + 1)
-        }
       } catch (err) {
         setApproveAll((s) => ({ ...s, running: false, step: '', error: err }))
       }
@@ -241,90 +225,104 @@ export default function App() {
   }, [details])
 
   const ingestView = useMemo(() => ({ ...ingest, retry: runIngest }), [ingest, runIngest])
+  const selected = selectedId ? (facilities || []).find((f) => f.id === selectedId) : null
 
   // ---------------------------------------------------------------- render
   return (
-    <div className="page">
-      <header className="hdr">
-        <div className="hdr-inner">
-          <h1>
-            PHC Supply Resilience <span className="hdr-dist">— Guntur District, Andhra Pradesh</span>
-          </h1>
-          <div className="hdr-actions">
-            <button type="button" className="btn btn-primary" onClick={runIngest} disabled={!backendConfigured || ingest.loading || !facilities} aria-busy={ingest.loading ? 'true' : 'false'}>
-              {ingest.loading ? (
-                <>
-                  <span className="spinner light" /> Reading IDSP report…
-                </>
-              ) : (
-                'Ingest IDSP report'
-              )}
-            </button>
-            <span className="hdr-file">{DEMO_PDF} · MoHFW weekly outbreak report, week 45 of 2025</span>
-          </div>
-          <span className="badge-sim">Inventory data simulated · facility and outbreak data are real</span>
-        </div>
-      </header>
-
-      {!backendConfigured ? (
-        <ErrorNote title="Backend URL not configured">
-          Set <span className="mono">VITE_BACKEND_URL</span> (see frontend/.env.example) and rebuild. The frontend has no fallback address.
-        </ErrorNote>
-      ) : null}
-
-      <section className="panel" aria-label="Map">
-        {facilities ? (
-          <MapView facilities={facilities} selectedId={selectedId} onSelect={selectFromMap} />
-        ) : (
-          <div className="map-loading">
-            {facState.error ? (
-              <ErrorNote title="Could not load facilities" error={facState.error} onRetry={() => loadFacilities('initial')} />
-            ) : backendConfigured ? (
-              <Waiting label="Connecting to the backend and loading facilities…" hint={`Backend: ${backendUrl}`} />
-            ) : null}
-          </div>
-        )}
-      </section>
-
-      <OutbreaksPanel outbreaks={outbreaks} loading={obState.loading} error={obState.error} onRetry={loadOutbreaks} ingest={ingestView} />
-
-      <FacilityList
-        facilities={facilities}
-        loading={facState.loading}
-        refreshing={facState.refreshing}
-        error={facState.error}
-        onRetry={() => loadFacilities('initial')}
-        selectedId={selectedId}
-        onToggle={toggleFacility}
-        details={details}
-        recs={recs}
-        medNames={medNames}
-        approveAll={approveAll}
-        onFindDonors={findDonors}
-        onApprove={onApprove}
-        onApproveAll={approveAllRecommended}
-        onRetryDetail={loadDetail}
+    <div className="app">
+      <Header
+        facilityCount={facilities?.length}
+        ingest={ingest}
+        onIngest={runIngest}
+        disabled={!backendConfigured || !facilities}
+        configError={backendConfigured ? null : 'VITE_BACKEND_URL is not set — see frontend/.env.example'}
       />
 
+      <div className="main">
+        <div className="left">
+          <MapPanel
+            facilities={facilities}
+            selectedId={selectedId}
+            onSelect={selectFacility}
+            thresholds={thresholds}
+            refreshing={facState.refreshing}
+            loadError={facState.error}
+            onRetry={retryLoads}
+            backendUrl={backendConfigured ? backendUrl : '(not configured)'}
+          >
+            {othersOpen ? <OutbreakDrawer outbreaks={outbreaks} onClose={() => setOthersOpen(false)} /> : null}
+          </MapPanel>
+          <OutbreakStrip
+            outbreaks={outbreaks}
+            loading={obState.loading}
+            error={obState.error}
+            onRetry={loadOutbreaks}
+            ingest={ingestView}
+            othersOpen={othersOpen}
+            onToggleOthers={() => setOthersOpen((v) => !v)}
+          />
+        </div>
+
+        <aside className="rail" aria-label="Facilities and selected facility">
+          <FacilityList
+            facilities={facilities}
+            loading={facState.loading}
+            error={facState.error}
+            onRetry={retryLoads}
+            selectedId={selectedId}
+            onSelect={selectFacility}
+            filter={listFilter}
+            onFilter={setListFilter}
+            collapsed={listCollapsed}
+            onToggleCollapsed={() => setListCollapsed((v) => !v)}
+          />
+          <section className="rail-detail" aria-label="Selected facility">
+            {selected ? (
+              <FacilityDetail
+                key={selected.id}
+                facility={selected}
+                detail={details[selected.id]}
+                recs={recs}
+                medNames={medNames}
+                approveAll={approveAll}
+                onFindDonors={(mid) => findDonors(selected.id, mid)}
+                onApprove={onApprove}
+                onApproveAll={approveAllRecommended}
+                onRetryDetail={() => loadDetail(selected.id)}
+                onClose={closeFacility}
+              />
+            ) : facilities ? (
+              <div className="detail-empty">
+                <h3>Select a facility</h3>
+                Click a marker on the map or a row in the list to see its stock by medicine, find a donor that can safely spare stock, read the memo and approve
+                the transfer — the map stays in view the whole time.
+                <ol>
+                  <li>
+                    <b>Ingest IDSP report</b> reads a real MoHFW outbreak PDF; burn rates recompute and the map recolours.
+                  </li>
+                  <li>
+                    Open a <b>critical</b> facility: one medicine can be critical while another is safe.
+                  </li>
+                  <li>
+                    <b>Find donors</b> runs the safety-checked donor engine and writes a bilingual memo; <b>Approve</b> moves the stock.
+                  </li>
+                </ol>
+              </div>
+            ) : null}
+          </section>
+        </aside>
+      </div>
+
       <footer className="foot">
-        <p>
-          <b>Decision-support only.</b> Recommendations require approval by the authorised District Medical Officer. The system executes nothing
-          autonomously.
-        </p>
-        <p>
-          Days of cover = stock ÷ daily consumption; consumption = HMIS caseload × clinical rule table + IDSP outbreak surge allocated by caseload share.
-          {thresholds
-            ? ` Critical below ${thresholds.critical_days} days · warning ${thresholds.critical_days}–${thresholds.warning_days} · safe above ${thresholds.warning_days} · donor safety floor ${thresholds.donor_safety_floor_days} days.`
-            : ''}{' '}
-          Sources: data.gov.in facility directory (2016) · MoHFW HMIS 2019-20 caseloads · MoHFW IDSP weekly reports · NLEM 2022. Inventory ledger simulated
-          from real caseloads with a fixed seed. Distances straight-line; transfers shown as projected.
-          {backendConfigured ? (
-            <>
-              {' '}
-              Backend <span className="mono">{backendUrl}</span>
-            </>
-          ) : null}
-        </p>
+        <span className="notice">
+          <b>Decision-support only.</b> Recommendations require approval by the authorised District Medical Officer. The system executes nothing autonomously.
+        </span>
+        <span className="src">
+          Days of cover = stock ÷ daily consumption (HMIS caseload × rule table + IDSP surge by caseload share)
+          {thresholds ? ` · donor safety floor ${thresholds.donor_safety_floor_days} d` : ''} · data.gov.in facility directory 2016 · MoHFW HMIS 2019-20 · MoHFW IDSP
+          weekly reports · NLEM 2022 · ledger simulated from real caseloads, fixed seed · distances straight-line · transfers shown as projected
+          {backendConfigured ? ` · backend ${backendUrl}` : ''}
+        </span>
       </footer>
     </div>
   )

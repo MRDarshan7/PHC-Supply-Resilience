@@ -10,23 +10,27 @@ export function Dot({ band }) {
   return <span className={`dot dot-${band || 'unknown'}`} aria-hidden="true" />
 }
 
-// A fetch in progress. After a few seconds it explains the likely cause so
-// a long wait (Render cold start, first Gemini call) does not look broken.
-export function Waiting({ label, hint, coldStart = true, inline = false }) {
+export function Arrow() {
+  return <span className="arrow">→</span>
+}
+
+// A fetch in progress. After a few seconds it says what is probably
+// happening, so a long wait (Render cold start, live Gemini call) reads as
+// expected rather than broken. `hint` is the per-call explanation; `slow`
+// is the line added once the wait is clearly long (default: cold start).
+const COLD_START = 'The backend runs on a free Render instance and may be waking from sleep — that alone can take up to 50 seconds.'
+export function Waiting({ label, hint, slow = COLD_START, inline = false }) {
   const sec = useElapsed(true)
-  let extra = null
-  if (sec >= 4 && coldStart) {
-    extra = 'The backend runs on a free Render instance and may be waking from sleep — this can take up to 50 seconds.'
-  }
   if (inline) {
     return (
-      <span className="muted small">
-        <span className="spinner" style={{ display: 'inline-block', verticalAlign: '-3px', marginRight: 6 }} />
+      <span className="wait-inline" role="status">
+        <span className="spinner" />
         {label}
-        {sec >= 2 ? ` (${sec} s)` : ''}
+        {sec >= 2 ? ` · ${sec} s` : ''}
       </span>
     )
   }
+  const extra = slow && sec >= 5 ? slow : null
   return (
     <div className="note note-wait" role="status" aria-live="polite">
       <span className="spinner" />
