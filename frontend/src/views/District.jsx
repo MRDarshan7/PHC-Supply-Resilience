@@ -25,7 +25,7 @@ export default function District({
   outbreaks,
   obState,
   thresholds,
-  lastIngest,
+  snapshot,
   ingested,
   onRetry,
   onOpenIngest,
@@ -48,7 +48,10 @@ export default function District({
   }
 
   const counts = bandCounts(facilities)
-  const prior = lastIngest?.band_counts_before || null
+  // Deltas compare against the session's pre-ingest picture, snapshotted the
+  // moment Ingest ran — not the database's before, which may already have
+  // held the outbreak rows.
+  const prior = ingested && snapshot ? snapshot.census : null
   const total = facilities.length
   const medCount = Object.keys(facilities.find((f) => f.medicines)?.medicines || {}).length
   const worst = facilities[0]
@@ -143,7 +146,7 @@ export default function District({
           <div>
             <SecHead n="C" title="Outbreaks" />
             {obState.error ? <ErrBox title="Could not load outbreaks" error={obState.error} onRetry={onRetry} /> : null}
-            {outbreaks && driving.length
+            {ingested && outbreaks && driving.length
               ? driving.map((o) => (
                   <div className="ob" key={o.outbreak_id}>
                     <div className="t">{o.disease}</div>
@@ -173,7 +176,7 @@ export default function District({
                   </div>
                 ))
               : null}
-            {outbreaks && others > 0 ? (
+            {ingested && outbreaks && others > 0 ? (
               <div className="ob quiet">
                 <div className="t">
                   {others} further outbreak{others === 1 ? '' : 's'} on record
@@ -185,7 +188,7 @@ export default function District({
                 </p>
               </div>
             ) : null}
-            {outbreaks && !driving.length && !others ? (
+            {!ingested || (outbreaks && !driving.length && !others) ? (
               <div className="ob quiet">
                 <div className="t">No report ingested</div>
                 <p className="m">

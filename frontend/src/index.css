@@ -211,11 +211,26 @@ main.stage{min-width:0; padding:var(--s7) var(--s7) var(--s9)}
 .tbl tbody tr:last-child td{border-bottom:none}
 .tbl tbody tr.click{cursor:pointer; transition:background .12s linear}
 .tbl tbody tr.click:hover{background:var(--muted)}
-.tbl tbody tr.hot td{background:rgba(255,48,0,.07)}
-.tbl tbody tr.hot:hover td{background:rgba(255,48,0,.13)}
+/* Solid tints (not rgba) so pinned sticky cells can inherit an opaque ground. */
+.tbl tbody tr.hot td{background:#FFF0EC}
+.tbl tbody tr.hot:hover td{background:#FFE3DC}
 .tbl .nm{font-weight:700}
 .tbl .num{font-weight:700}
 .scrollx{overflow-x:auto}
+.subline{display:block; font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--grey); margin-top:3px}
+
+/* Pinned columns: if the table ever must scroll, the first (medicine) and
+   last (action) columns stay in view — the row is never unidentifiable and
+   the action is never off-screen. */
+.tbl-pin th,.tbl-pin td{padding:var(--s3) var(--s2)}
+.tbl-pin th:first-child,.tbl-pin td:first-child{padding-left:var(--s4)}
+.tbl-pin th:last-child,.tbl-pin td:last-child{padding-right:var(--s4)}
+.tbl-pin th:first-child,.tbl-pin td:first-child{position:sticky; left:0; z-index:2; background:var(--white)}
+.tbl-pin th:last-child,.tbl-pin td:last-child{position:sticky; right:0; z-index:2; background:var(--white)}
+.tbl-pin tr.hot td:first-child,.tbl-pin tr.hot td:last-child{background:#FFF0EC}
+.tbl-pin tr.hot:hover td:first-child,.tbl-pin tr.hot:hover td:last-child{background:#FFE3DC}
+.tbl-pin td.act .btn-sm{margin-top:4px}
+.tbl-pin td.act .ptag{display:inline-block}
 
 /* days-of-cover figure */
 .dc{display:inline-flex; align-items:baseline; gap:3px; font-weight:900; letter-spacing:-.03em}
@@ -377,6 +392,32 @@ main.stage{min-width:0; padding:var(--s7) var(--s7) var(--s9)}
 .exclgroup-hd{display:flex; align-items:baseline; gap:var(--s3); margin-bottom:var(--s3); padding-bottom:8px; border-bottom:2px solid var(--black)}
 .exclgroup-hd .lbl:last-child{margin-left:auto; color:var(--grey)}
 
+/* ═══ RECOMMENDATION LIST (route 03) ══════════════════════════
+   One row per (facility, medicine) for the whole session. Collapsed rows
+   read like an index; the expanded row holds the full recommendation. */
+.recrow+.recrow{margin-top:var(--s3)}
+.recrow[data-open="true"]{border:var(--b4)}
+.recrow-hd{
+  display:flex; align-items:center; gap:var(--s4); width:100%; min-height:56px;
+  padding:var(--s3) var(--s4); cursor:pointer; transition:background .15s linear;
+}
+.recrow-hd:hover{background:var(--muted)}
+.recrow-hd .ix{font-size:9px; font-weight:900; letter-spacing:.14em; color:var(--red-ink); flex:none; width:20px}
+.recrow-hd .nm{font-size:15px; font-weight:900; letter-spacing:-.03em; white-space:nowrap}
+.recrow-hd .mid{
+  font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--grey);
+  margin-right:auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.recrow-hd .car{font-size:11px; font-weight:900; flex:none}
+.recstate{display:inline-flex; align-items:center; gap:var(--s2); white-space:nowrap}
+.recstate .figs{font-weight:900; font-size:13px; letter-spacing:-.02em}
+.recrow-bd{border-top:var(--b2); padding:var(--s5)}
+@media (max-width:860px){
+  .recrow-hd{flex-wrap:wrap}
+  .recrow-hd .mid{white-space:normal; width:100%; order:5; margin-right:0}
+  .recrow-bd{padding:var(--s4)}
+}
+
 /* ═══ MEMO ════════════════════════════════════════════════════ */
 .memo-tabs{display:flex; border-bottom:var(--b2)}
 .memo-tabs button{
@@ -455,6 +496,8 @@ main.stage{min-width:0; padding:var(--s7) var(--s7) var(--s9)}
 .gapbar .t em{font-style:normal; color:var(--red)}
 .gapbar.quiet{border-left-color:var(--black)}
 .gapbar.quiet .t em{color:var(--black)}
+.gapbar.quiet .lbl{color:var(--black)}
+.gapbar.quiet .lbl.grey{color:var(--grey)}
 
 @media (max-width:1080px){
   .split,.split-wide{grid-template-columns:1fr}

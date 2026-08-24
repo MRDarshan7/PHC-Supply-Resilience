@@ -1,10 +1,12 @@
 // Ingest sheet — Gemini Job 01. The four PDFs are the real MoHFW IDSP
 // weekly reports committed under data/idsp_pdfs/ on the backend; the
-// frontend only names them. Every figure in the result panel is read from
-// the POST /ingest-idsp response.
-import { useEffect, useState } from 'react'
+// frontend only names them. The extraction counts are read from the
+// POST /ingest-idsp response; the "changed band" list compares the
+// session's pre-ingest snapshot against the refreshed live risk, so it is
+// right even when the database already stored the outbreak rows.
+import { useEffect, useMemo, useState } from 'react'
 import { Steps, Elapsed, ErrBox, Chip } from './ui.jsx'
-import { fmtDays, shortMed } from './format.js'
+import { BAND_SEVERITY, fmtDays, shortMed } from './format.js'
 
 const PDFS = [
   { f: 'idsp_2025_w45.pdf', m: 'Week 45, 2025 · 3–9 November', demo: true },
@@ -13,7 +15,7 @@ const PDFS = [
   { f: 'idsp_2022_w30.pdf', m: 'Week 30, 2022' },
 ]
 
-export default function IngestModal({ ingest, onRun, onClose, onOpenFacility }) {
+export default function IngestModal({ ingest, facilities, snapshot, onRun, onClose, onOpenFacility }) {
   const [picked, setPicked] = useState(PDFS[0].f)
   const { phase, result, error } = ingest // pick | running | done | error
   const busy = phase === 'running'
@@ -27,7 +29,16 @@ export default function IngestModal({ ingest, onRun, onClose, onOpenFacility }) 
   }, [busy, onClose])
 
   const driving = (result?.records || []).filter((r) => r.drives_surge)
-  const changed = result?.facilities_changed_band || []
+  const changed = useMemo(() => {
+    if (!snapshot || !facilities) return []
+    return facilities
+      .filter((f) => snapshot.bands[f.id] && snapshot.bands[f.id].band !== f.band)
+      .map((f) => ({ ...f, before: snapshot.bands[f.id] }))
+      .sort(
+        (a, b) =>
+          BAND_SEVERITY[b.band] - BAND_SEVERITY[a.band] || (a.days_of_cover ?? 1e9) - (b.days_of_cover ?? 1e9),
+      )
+  }, [snapshot, facilities])
   const first = changed[0]
 
   return (
@@ -135,12 +146,12 @@ export default function IngestModal({ ingest, onRun, onClose, onOpenFacility }) 
                           <td className="nm">{c.name}</td>
                           <td className="grey">{shortMed(c.worst_medicine_id)}</td>
                           <td>
-                            <Chip band={c.band_after} />
+                            <Chip band={c.band} />
                           </td>
                           <td className="r num">
-                            {fmtDays(c.days_of_cover_before)}D <span className="grey">→</span>{' '}
-                            <strong style={c.band_after === 'critical' ? { color: 'var(--red-ink)' } : undefined}>
-                              {fmtDays(c.days_of_cover_after)}D
+                            {fmtDays(c.before.days)}D <span className="grey">→</span>{' '}
+                            <strong style={c.band === 'critical' ? { color: 'var(--red-ink)' } : undefined}>
+                              {fmtDays(c.days_of_cover)}D
                             </strong>
                           </td>
                         </tr>

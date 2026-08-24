@@ -1,8 +1,11 @@
-// 03 · Transfer — one GET /recommend/{facility}/{medicine} response, whole.
-// The engine's five stages, the ranked donor with its score breakdown, every
-// rejected candidate with its reason, the bilingual memo, and the approve
-// action. Every figure on screen — thresholds included — is read from the
-// response; the deterministic engine ran before Gemini was called.
+// 03 · Transfer — the session's recommendation list. One row per
+// (facility, medicine), added by every Find donors and never discarded by
+// adding another; a row expands to the full recommendation and collapses
+// to a one-line summary, and an approved row stays in the list with its
+// before → after figures. While Gemini writes a memo the deterministic
+// parts the page already has — the recipient's own figures from the
+// facility detail — render immediately; only what genuinely arrives with
+// the response is shown as waiting.
 import { useState } from 'react'
 import { fmtDays, fmtRate, fmtQty, fmtScore, paragraphs, shortMed } from '../format.js'
 import { SecHead, Chip, BackLink, ErrBox, Steps, Elapsed } from '../ui.jsx'
@@ -46,120 +49,144 @@ function splitReason(c, params) {
   return { why: c.reason, pre: null, val: null }
 }
 
-function DonorCard({ d, post, weights, unit }) {
-  const after = (post?.donors || []).find((x) => x.facility_id === d.facility_id)
-  const lots = d.lots_given || []
+function RecipientCells({ stock, unit, baseline, surge, burn, cover, band }) {
   return (
-    <div className="donor" data-donor={d.facility_id}>
-      <div className="donor-hd">
-        <div className="donor-rank">{d.order}</div>
-        <div className="donor-id">
-          <h4>{d.name} PHC</h4>
-          <div className="m">
-            {d.sub_district} · {d.distance_km} km · score {fmtScore(d.score?.total)}
-          </div>
+    <div className="cells" style={{ gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))' }}>
+      <div className="cell">
+        <span className="lbl">On hand</span>
+        <div className="v">{fmtQty(stock)}</div>
+        <div className="sub">{unit}</div>
+      </div>
+      <div className="cell">
+        <span className="lbl">Baseline burn</span>
+        <div className="v">{fmtRate(baseline)}</div>
+        <div className="sub">per day · HMIS</div>
+      </div>
+      <div className="cell">
+        <span className="lbl">Outbreak surge</span>
+        <div className="v" style={surge > 0 ? { color: 'var(--red)' } : undefined}>
+          {surge > 0 ? `+${fmtRate(surge)}` : '—'}
         </div>
-        <div className="donor-qty">
-          <div className="v">{fmtQty(d.qty)}</div>
-          <div className="u">{unit}</div>
+        <div className="sub">per day · IDSP</div>
+      </div>
+      <div className="cell">
+        <span className="lbl">Total burn</span>
+        <div className="v">{fmtRate(burn)}</div>
+        <div className="sub">per day</div>
+      </div>
+      <div className="cell">
+        <span className="lbl">Days of cover</span>
+        <div className="v" style={band === 'critical' ? { color: 'var(--red)' } : undefined}>{fmtDays(cover)}</div>
+        <div className="sub">
+          <Chip band={band} />
         </div>
       </div>
-      {d.summary ? <p className="donor-why">{d.summary}</p> : null}
-      <div className="kv">
-        <div className="k">
-          <span className="lbl">{lots.length === 1 ? 'Lot drawn' : 'Lots drawn'}</span>
-          {lots.length ? (
-            lots.map((l) => (
-              <div key={l.batch || l.expiry}>
-                <div className="v">{l.batch || '—'}</div>
-                <div className="lbl" style={{ color: 'var(--red-ink)', marginTop: 4 }}>
-                  {l.expiry ? `exp ${l.expiry}${l.days_to_expiry != null ? ` · ${l.days_to_expiry}d` : ''}` : 'undated'}
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="v">—</div>
-          )}
-        </div>
-        <div className="k">
-          <span className="lbl">Its stock</span>
-          <div className="v">
-            {fmtQty(d.stock_before)}
-            <span className="ar">→</span>
-            {fmtQty(d.stock_after)}
-          </div>
-        </div>
-        <div className="k">
-          <span className="lbl">Its cover</span>
-          <div className="v">
-            {fmtDays(d.cover_before)}
-            <span className="ar">→</span>
-            {fmtDays(d.cover_after)}
-            <span style={{ fontSize: '.7em' }}>D</span>
-          </div>
-        </div>
-        <div className="k">
-          <span className="lbl">Above floor by</span>
-          <div className="v">{after?.above_floor_by_days != null ? `+${fmtDays(after.above_floor_by_days)} days` : '—'}</div>
-        </div>
-      </div>
-      {d.score?.components ? (
-        <div className="scores">
-          {Object.entries(d.score.components).map(([k, v]) => (
-            <div className="sc" key={k}>
-              <div className="lbl">
-                <span>
-                  {COMP_LABEL[k] || k}
-                  {weights?.[k] != null ? ` ×${weights[k]}` : ''}
-                </span>
-                <span>{Number(v).toFixed(2)}</span>
-              </div>
-              <div className="bar">
-                <i style={{ width: `${Math.min(100, Number(v) * 100)}%` }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : null}
     </div>
   )
 }
 
-export default function Transfer({ rec, onBack, onRetry, onApprove, approveState }) {
-  const [lang, setLang] = useState('en')
-  const data = rec?.data
-  const backName = data?.recipient?.name || 'Facility'
-
-  if (!data) {
-    return (
-      <div className="waitstage">
-        <div className="crumb">
-          <BackLink onClick={onBack}>{backName}</BackLink>
-        </div>
-        <span className="lbl lbl-red">03 — Transfer Recommendation</span>
-        {rec?.error ? (
-          <div className="mt5">
-            <ErrBox title="The recommendation failed" error={rec.error} onRetry={onRetry} />
-          </div>
-        ) : (
-          <>
-            <Steps
-              items={[
-                { state: 'done', label: 'Request sent', rs: `GET /recommend/${rec?.facilityId || ''}/${rec?.medicineId || ''}` },
-                { state: 'on', label: 'Engine stages 01–05 · Gemini memo (Job 02)', rs: <Elapsed /> },
-              ]}
-            />
-            <p className="stephint">
-              The donor engine is deterministic and returns at once; the wait is Gemini writing and validating the
-              bilingual memo. A live call can take around 45 seconds — a cached memo, or the deterministic template
-              fallback, returns immediately.
-            </p>
-          </>
-        )}
+// Progressive loading: the figures the session already holds render at once;
+// each section that genuinely arrives with the response says so in place.
+function DetailLoading({ entry, detailMed, unit }) {
+  const med = shortMed(entry.medicineId, detailMed?.name)
+  return (
+    <div>
+      <div className="gapbar quiet">
+        <span className="lbl">Supply gap</span>
+        <span className="t">
+          <em>need</em> = {detailMed ? fmtRate(detailMed.burn_rate) : '…'} × target − {detailMed ? fmtQty(detailMed.stock) : '…'}
+        </span>
+        <span className="lbl grey">target cover arrives with the response</span>
       </div>
-    )
-  }
 
+      {detailMed ? (
+        <div>
+          <SecHead n="00" title="Recipient state" aside="Already on the ledger — shown before the engine answers" />
+          <RecipientCells
+            stock={detailMed.stock}
+            unit={unit}
+            baseline={detailMed.baseline_burn_rate}
+            surge={detailMed.outbreak_surge}
+            burn={detailMed.burn_rate}
+            cover={detailMed.days_of_cover}
+            band={detailMed.band}
+          />
+        </div>
+      ) : null}
+
+      <div className="mt7">
+        <SecHead n="01–05" title="Engine stages" aside="Fully deterministic · no AI in this path" />
+        <Steps
+          items={[
+            { state: 'done', label: 'Request sent', rs: `GET /recommend/${entry.facilityId}/${entry.medicineId}` },
+            { state: 'on', label: `Stages 01–05 for ${med} · Gemini memo (Job 02)`, rs: <Elapsed /> },
+          ]}
+        />
+        <p className="stephint">
+          The donor engine is deterministic and finishes at once; the response returns as one document, so the wait is
+          Gemini writing and validating the bilingual memo. A live call can take around 45 seconds — a cached memo, or the
+          deterministic template fallback, returns immediately.
+        </p>
+      </div>
+
+      <div className="split split-wide mt7">
+        <div className="stackv">
+          <div>
+            <SecHead n="E" title="Recommended donor" aside="Arrives with the response" />
+            <div className="box">
+              <div className="box-bd">
+                <p className="footnote">
+                  The ranked donor — its lots, before → after stock and cover, margin above the safety floor, and the four
+                  score components — arrives with the response.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <SecHead n="F" title="Excluded, and why" aside="Arrives with the response" />
+            <div className="box">
+              <div className="box-bd">
+                <p className="footnote">
+                  Every rejected candidate is returned with its reason sentence and arithmetic — the safety-floor
+                  rejections are part of the recommendation, not diagnostics.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="stackv">
+          <div className="box">
+            <div className="box-hd">
+              <span className="h3">Transfer memo</span>
+              <span className="lbl grey">Gemini · Job 02</span>
+            </div>
+            <div className="box-bd">
+              <Steps
+                items={[
+                  { state: 'done', label: 'Engine input assembled' },
+                  { state: 'on', label: 'Gemini writing the bilingual memo', rs: <Elapsed /> },
+                  { state: 'wait', label: 'Every numeral cross-checked against the input' },
+                ]}
+              />
+            </div>
+          </div>
+          <div className="box">
+            <div className="box-hd">
+              <span className="h3">Parameters</span>
+            </div>
+            <div className="box-bd">
+              <p className="footnote">Floor, target, radius, transit window and score weights are returned with the response.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function DetailData({ entry, onApprove, onOpenFacility, onGoApproved }) {
+  const [lang, setLang] = useState('en')
+  const data = entry.data
   const R = data.recipient
   const params = data.parameters
   const counts = data.counts || {}
@@ -176,8 +203,6 @@ export default function Transfer({ rec, onBack, onRetry, onApprove, approveState
   const topScore = donors[0]?.score?.total
   const gap = topScore != null && runner?.score?.total != null ? topScore - runner.score.total : null
 
-  // The nearest facility that actually holds stock — if it was rejected,
-  // that rejection is the strongest trust signal on the page.
   const holders = [...(data.eligible || []), ...(data.rejected || [])].filter((c) => (c.stock || 0) > 0)
   const nearestHolder = holders.length ? holders.reduce((a, b) => (a.distance_km <= b.distance_km ? a : b)) : null
   const nearestRejectedId = nearestHolder && !nearestHolder.eligible ? nearestHolder.facility_id : null
@@ -188,24 +213,11 @@ export default function Transfer({ rec, onBack, onRetry, onApprove, approveState
 
   return (
     <div>
-      <div className="crumb">
-        <BackLink onClick={onBack}>{backName} PHC</BackLink>
-      </div>
-
-      <div className="hero">
-        <div>
-          <span className="lbl lbl-red">03 — Transfer Recommendation</span>
-          <h1 className="h1" style={{ marginTop: 14 }}>
-            {med}
-            <span style={{ color: 'var(--grey)' }}> → {R.name} PHC</span>
-          </h1>
-          <p className="lede" style={{ marginTop: 16 }}>
-            {closeCall
-              ? 'Every figure below was computed before Gemini was called. The top donors score within the close-call margin, so the model selected between backend-certified options — and it originated no number.'
-              : 'Every figure below was computed before Gemini was called. The model chose nothing here — there was no close call to adjudicate — and it originated no number.'}
-          </p>
-        </div>
-      </div>
+      <p className="lede" style={{ marginBottom: 24 }}>
+        {closeCall
+          ? 'Every figure below was computed before Gemini was called. The top donors score within the close-call margin, so the model selected between backend-certified options — and it originated no number.'
+          : 'Every figure below was computed before Gemini was called. The model chose nothing here — there was no close call to adjudicate — and it originated no number.'}
+      </p>
 
       {noNeed ? (
         <div className="gapbar quiet">
@@ -232,37 +244,15 @@ export default function Transfer({ rec, onBack, onRetry, onApprove, approveState
 
       <div>
         <SecHead n="00" title="Recipient state" aside="The division, both halves" />
-        <div className="cells" style={{ gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))' }}>
-          <div className="cell">
-            <span className="lbl">On hand</span>
-            <div className="v">{fmtQty(R.stock)}</div>
-            <div className="sub">{R.unit}</div>
-          </div>
-          <div className="cell">
-            <span className="lbl">Baseline burn</span>
-            <div className="v">{fmtRate(R.baseline_burn_rate)}</div>
-            <div className="sub">per day · HMIS</div>
-          </div>
-          <div className="cell">
-            <span className="lbl">Outbreak surge</span>
-            <div className="v" style={R.outbreak_surge > 0 ? { color: 'var(--red)' } : undefined}>
-              {R.outbreak_surge > 0 ? `+${fmtRate(R.outbreak_surge)}` : '—'}
-            </div>
-            <div className="sub">per day · IDSP</div>
-          </div>
-          <div className="cell">
-            <span className="lbl">Total burn</span>
-            <div className="v">{fmtRate(R.burn_rate)}</div>
-            <div className="sub">per day</div>
-          </div>
-          <div className="cell">
-            <span className="lbl">Days of cover</span>
-            <div className="v" style={R.band === 'critical' ? { color: 'var(--red)' } : undefined}>{fmtDays(R.days_of_cover)}</div>
-            <div className="sub">
-              <Chip band={R.band} />
-            </div>
-          </div>
-        </div>
+        <RecipientCells
+          stock={R.stock}
+          unit={R.unit}
+          baseline={R.baseline_burn_rate}
+          surge={R.outbreak_surge}
+          burn={R.burn_rate}
+          cover={R.days_of_cover}
+          band={R.band}
+        />
       </div>
 
       {!noNeed ? (
@@ -296,9 +286,84 @@ export default function Transfer({ rec, onBack, onRetry, onApprove, approveState
                   title={donors.length ? (donors.length === 1 ? 'Recommended donor' : 'Recommended donors') : 'No eligible donor'}
                   aside={`${counts.eligible} of ${counts.considered} can safely spare stock`}
                 />
-                {donors.map((d) => (
-                  <DonorCard key={d.facility_id} d={d} post={post} weights={params.score_weights} unit={R.unit} />
-                ))}
+                {donors.map((d) => {
+                  const after = (post?.donors || []).find((x) => x.facility_id === d.facility_id)
+                  const lots = d.lots_given || []
+                  return (
+                    <div className="donor" data-donor={d.facility_id} key={d.facility_id}>
+                      <div className="donor-hd">
+                        <div className="donor-rank">{d.order}</div>
+                        <div className="donor-id">
+                          <h4>{d.name} PHC</h4>
+                          <div className="m">
+                            {d.sub_district} · {d.distance_km} km · score {fmtScore(d.score?.total)}
+                          </div>
+                        </div>
+                        <div className="donor-qty">
+                          <div className="v">{fmtQty(d.qty)}</div>
+                          <div className="u">{R.unit}</div>
+                        </div>
+                      </div>
+                      {d.summary ? <p className="donor-why">{d.summary}</p> : null}
+                      <div className="kv">
+                        <div className="k">
+                          <span className="lbl">{lots.length === 1 ? 'Lot drawn' : 'Lots drawn'}</span>
+                          {lots.length ? (
+                            lots.map((l) => (
+                              <div key={l.batch || l.expiry}>
+                                <div className="v">{l.batch || '—'}</div>
+                                <div className="lbl" style={{ color: 'var(--red-ink)', marginTop: 4 }}>
+                                  {l.expiry ? `exp ${l.expiry}${l.days_to_expiry != null ? ` · ${l.days_to_expiry}d` : ''}` : 'undated'}
+                                </div>
+                              </div>
+                            ))
+                          ) : (
+                            <div className="v">—</div>
+                          )}
+                        </div>
+                        <div className="k">
+                          <span className="lbl">Its stock</span>
+                          <div className="v">
+                            {fmtQty(d.stock_before)}
+                            <span className="ar">→</span>
+                            {fmtQty(d.stock_after)}
+                          </div>
+                        </div>
+                        <div className="k">
+                          <span className="lbl">Its cover</span>
+                          <div className="v">
+                            {fmtDays(d.cover_before)}
+                            <span className="ar">→</span>
+                            {fmtDays(d.cover_after)}
+                            <span style={{ fontSize: '.7em' }}>D</span>
+                          </div>
+                        </div>
+                        <div className="k">
+                          <span className="lbl">Above floor by</span>
+                          <div className="v">{after?.above_floor_by_days != null ? `+${fmtDays(after.above_floor_by_days)} days` : '—'}</div>
+                        </div>
+                      </div>
+                      {d.score?.components ? (
+                        <div className="scores">
+                          {Object.entries(d.score.components).map(([k, v]) => (
+                            <div className="sc" key={k}>
+                              <div className="lbl">
+                                <span>
+                                  {COMP_LABEL[k] || k}
+                                  {params.score_weights?.[k] != null ? ` ×${params.score_weights[k]}` : ''}
+                                </span>
+                                <span>{Number(v).toFixed(2)}</span>
+                              </div>
+                              <div className="bar">
+                                <i style={{ width: `${Math.min(100, Number(v) * 100)}%` }} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+                  )
+                })}
                 {!donors.length ? (
                   <div className="excl excl-safety">
                     <div className="excl-hd">
@@ -498,31 +563,160 @@ export default function Transfer({ rec, onBack, onRetry, onApprove, approveState
                 {data.notice} Approval re-runs the donor safety check against the ledger as it stands now — if the donor can
                 no longer spare the quantity, the approval is refused rather than applied partially.
               </p>
-              {approveState.error ? (
+              {entry.approveError ? (
                 <p style={{ color: 'var(--red-ink)', fontWeight: 700, marginTop: 8 }}>
-                  Refused: {approveState.error.message}
+                  Refused: {entry.approveError.message}
                 </p>
               ) : null}
             </div>
-            <button type="button" className="btn btn-lg" onClick={onBack}>
+            <button type="button" className="btn btn-lg" onClick={() => onOpenFacility(entry.facilityId)}>
               Back to facility
             </button>
-            <button
-              type="button"
-              className="btn btn-primary btn-lg"
-              data-action="approve"
-              disabled={!pending.length || approveState.running}
-              onClick={onApprove}
-            >
-              {approveState.running
-                ? 'Applying — safety check re-running…'
-                : pending.length
-                  ? `Approve transfer · ${fmtQty(plan?.total_qty)} ${R.unit}`
-                  : 'Nothing pending to approve'}
-            </button>
+            {entry.approved ? (
+              <button type="button" className="btn btn-primary btn-lg" onClick={onGoApproved} data-action="view-approved">
+                Approved — view impact · 04
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-primary btn-lg"
+                data-action="approve"
+                disabled={!pending.length || entry.approving}
+                onClick={() => onApprove(entry.key)}
+              >
+                {entry.approving
+                  ? 'Applying — safety check re-running…'
+                  : pending.length
+                    ? `Approve transfer · ${fmtQty(plan?.total_qty)} ${R.unit}`
+                    : 'Nothing pending to approve'}
+              </button>
+            )}
           </div>
         </>
       ) : null}
+    </div>
+  )
+}
+
+function rowSummary(entry) {
+  if (entry.loading) return 'engine + memo running…'
+  if (entry.error) return 'failed — expand to retry'
+  const data = entry.data
+  if (!data) return ''
+  const plan = data.plan
+  if (data.status === 'no_need' || data.status === 'no_burn_rate') return 'no transfer needed'
+  if (!plan || !plan.donors?.length) return 'no eligible donor'
+  const d0 = plan.donors[0]
+  const more = plan.donors.length > 1 ? ` +${plan.donors.length - 1}` : ''
+  return `${fmtQty(plan.total_qty)} ${data.recipient.unit} from ${d0.name}${more}`
+}
+
+function RowState({ entry }) {
+  if (entry.loading) {
+    return (
+      <span className="recstate">
+        <span className="spinner" />
+        <span className="lbl">memo…</span>
+      </span>
+    )
+  }
+  if (entry.error) return <span className="ptag" style={{ color: 'var(--red-ink)' }}>failed</span>
+  if (entry.approved) {
+    const first = entry.approvals[0]
+    const last = entry.approvals[entry.approvals.length - 1]
+    const before = first?.recipient?.before?.days_of_cover
+    const after = last?.recipient?.after?.days_of_cover
+    return (
+      <span className="recstate">
+        {before != null && after != null ? (
+          <span className="figs">
+            <span style={{ color: 'var(--red-ink)' }}>{fmtDays(before)}D</span>
+            <span className="grey" style={{ fontWeight: 700 }}> → </span>
+            {fmtDays(after)}D
+          </span>
+        ) : null}
+        <span className="ptag ptag-ok">Approved</span>
+      </span>
+    )
+  }
+  if (entry.approving) return <span className="ptag">applying…</span>
+  const pending = (entry.data?.transfers || []).filter((t) => t.status === 'pending')
+  if (!pending.length) return <span className="ptag">no action</span>
+  return <span className="ptag" style={{ borderColor: 'var(--red)' }}>pending approval</span>
+}
+
+export default function Transfer({ recs, expandedKey, details, onExpand, onApprove, onRetry, onOpenFacility, onBackDistrict, onGoApproved }) {
+  const expanded = recs.find((e) => e.key === expandedKey) || null
+  const nameOf = (e) => e.data?.recipient?.name || details[e.facilityId]?.data?.name || e.facilityId
+
+  return (
+    <div>
+      <div className="crumb">
+        {expanded ? (
+          <BackLink onClick={() => onOpenFacility(expanded.facilityId)}>{nameOf(expanded)} PHC</BackLink>
+        ) : (
+          <BackLink onClick={onBackDistrict}>District</BackLink>
+        )}
+      </div>
+
+      <div className="hero">
+        <div>
+          <span className="lbl lbl-red">03 — Transfer Recommendations</span>
+          <h1 className="h1" style={{ marginTop: 14 }}>
+            {expanded ? (
+              <>
+                {shortMed(expanded.medicineId, expanded.data?.recipient?.medicine_name)}
+                <span style={{ color: 'var(--grey)' }}> → {nameOf(expanded)} PHC</span>
+              </>
+            ) : (
+              <>
+                Recommendations
+                <span style={{ color: 'var(--grey)' }}> · {recs.length} this session</span>
+              </>
+            )}
+          </h1>
+          <p className="lede" style={{ marginTop: 16 }}>
+            One row per facility-and-medicine, kept for the whole session: finding donors for another medicine adds a row
+            and discards nothing, and an approved row stays here with its before → after figures. Expand a row for the full
+            recommendation.
+          </p>
+        </div>
+      </div>
+
+      <div data-list="recs">
+        {recs.map((entry, i) => {
+          const open = entry.key === expandedKey
+          const fname = nameOf(entry)
+          return (
+            <div className="box recrow" data-rec={entry.key} data-open={open} key={entry.key}>
+              <button type="button" className="recrow-hd" aria-expanded={open} onClick={() => onExpand(entry.key)} data-action="toggle-rec">
+                <span className="ix">{String(i + 1).padStart(2, '0')}</span>
+                <span className="nm">
+                  {fname} — {shortMed(entry.medicineId, entry.data?.recipient?.medicine_name)}
+                </span>
+                <span className="mid">{rowSummary(entry)}</span>
+                <RowState entry={entry} />
+                <span className="car" aria-hidden="true">{open ? '▴' : '▾'}</span>
+              </button>
+              {open ? (
+                <div className="recrow-bd">
+                  {entry.error ? (
+                    <ErrBox title="The recommendation failed" error={entry.error} onRetry={() => onRetry(entry)} />
+                  ) : entry.loading || !entry.data ? (
+                    <DetailLoading
+                      entry={entry}
+                      detailMed={details[entry.facilityId]?.data?.medicines?.find((m) => m.medicine_id === entry.medicineId)}
+                      unit={details[entry.facilityId]?.data?.medicines?.find((m) => m.medicine_id === entry.medicineId)?.unit || ''}
+                    />
+                  ) : (
+                    <DetailData entry={entry} onApprove={onApprove} onOpenFacility={onOpenFacility} onGoApproved={onGoApproved} />
+                  )}
+                </div>
+              ) : null}
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

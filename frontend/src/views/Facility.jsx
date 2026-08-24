@@ -14,7 +14,7 @@ function nearestBatch(m) {
   return best
 }
 
-export default function Facility({ facilityId, detail, ingested, onBack, onFindDonors, onRetry }) {
+export default function Facility({ facilityId, detail, ingested, approvedMeds, onBack, onFindDonors, onRetry }) {
   const d = detail?.data
 
   if (!d) {
@@ -105,42 +105,49 @@ export default function Facility({ facilityId, detail, ingested, onBack, onFindD
               <span className="lbl grey">{meds.length} medicines · NLEM 2022</span>
             </div>
             <div className="scrollx">
-              <table className="tbl" data-table="inventory">
+              <table className="tbl tbl-pin" data-table="inventory">
                 <thead>
                   <tr>
                     <th>Medicine</th>
                     <th className="r">Days of cover</th>
                     <th className="r">On hand</th>
                     <th className="r">Daily burn</th>
-                    <th className="r">Of which surge</th>
                     <th className="r">Nearest expiry</th>
-                    <th>Band</th>
-                    <th></th>
+                    <th className="r">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {meds.map((m) => {
                     const nb = nearestBatch(m)
+                    const ap = approvedMeds?.[m.medicine_id]
                     return (
                       <tr key={m.medicine_id} className={m.band === 'critical' ? 'hot' : ''} data-med={m.medicine_id} data-band={m.band}>
                         <td className="nm">{m.name}</td>
                         <td className="r">
                           <Dc days={m.days_of_cover} band={m.band} />
+                          <span className="subline">
+                            <Chip band={m.band} />
+                          </span>
                         </td>
                         <td className="r num">
-                          {fmtQty(m.stock)} <span className="grey" style={{ fontWeight: 400 }}>{m.unit}</span>
+                          {fmtQty(m.stock)}
+                          <span className="subline">{m.unit}</span>
                         </td>
-                        <td className="r num">{m.burn_rate > 0 ? fmtRate(m.burn_rate) : '—'}</td>
-                        <td className="r num" style={m.outbreak_surge > 0 ? { color: 'var(--red-ink)', fontWeight: 900 } : { color: 'var(--grey)' }}>
-                          {m.outbreak_surge > 0 ? `+${fmtRate(m.outbreak_surge)}` : '—'}
+                        <td className="r num">
+                          {m.burn_rate > 0 ? fmtRate(m.burn_rate) : '—'}
+                          {m.outbreak_surge > 0 ? (
+                            <span className="subline" style={{ color: 'var(--red-ink)' }}>+{fmtRate(m.outbreak_surge)} surge</span>
+                          ) : null}
                         </td>
                         <td className="r num" style={nb?.near_expiry || nb?.expired ? { color: 'var(--red-ink)', fontWeight: 900 } : undefined}>
                           {nb ? nb.expiry : '—'}
                         </td>
-                        <td>
-                          <Chip band={m.band} />
-                        </td>
-                        <td className="r">
+                        <td className="r act">
+                          {ap ? (
+                            <span className="ptag ptag-ok" data-approved={m.medicine_id} title={`Transfer approved this session: +${fmtQty(ap.qty)} ${ap.unit || m.unit}`}>
+                              Approved +{fmtQty(ap.qty)}
+                            </span>
+                          ) : null}
                           {needsDonors(m.band) ? (
                             ingested ? (
                               <button

@@ -21,7 +21,11 @@ CRITICAL_DAYS = 8
 WARNING_DAYS = 14
 
 DONOR_SAFETY_FLOOR_DAYS = 14
-TARGET_COVER_DAYS = 14
+# 15, not 14: with the target equal to WARNING_DAYS and quantities rounded up,
+# a topped-up medicine lands at exactly 14.0 days and displays "14.0 - safe"
+# beside a 14-day threshold, which reads as a contradiction. One day above the
+# warning line makes a completed transfer visibly safe.
+TARGET_COVER_DAYS = 15
 
 MAX_TRANSFER_RADIUS_KM = 75
 
