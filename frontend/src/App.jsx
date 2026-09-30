@@ -386,12 +386,6 @@ export default function App() {
           )}
         </nav>
         <div className="topright">
-          <div
-            className="simbadge"
-            title="Facility stock is derived from real HMIS caseloads — India publishes no facility-level stock. Facility and outbreak data are real."
-          >
-            <i /> Inventory simulated · facility &amp; outbreak data real
-          </div>
           <div className="dsel">Guntur</div>
         </div>
       </header>

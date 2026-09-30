@@ -49,9 +49,7 @@ const FitControl = L.Control.extend({
   },
 })
 
-// labelId: facility given a permanent red label (the facility the report
-// pushed under the critical line — the one the district view is about).
-export default function MapPanel({ facilities, onSelect, labelId }) {
+export default function MapPanel({ facilities, onSelect }) {
   const containerRef = useRef(null)
   const mapRef = useRef(null)
   const markersRef = useRef(new Map())
@@ -66,11 +64,9 @@ export default function MapPanel({ facilities, onSelect, labelId }) {
   useEffect(() => {
     const el = containerRef.current
     const map = L.map(el, { scrollWheelZoom: true, zoomControl: true, attributionControl: true })
-    // OpenStreetMap data on CARTO's monochrome Positron rendering — the
-    // basemap the mock specifies. Free, keyless, no billing account.
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd',
+    // Standard OpenStreetMap tiles - free, keyless, no billing account.
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19,
     }).addTo(map)
     map.setView([16.3, 80.3], 9) // Guntur district; replaced by fitBounds once facilities arrive
@@ -113,7 +109,6 @@ export default function MapPanel({ facilities, onSelect, labelId }) {
     for (const f of ordered) {
       seen.add(f.id)
       const style = markerStyle(f.band)
-      const labelled = f.id === labelId
       let m = markers.get(f.id)
       if (!m) {
         m = L.circleMarker([f.lat, f.lon], style).addTo(map)
@@ -125,16 +120,7 @@ export default function MapPanel({ facilities, onSelect, labelId }) {
         if (bands.get(f.id) !== f.band) changed.push(m)
         m.unbindTooltip()
       }
-      if (labelled) {
-        m.bindTooltip(`${esc(f.name)} ${f.days_of_cover == null ? '' : fmtDays(f.days_of_cover) + 'D'}`, {
-          permanent: true,
-          direction: 'right',
-          offset: [12, 0],
-          className: 'mk-label',
-        })
-      } else {
-        m.bindTooltip(tooltipHtml(f), { direction: 'top', offset: [0, -8], opacity: 1 })
-      }
+      m.bindTooltip(tooltipHtml(f), { direction: 'top', offset: [0, -8], opacity: 1 })
       bands.set(f.id, f.band)
       m.bringToFront()
       points.push([f.lat, f.lon])
@@ -160,7 +146,7 @@ export default function MapPanel({ facilities, onSelect, labelId }) {
         fittedRef.current = true
       }
     }
-  }, [facilities, labelId])
+  }, [facilities])
 
   return <div id="map" ref={containerRef} />
 }

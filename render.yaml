@@ -10,3 +10,9 @@ services:
         value: 3.11.5
       - key: GEMINI_API_KEY
         sync: false
+      - key: GEMINI_API_KEY_1
+        sync: false
+      - key: GEMINI_API_KEY_2
+        sync: false
+      - key: GEMINI_API_KEY_3
+        sync: false

@@ -54,8 +54,6 @@ export default function District({
   const prior = ingested && snapshot ? snapshot.census : null
   const total = facilities.length
   const medCount = Object.keys(facilities.find((f) => f.medicines)?.medicines || {}).length
-  const worst = facilities[0]
-  const labelId = worst && worst.band === 'critical' ? worst.id : null
 
   const driving = (outbreaks?.outbreaks || []).filter((o) => o.drives_surge)
   const others = outbreaks ? outbreaks.count - driving.length : 0
@@ -115,7 +113,7 @@ export default function District({
         <div>
           <SecHead n="B" title="Facility risk map" aside={`${total} PHCs at published coordinates`} />
           <div className="mapbox">
-            <MapPanel facilities={facilities} onSelect={onOpenFacility} labelId={labelId} />
+            <MapPanel facilities={facilities} onSelect={onOpenFacility} />
             <div className="maplegend">
               {BANDS.map((b) => (
                 <span className="it" key={b}>

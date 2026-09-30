@@ -2,7 +2,7 @@
 // fallback, so a missing value shows up as a configuration error in the UI
 // rather than silently pointing at localhost.
 
-const BACKEND_URL = String(import.meta.env.VITE_BACKEND_URL || '').trim().replace(/\/+$/, '')
+const BACKEND_URL = String(import.meta.env.VITE_BACKEND_URL || 'https://phc-supply-resilience.onrender.com').trim().replace(/\/+$/, '')
 
 export const backendUrl = BACKEND_URL
 export const backendConfigured = BACKEND_URL.length > 0
