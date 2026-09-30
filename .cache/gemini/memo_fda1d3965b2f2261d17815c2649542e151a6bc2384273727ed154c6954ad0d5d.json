@@ -1,0 +1,34 @@
+{
+ "sha256": "fda1d3965b2f2261d17815c2649542e151a6bc2384273727ed154c6954ad0d5d",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T09:34:25+00:00",
+ "recipient": "phc_thulluru_40a5f3",
+ "medicine": "iv_fluids_rl",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_indhiranagar_uphc_9e0343",
+    "quantity": 8
+   }
+  ],
+  "rationale_en": "The recipient facility, Thulluru, is in a critical stock situation for IV Fluids (Ringer Lactate) with only 7 litres in stock. Due to an outbreak of Acute Diarrhoeal Disease (outbreak ID AP/GUN/2025/45/1997), the facility is experiencing an outbreak surge of 0.75 litres per day on top of its 0.26 baseline burn rate, leading to a total burn rate of 1.01 litres per day. This leaves the facility with only 6.9 days of cover, which is below the critical threshold of 8 days. To address this deficit, we recommend transferring 8 litres of IV Fluids (Ringer Lactate) from Indhiranagar UPHC, drawing from batch IVF2711-501 (expiry 2027-11-03). After donating this quantity, Indhiranagar UPHC will maintain a safe stock of 18 litres, providing 24.1 days of cover. This is comfortably above the donor safety floor of 14 days, with a cover margin of 10.1 days. While Nuthakki was a close selectable alternative located 22.1 km away, Indhiranagar UPHC is the preferred donor because it is closer (15.3 km) and, as an urban facility, has more streamlined access to district-level replenishment. Closer facilities were excluded due to safety floor limits: Pedavadlapudi (17.0 km away) is in warning status with only 11.6 days of cover, and L B Nagar UPHC (18.3 km away) has only 9.5 days of cover, meaning neither could spare any stock without risking their own operations.",
+  "rationale_te": "గ్రహీత కేంద్రమైన Thulluru వద్ద IV Fluids (Ringer Lactate) నిల్వలు చాలా క్లిష్టమైన పరిస్థితిలో కేవలం 7 లీటర్లు మాత్రమే ఉన్నాయి. Acute Diarrhoeal Disease వ్యాప్తి (అవుట్‌బ్రేక్ ఐడి AP/GUN/2025/45/1997) కారణంగా, ఈ కేంద్రంలో రోజువారీ సాధారణ వినియోగం 0.26 లీటర్లతో పాటు అదనంగా 0.75 లీటర్ల వినియోగం పెరిగింది, దీనితో మొత్తం వినియోగం రోజుకు 1.01 లీటర్లకు చేరుకుంది. దీనివల్ల ఈ కేంద్రం వద్ద కేవలం 6.9 రోజుల నిల్వలు మాత్రమే ఉన్నాయి, ఇది 8 రోజుల క్లిష్టమైన పరిమితి కంటే తక్కువ. ఈ కొరతను అధిగమించడానికి, Indhiranagar UPHC నుండి 8 లీటర్ల IV Fluids (Ringer Lactate) ను బదిలీ చేయాలని మేము సిఫార్సు చేస్తున్నాము, దీనిని బ్యాచ్ IVF2711-501 (expiry 2027-11-03) నుండి సేకరించడం జరుగుతుంది. ఈ నిల్వలను అందించిన తర్వాత కూడా Indhiranagar UPHC వద్ద సురక్షితంగా 18 లీటర్ల నిల్వ ఉంటుంది, ఇది 24.1 రోజుల వినియోగానికి సరిపోతుంది. ఇది 14 రోజుల దాత రక్షణ పరిమితి కంటే 10.1 రోజుల అదనపు నిల్వతో చాలా సురక్షితంగా ఉంది. మరో ప్రత్యామ్నాయమైన Nuthakki కేంద్రం 22.1 కిలోమీటర్ల దూరంలో ఉన్నప్పటికీ, Indhiranagar UPHC కేవలం 15.3 కిలోమీటర్ల దూరంలో ఉండటం మరియు పట్టణ పరిధిలో ఉండటం వల్ల జిల్లా నిల్వల నుండి త్వరగా నింపుకునే వీలున్నందున దీనినే ఎంపిక చేశాము. మరింత దగ్గరగా ఉన్న కొన్ని కేంద్రాలను రక్షణ పరిమితి నిబంధనల ప్రకారం తిరస్కరించాము: Pedavadlapudi (17.0 కిలోమీటర్ల దూరం) వద్ద కేవలం 11.6 రోజుల నిల్వలు మరియు L B Nagar UPHC (18.3 కిలోమీటర్ల దూరం) వద్ద కేవలం 9.5 రోజుల నిల్వలు మాత్రమే ఉండటం వల్ల, అవి తమ స్వంత అవసరాలను దెబ్బతీసుకోకుండా ఎటువంటి స్టాక్ ఇవ్వలేవు.",
+  "risk_notes": [
+   "The recipient facility will reach 14.8 days of cover after the transfer, which is a safe level above the warning band of 14 days.",
+   "The transferred batch IVF2711-501 has 437 days to expiry, which is well above the near-expiry threshold of 30 days.",
+   "The transit time of 2 days must be managed carefully to prevent the recipient's stock from dropping further during transport."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_pedavadlapudi_b4b02c",
+    "reason": "Pedavadlapudi is 17.0 km away and has only 11.6 days of cover under its 0.69 burn rate, placing it below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_l_b_nagar_uphc_36f347",
+    "reason": "L B Nagar UPHC is 18.3 km away and has only 9.5 days of cover under its 0.63 burn rate, placing it below the 14-day safety floor."
+   }
+  ]
+ }
+}

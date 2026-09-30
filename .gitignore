@@ -6,7 +6,8 @@ venv/
 .venv/
 node_modules/
 *.db
-.cache/
+.cache/*
+!.cache/gemini/
 .DS_Store
 PROJECT_CONTEXT.md
 dist/

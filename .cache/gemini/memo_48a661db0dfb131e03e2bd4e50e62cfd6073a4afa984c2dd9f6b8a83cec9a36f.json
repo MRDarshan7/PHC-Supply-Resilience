@@ -1,0 +1,38 @@
+{
+ "sha256": "48a661db0dfb131e03e2bd4e50e62cfd6073a4afa984c2dd9f6b8a83cec9a36f",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:31:00+00:00",
+ "recipient": "phc_guntur_ii_ufwc_22b2ad",
+ "medicine": "ors_packets",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_kanagala_e93212",
+    "quantity": 26
+   }
+  ],
+  "rationale_en": "Guntur II UFWC is currently running low on ORS (Oral Rehydration Salts). It has a stock of 157 packets, which, at its baseline burn rate of 13.06 packets per day, provides only 12.0 days of cover. This places the facility in the warning (8 to 14 days) band. To reach the target cover of 14 days, the recipient requires 26 packets of ORS (Oral Rehydration Salts).\n\nWe recommend transferring 26 packets of ORS (Oral Rehydration Salts) from Kanagala. The transfer will consist of lot ORS2609-672, which expires on 2026-09-02 (in 10 days). Kanagala currently holds a safe stock of 138 packets (39.8 days of cover). After donating 26 packets, Kanagala will retain 112 packets, providing 32.3 days of cover, which is 18.3 days above the 14-day safety floor.\n\nGottipadu was a close alternative, scoring 0.858, but choosing Kanagala is superior because it leaves Kanagala with a much higher post-transfer cover margin (18.3 days above the floor) compared to Gottipadu, which would retain 55 packets (providing 20.2 days of cover, only 6.2 days above the floor). Furthermore, transferring the 26 packets of near-expiry lot ORS2609-672 ensures they are rescued from expiring unused. Other nearby facilities like Narasaraopet PPU and Machavaram were rejected during safety checks because their available spare stock above the safety floor was less than one whole unit (0.54 and 0.03 packets, respectively). Chinamatlapudi New PHC was also rejected because its stock of 184 packets expires on 2026-08-30, within the 7-day transit-and-use window.",
+  "rationale_te": "Guntur II UFWC లో ప్రస్తుతం ORS (Oral Rehydration Salts) నిల్వలు తక్కువగా ఉన్నాయి. దీని వద్ద 157 packets నిల్వ ఉంది, ఇది రోజువారీ వాడకం రేటు 13.06 packets చొప్పున కేవలం 12.0 రోజుల నిల్వను అందిస్తుంది. దీనివల్ల ఈ కేంద్రం warning (8 to 14 days) పరిధిలోకి వచ్చింది. లక్ష్యంగా పెట్టుకున్న 14 రోజుల నిల్వను చేరుకోవడానికి, ఈ కేంద్రానికి 26 packets ORS (Oral Rehydration Salts) అవసరం.\n\nమేము Kanagala నుండి 26 packets ORS (Oral Rehydration Salts) బదిలీ చేయాలని సిఫార్సు చేస్తున్నాము. ఈ బదిలీ batch ORS2609-672 నుండి జరుగుతుంది, ఇది 2026-09-02 న (10 రోజుల్లో) గడువు ముగుస్తుంది. Kanagala వద్ద ప్రస్తుతం 138 packets (39.8 రోజుల నిల్వ) స్టాక్ ఉంది. 26 packets దానం చేసిన తర్వాత, Kanagala వద్ద 112 packets మిగిలి ఉంటాయి, ఇది 32.3 రోజుల నిల్వను అందిస్తుంది, ఇది 14 రోజుల కనీస పరిమితి కంటే 18.3 రోజులు ఎక్కువ.\n\nGottipadu ని కూడా పరిశీలించాము, దీని స్కోరు 0.858. కానీ Kanagala ని ఎంచుకోవడం మంచిది ఎందుకంటే బదిలీ తర్వాత Kanagala వద్ద రక్షణ మార్జిన్ 18.3 రోజులు ఉండగా, Gottipadu వద్ద కేవలం 6.2 రోజులు (నిల్వ 55 packets మరియు 20.2 రోజుల కవరేజ్) మాత్రమే ఉంటుంది. అదనంగా, దగ్గరగా ఉన్న Narasaraopet PPU (0.54 packets స్పేర్ స్టాక్) మరియు Machavaram (0.03 packets స్పేర్ స్టాక్) వంటి కేంద్రాలు తగినంత స్పేర్ స్టాక్ లేనందున తిరస్కరించబడ్డాయి. Chinamatlapudi New PHC యొక్క 184 packets స్టాక్ 2026-08-30 నాటికే గడువు ముగుస్తుంది కాబట్టి 7 రోజుల ట్రాన్సిట్ విండో లో వాడలేము.",
+  "risk_notes": [
+   "The recipient's stock after transfer will be 183 packets, which achieves exactly 14.0 days of cover, leaving no extra buffer.",
+   "The transferred lot ORS2609-672 from Kanagala expires in 10 days on 2026-09-02, which represents a near-expiry risk.",
+   "The transit takes 2 days, meaning the packets must be distributed and consumed quickly."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_narasaraopet_ppu_6fd4f1",
+    "reason": "Narasaraopet PPU was excluded because it passes the safety check with only 0.54 packets to spare - less than one whole unit."
+   },
+   {
+    "facility_id": "phc_machavaram_ec9b07",
+    "reason": "Machavaram was excluded because it passes the safety check with only 0.03 packets to spare - less than one whole unit."
+   },
+   {
+    "facility_id": "phc_chinamatlapudi_new_phc_c668e4",
+    "reason": "Chinamatlapudi New PHC was rejected because all of its stock of 184 packets expires by 2026-08-30, within the 7-day transit-and-use window."
+   }
+  ]
+ }
+}

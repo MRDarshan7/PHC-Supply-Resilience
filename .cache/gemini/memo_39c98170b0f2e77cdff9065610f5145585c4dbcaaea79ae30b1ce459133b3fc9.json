@@ -1,0 +1,34 @@
+{
+ "sha256": "39c98170b0f2e77cdff9065610f5145585c4dbcaaea79ae30b1ce459133b3fc9",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-24T12:35:30+00:00",
+ "recipient": "phc_thulluru_40a5f3",
+ "medicine": "iv_fluids_rl",
+ "today": "2026-08-24",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_indhiranagar_uphc_9e0343",
+    "quantity": 9
+   }
+  ],
+  "rationale_en": "The recipient facility, Thulluru, is experiencing a critical shortage of IV Fluids (Ringer Lactate) due to an outbreak of Acute Diarrhoeal Disease (outbreak ID AP/GUN/2025/45/1997). The facility has a current stock of 7 litres, with a baseline burn rate of 0.26 and an outbreak surge of 0.75, leading to a total burn rate of 1.01 litres per day. This leaves Thulluru with only 6.9 days of cover, which is below the critical threshold of 8 days. To raise their stock to safe levels and achieve a projected cover of 15.8 days (with a stock of 16 litres), they require a transfer of 9 litres.\n\nTo meet this need, we recommend transferring 9 litres from Indhiranagar UPHC. This donor currently holds 26 litres of IV Fluids (Ringer Lactate) and has a total burn rate of 0.75 litres per day (0.48 baseline and 0.27 outbreak surge), providing 34.9 days of cover. After transferring 9 litres from batch IVF2711-501 (expiry 2027-11-04), Indhiranagar UPHC will retain 17 litres, which translates to 22.8 days of cover. This leaves them comfortably safe, maintaining a cover margin of 8.8 days above the 14-day safety floor.\n\nWhile Nuthakki was considered as a close runner-up (located 22.1 km away with 37.1 days of cover), Indhiranagar UPHC is closer at 15.3 km and, as an urban health facility, benefits from more frequent and direct resupply routes. Closer eligible candidates like Pedavadlapudi (17.0 km away) and L B Nagar UPHC (18.3 km away) were rejected because their stocks are already too low. Specifically, Pedavadlapudi has 11.6 days of cover and L B Nagar UPHC has 9.5 days of cover, both of which fall below the 14-day safety floor, preventing them from safely donating.",
+  "rationale_te": "గ్రహీత సదుపాయమైన Thulluru, Acute Diarrhoeal Disease వ్యాప్తి (outbreak ID AP/GUN/2025/45/1997) కారణంగా IV Fluids (Ringer Lactate) తీవ్ర కొరతను ఎదుర్కొంటోంది. ఈ సదుపాయంలో ప్రస్తుత నిల్వ 7 litres గా ఉంది, దీని బేస్‌లైన్ వినియోగ రేటు 0.26 మరియు అవుట్‌బ్రేక్ ఉప్పెన 0.75 కాగా, మొత్తం వినియోగ రేటు రోజుకు 1.01 litres గా ఉంది. దీనివల్ల Thulluru వద్ద కేవలం 6.9 రోజుల కవర్ మాత్రమే మిగిలి ఉంది, ఇది 8 రోజుల కంటే తక్కువగా ఉంది. వారి నిల్వను పెంచడానికి మరియు 15.8 రోజుల ప్రొజెక్టెడ్ కవర్‌ను (16 litres నిల్వతో) సాధించడానికి వారికి 9 litres బదిలీ అవసరం.\n\nఈ అవసరాన్ని తీర్చడానికి, Indhiranagar UPHC నుండి 9 litres బదిలీ చేయాలని మేము సిఫార్సు చేస్తున్నాము. ఈ దాత వద్ద ప్రస్తుతం 26 litres ల IV Fluids (Ringer Lactate) నిల్వ ఉంది మరియు రోజువారీ మొత్తం వినియోగ రేటు 0.75 litres (0.48 బేస్‌లైన్ మరియు 0.27 అవుట్‌బ్రేక్ ఉప్పెన) గా ఉంది, ఇది 34.9 రోజుల కవర్‌ను అందిస్తుంది. బ్యాచ్ IVF2711-501 (expiry 2027-11-04) నుండి 9 litres బదిలీ చేసిన తర్వాత, Indhiranagar UPHC వద్ద 17 litres నిల్వ మిగులుతుంది, ఇది 22.8 రోజుల కవర్‌కు సమానం. ఇది వారికి 14 రోజుల సేఫ్టీ ఫ్లోర్ కంటే 8.8 రోజుల కవర్ మార్జిన్‌ను ఎక్కువగా ఉంచుతూ పూర్తి సురక్షితంగా ఉంచుతుంది.\n\nరన్నరప్ అయిన Nuthakki ని కూడా మేము పరిశీలించాము (ఇది 22.1 km దూరంలో 37.1 రోజుల కవర్‌తో ఉంది), అయితే Indhiranagar UPHC కేవలం 15.3 km దూరంలో ఉంది మరియు ఇది అర్బన్ హెల్త్ ఫెసిలిటీ కావడంతో సులభంగా రీసప్లై పొందే వీలుంది. అత్యంత సమీపంలో ఉన్న Pedavadlapudi (17.0 km దూరం) మరియు L B Nagar UPHC (18.3 km దూరం) వంటి సదుపాయాలు వాటి స్వంత నిల్వలు చాలా తక్కువగా ఉన్నందున తిరస్కరించబడ్డాయి. ప్రత్యేకంగా చెప్పాలంటే, Pedavadlapudi కి 11.6 రోజుల కవర్ మరియు L B Nagar UPHC కి 9.5 రోజుల కవర్ మాత్రమే ఉన్నాయి, ఇవి రెండూ 14 రోజుల సేఫ్టీ ఫ్లోర్ కంటే తక్కువగా ఉన్నాయి.",
+  "risk_notes": [
+   "The transfer assumes a transit time of 2 days, during which the recipient must manage with its current stock of 7 litres.",
+   "After the transfer, the recipient's projected days of cover will be 15.8, which is just above the target cover of 15 days.",
+   "Indhiranagar UPHC is experiencing its own outbreak surge of 0.27 litres per day, which must be monitored to ensure its cover does not fall below the safe band."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_pedavadlapudi_b4b02c",
+    "reason": "Pedavadlapudi has 11.6 days of cover, which is below the 14-day donor safety floor."
+   },
+   {
+    "facility_id": "phc_l_b_nagar_uphc_36f347",
+    "reason": "L B Nagar UPHC has 9.5 days of cover, which is below the 14-day donor safety floor."
+   }
+  ]
+ }
+}

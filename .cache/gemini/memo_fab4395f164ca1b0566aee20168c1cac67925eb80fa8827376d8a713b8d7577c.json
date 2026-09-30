@@ -1,0 +1,34 @@
+{
+ "sha256": "fab4395f164ca1b0566aee20168c1cac67925eb80fa8827376d8a713b8d7577c",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T09:38:43+00:00",
+ "recipient": "phc_thulluru_40a5f3",
+ "medicine": "ors_packets",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_indhiranagar_uphc_9e0343",
+    "quantity": 97
+   }
+  ],
+  "rationale_en": "Thulluru is experiencing a stock shortage of ORS (Oral Rehydration Salts) with only 93 packets remaining. Driven by an Acute Diarrhoeal Disease outbreak (ID AP/GUN/2025/45/1997), the recipient's daily consumption has surged to 13.51 packets (comprising a baseline burn rate of 3.52 and an outbreak surge of 9.99). This leaves the facility with only 6.9 days of cover, placing it in the critical band (below 8 days). To restore safety and achieve 14 days of cover, Thulluru requires an inflow of 97 packets.\n\nTo meet this requirement, Indhiranagar UPHC is selected to transfer 97 packets of ORS from lot ORS2711-942 (expiry 2027-11-01). Located 15.3 km away, Indhiranagar UPHC currently holds 345 packets and experiences a burn rate of 9.94. After transferring 97 packets, the donor will retain 248 packets, corresponding to 24.9 days of cover. This remains safe and is 10.9 days above the 14-day donor safety floor. Nuthakki is a close-call runner-up at 22.1 km away that could also supply the 97 packets, but Indhiranagar UPHC is preferred due to its closer proximity.\n\nSeveral nearby facilities were excluded due to the donor safety floor check. Pedavadlapudi (17.0 km away) has 11.0 days of cover and L B Nagar UPHC (18.3 km away) has 9.9 days of cover. Since both fall below the 14-day donor safety floor threshold, they cannot spare any stock and were safely rejected.",
+  "rationale_te": "Thulluru వద్ద ప్రస్తుతం 93 packets ల ORS (Oral Rehydration Salts) నిల్వ మాత్రమే ఉంది. Acute Diarrhoeal Disease వ్యాప్తి (ID AP/GUN/2025/45/1997) కారణంగా ఇక్కడి రోజువారీ వినియోగం 13.51 packets కి పెరిగింది (ఇందులో baseline burn rate 3.52 మరియు outbreak surge 9.99 ఉన్నాయి). దీనివల్ల ఇక్కడ కేవలం 6.9 రోజుల నిల్వ మాత్రమే ఉంది, ఇది critical (below 8 days) పరిధిలోకి వస్తుంది. ఈ కేంద్రంలో 14 రోజుల రక్షణ నిల్వను పునరుద్ధరించడానికి 97 packets అవసరం.\n\nఈ కొరతను తీర్చడానికి Indhiranagar UPHC నుండి ORS2711-942 బ్యాచ్ (expiry 2027-11-01) కి చెందిన 97 packets బదిలీ చేయాలని నిర్ణయించడమైనది. ఈ కేంద్రం 15.3 km దూరంలో ఉంది. బదిలీకి ముందు Indhiranagar UPHC వద్ద 345 packets నిల్వ ఉండగా, బదిలీ తర్వాత 248 packets నిల్వ మిగులుతుంది. ఇది ఆ కేంద్రానికి 24.9 రోజుల వినియోగానికి సరిపోతుంది, ఇది 14-day భద్రతా పరిమితి కంటే 10.9 రోజులు ఎక్కువగా ఉంది. సమీప ప్రత్యామ్నాయ కేంద్రమైన Nuthakki (22.1 km దూరం) కూడా 97 packets బదిలీ చేయగల సామర్థ్యం కలిగి ఉన్నప్పటికీ, రవాణా పరంగా Indhiranagar UPHC మరింత దగ్గరగా ఉండటం వల్ల దీనిని ఎంపిక చేసాము.\n\nభద్రతా నిల్వ ప్రమాణాల (donor safety floor) కారణంగా సమీపంలో ఉన్న కొన్ని కేంద్రాలను మినహాయించాము. Pedavadlapudi (17.0 km దూరం) వద్ద 11.0 రోజుల నిల్వ మరియు L B Nagar UPHC (18.3 km దూరం) వద్ద 9.9 రోజుల నిల్వ మాత్రమే ఉండటం వలన అవి 14-day భద్రతా పరిమితి కంటే తక్కువగా ఉన్నాయి, కావున వాటిని తిరస్కరించడం జరిగింది.",
+  "risk_notes": [
+   "After the transfer of 97 packets, Thulluru will have 190 packets of stock, establishing 14.1 days of cover and placing it in the safe band.",
+   "The donor facility Indhiranagar UPHC will maintain a safe stock level of 248 packets, representing 24.9 days of cover, which is 10.9 days above the warning threshold.",
+   "The transferred lot ORS2711-942 has 435 days to expiry, which easily satisfies the 7-day transit-and-use window requirement."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_pedavadlapudi_b4b02c",
+    "reason": "Is itself warning: 101 packets at 9.16/day (5.85 baseline + 3.31 outbreak surge) is 11.0 days of cover, at or below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_l_b_nagar_uphc_36f347",
+    "reason": "Is itself warning: 84 packets at 8.44/day (5.39 baseline + 3.05 outbreak surge) is 9.9 days of cover, at or below the 14-day safety floor."
+   }
+  ]
+ }
+}

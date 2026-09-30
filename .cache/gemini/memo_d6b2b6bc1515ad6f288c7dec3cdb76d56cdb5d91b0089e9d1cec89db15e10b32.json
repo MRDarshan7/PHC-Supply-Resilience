@@ -1,0 +1,35 @@
+{
+ "sha256": "d6b2b6bc1515ad6f288c7dec3cdb76d56cdb5d91b0089e9d1cec89db15e10b32",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-24T11:55:42+00:00",
+ "recipient": "phc_thulluru_40a5f3",
+ "medicine": "zinc_20mg",
+ "today": "2026-08-24",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_tsunduru_acac14",
+    "quantity": 336
+   }
+  ],
+  "rationale_en": "The stock of Zinc Sulphate 20mg at Thulluru has reached a critical level of 326 tablets. Driven by an outbreak of Acute Diarrhoeal Disease (outbreak ID: AP/GUN/2025/45/1997), daily consumption has surged to 47.28 tablets (comprising a baseline burn rate of 12.33 and an outbreak surge of 34.95). Consequently, the current days of cover stands at 6.9, which is below the critical threshold of 8 days. To restore stock levels to the target cover of 14.0 days, a transfer of 336 tablets is required to bring the total stock to 662 tablets.\n\nIt is recommended to source 336 tablets from Tsunduru. These tablets will be drawn from lot ZIN2609-161, which is expiring on 2026-09-14. Following this transfer, Tsunduru will retain a stock of 271 tablets, which equates to 15.5 days of cover. This is 1.5 days above the 14-day safety floor, ensuring that the donor remains safe.\n\nThere is a close call among three selectable facilities, including Indhiranagar UPHC (15.3 km away, with 1207 tablets) and Nuthakki (22.1 km away, with 1063 tablets). Although these alternatives are physically closer, Tsunduru was selected because its lot ZIN2609-161 has only 21 days remaining to expiry. Transferring this stock rescues 239.93 tablets that would otherwise expire unused, as Thulluru's high burn rate of 47.28 tablets per day ensures they will be fully consumed before expiry. Nearby facilities like Pedavadlapudi (17.0 km away) and L B Nagar UPHC (18.3 km away) were rejected because they are in the warning band with only 11.1 and 10.0 days of cover respectively, putting them below the 14-day donor safety floor.",
+  "rationale_te": "Thulluru లో Zinc Sulphate 20mg నిల్వలు 326 tablets కు పడిపోయాయి. తీవ్రమైన విరేచనాల వ్యాధి (Acute Diarrhoeal Disease, outbreak ID: AP/GUN/2025/45/1997) కారణంగా ఇక్కడ రోజువారీ వినియోగం 47.28 tablets (సాధారణ వినియోగం 12.33 మరియు outbreak surge 34.95) కు పెరిగింది. దీనివలన ప్రస్తుత నిల్వలు కేవలం 6.9 రోజుల ఉపయోగపడతాయి, ఇది 8 రోజుల క్లిష్టమైన పరిమితి కంటే తక్కువ. Thulluru కు 14.0 రోజుల రక్షణ కల్పించడానికి 336 tablets అవసరం.\n\nఈ అవసరాన్ని తీర్చడానికి Tsunduru నుండి 336 tablets బదిలీ చేయాలని ప్రతిపాదించబడింది. ఈ నిల్వలు lot number ZIN2609-161 (expiry date 2026-09-14) నుండి సేకరించబడతాయి. ఈ బదిలీ తర్వాత కూడా Tsunduru లో 271 tablets నిల్వ ఉంటుంది, ఇది 15.5 రోజుల వినియోగానికి సరిపోతుంది మరియు 14 రోజుల రక్షణ పరిమితి కంటే 1.5 రోజులు అదనంగా ఉంటుంది.\n\nసమీపంలో ఉన్న Indhiranagar UPHC (15.3 km దూరం, 1207 tablets నిల్వ) మరియు Nuthakki (22.1 km దూరం, 1063 tablets నిల్వ) వంటి ప్రత్యామ్నాయాలు ఉన్నప్పటికీ, Tsunduru ను ఎంపిక చేయడానికి కారణం దాని వద్ద త్వరలో గడువు ముగిసే నిల్వలు ఉండటమే. దీనివల్ల 239.93 tablets గడువు ముగిసి వృథా కాకుండా కాపాడవచ్చు. Thulluru లో ఉన్న అధిక వినియోగం వల్ల ఈ నిల్వలు గడువు ముగిసే లోపే వినియోగించబడతాయి. సమీపంలో ఉన్న Pedavadlapudi (17.0 km) మరియు L B Nagar UPHC (18.3 km) వంటి కేంద్రాలు ఇప్పటికే warning పరిమితిలో ఉన్నందున (వాటి రోజులు వరుసగా 11.1 మరియు 10.0) వాటిని తిరస్కరించడం జరిగింది.",
+  "risk_notes": [
+   "Thulluru will have exactly 14.0 days of cover after the transfer, which is at the target cover days threshold but offers no additional margin if the outbreak surge of 34.95 tablets per day worsens.",
+   "The transferred lot ZIN2609-161 has only 21 days remaining to expiry as of 2026-08-24, requiring immediate utilization.",
+   "The donor Tsunduru is left with 15.5 days of cover, which is a thin margin of 1.5 days above the safety floor of 14 days.",
+   "The transfer relies on a transit and use window of 7 days, which must be strictly maintained to prevent any wastage of the near-expiry medicine."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_pedavadlapudi_b4b02c",
+    "reason": "Located 17.0 km away, it is warning-banded with 11.1 days of cover (355 tablets) against a burn rate of 32.07 tablets per day, which is below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_l_b_nagar_uphc_36f347",
+    "reason": "Located 18.3 km away, it is warning-banded with 10.0 days of cover (295 tablets) against a burn rate of 29.56 tablets per day, which is below the 14-day safety floor."
+   }
+  ]
+ }
+}

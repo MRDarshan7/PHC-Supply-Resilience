@@ -1,0 +1,34 @@
+{
+ "sha256": "1f70efa100b59bfcc120f4d10587c25ba51c26c47edf191f5003c166e3a396b4",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-24T12:04:47+00:00",
+ "recipient": "phc_machavaram_ec9b07",
+ "medicine": "ors_packets",
+ "today": "2026-08-24",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_khambampadu_441c72",
+    "quantity": 143
+   }
+  ],
+  "rationale_en": "Machavaram is currently facing a critical shortage of ORS (Oral Rehydration Salts) with only 172 packets in stock, representing 7.6 days of cover. This is driven by an outbreak of Acute Diarrhoeal Disease (outbreak ID AP/GUN/2025/45/1997), which has caused an outbreak surge of 8.14 packets per day on top of the baseline burn rate of 14.35, resulting in a total burn rate of 22.49 packets per day. To restore the target cover of 14 days, a transfer of 143 packets is required.\n\nTo meet this urgent need, it is recommended to transfer 143 packets from Khambampadu, drawing from batch ORS2807-653 (expiring 2028-07-27). Khambampadu currently holds 338 packets and has a burn rate of 9.37 packets per day. After donating 143 packets, it will retain a safe stock of 195 packets, providing 20.8 days of cover, which remains comfortably 6.8 days above the 14-day donor safety floor.\n\nAlthough Atchampet was a viable alternative within close margin, it could only provide 136 spare units, which would not fully satisfy the recipient's requirement of 143 packets on its own. Other nearby facilities, such as Krosuru (31.0 km away) and Muppalla  A (36.7 km away), were rejected because they are already operating below the 14-day safety floor with 10.6 and 11.3 days of cover, respectively, and cannot spare any stock.",
+  "rationale_te": "మాచవరం (Machavaram) ప్రస్తుతం తీవ్రమైన ORS (Oral Rehydration Salts) కొరతను ఎదుర్కొంటోంది. ఇక్కడ కేవలం 172 ప్యాకెట్ల నిల్వ మాత్రమే ఉంది, ఇది 7.6 రోజుల వినియోగానికి మాత్రమే సరిపోతుంది. Acute Diarrhoeal Disease వ్యాప్తి (అవుట్‌బ్రేక్ ఐడి AP/GUN/2025/45/1997) కారణంగా రోజువారీ వినియోగం 14.35 బేస్‌లైన్ రేటు నుండి 8.14 అవుట్‌బ్రేక్ సర్జ్ అదనంగా చేరి, మొత్తం వినియోగం రోజుకు 22.49 ప్యాకెట్లకు పెరిగింది. నిర్దేశిత 14 రోజుల రక్షణ పరిమితిని సాధించడానికి 143 ప్యాకెట్ల బదిలీ అవసరం.\n\nఈ అత్యవసర అవసరాన్ని తీర్చడానికి, ఖంబంపాడు (Khambampadu) నుండి 143 ప్యాకెట్లను బ్యాచ్ నంబర్ ORS2807-653 (expiry 2028-07-27) నుండి బదిలీ చేయాలని సిఫార్సు చేయబడింది. ఖంబంపాడు (Khambampadu) లో ప్రస్తుతం 338 ప్యాకెట్ల నిల్వ ఉంది మరియు రోజువారీ వినియోగం 9.37 ప్యాకెట్లుగా ఉంది. ఈ బదిలీ తర్వాత కూడా అక్కడ 195 ప్యాకెట్ల సురక్షిత నిల్వ ఉంటుంది, ఇది 20.8 రోజుల వినియోగానికి సరిపోతుంది, ఇది 14 రోజుల డోనర్ సేఫ్టీ ఫ్లోర్ కంటే 6.8 రోజులు ఎక్కువగా ఉంది.\n\nసమీపంలో ఉన్న అచ్చంపేట (Atchampet) కూడా పరిశీలించదగినది అయినప్పటికీ, అక్కడ కేవలం 136 ప్యాకెట్ల అదనపు నిల్వ మాత్రమే ఉంది, దీనివల్ల స్వీకర్త యొక్క పూర్తి అవసరమైన 143 ప్యాకెట్లను ఒంటరిగా తీర్చలేదు. ఇతర సమీప ప్రాథమిక ఆరోగ్య కేంద్రాలైన క్రోసూరు (Krosuru) (31.0 కిలోమీటర్ల దూరం) మరియు ముప్పాళ్ల ఎ (Muppalla  A) (36.7 కిలోమీటర్ల దూరం) లలో నిల్వలు ఇప్పటికే 14 రోజుల సేఫ్టీ ఫ్లోర్ కంటే తక్కువగా (వరుసగా 10.6 మరియు 11.3 రోజుల కవర్) ఉన్నందున వాటిని తిరస్కరించడం జరిగింది.",
+  "risk_notes": [
+   "The recipient's projected cover after the transfer is exactly 14.0 days, which is at the target cover level and leaves no additional margin if the outbreak surge continues to rise.",
+   "The delivery is estimated to take 2 transit days, during which time the recipient will deplete its remaining stock at a burn rate of 22.49 packets per day.",
+   "Khambampadu is also experiencing its own outbreak surge of 3.39 packets per day, which must be monitored as its days of cover drops to 20.8."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_krosuru_64a236",
+    "reason": "Is itself warning: 117 packets at 11.05/day (7.05 baseline + 4.00 outbreak surge) is 10.6 days of cover, at or below the 14-day safety floor (spare = 117 - 11.05 x 14 = -37.7). It needs stock; it cannot give any."
+   },
+   {
+    "facility_id": "phc_muppalla_a_4c443f",
+    "reason": "Is itself warning: 47 packets at 4.14/day (2.64 baseline + 1.50 outbreak surge) is 11.3 days of cover, at or below the 14-day safety floor (spare = 47 - 4.14 x 14 = -11.0). It needs stock; it cannot give any."
+   }
+  ]
+ }
+}

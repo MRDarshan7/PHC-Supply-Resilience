@@ -1,0 +1,30 @@
+{
+ "sha256": "f84b05c291b54ee0daae9b8f9291fdd5aac9b6e227aa7ed5ebc3fd2c3618b3f8",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:30:23+00:00",
+ "recipient": "phc_narasaraopet_ppu_6fd4f1",
+ "medicine": "zinc_20mg",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_edlapadu_62eb87",
+    "quantity": 37
+   }
+  ],
+  "rationale_en": "Narasaraopet PPU currently holds 214 tablets of Zinc Sulphate 20mg, providing 12.0 days of cover at a daily consumption of 17.87 tablets. This falls into the warning band. To secure the target cover of 14 days, the facility requires 37 tablets.\n\nEdlapadu is selected to transfer 37 tablets from lot ZIN2609-205, which expires on 2026-09-19. Since this lot has only 27 days to expiry, transferring it rescues the stock from expiring unused. After the transfer, Edlapadu will retain 416 tablets (down from 453), maintaining 31.8 days of cover, which is safely 17.8 days above the safety floor of 14 days.\n\nOther closer facilities were rejected. Specifically, Guntur II UFWC, located 43.5 km away, was excluded during the donor safety check. It holds 548 tablets with a consumption rate of 45.7 tablets, leaving it with 12.0 days of cover, which is below the 14-day safety floor.",
+  "rationale_te": "Narasaraopet PPU వద్ద ప్రస్తుతం Zinc Sulphate 20mg 214 tablets నిల్వ ఉన్నాయి, ఇవి రోజువారీ 17.87 tablets వినియోగంతో కేవలం 12.0 రోజుల కవరేజ్ మాత్రమే అందిస్తాయి. ఇది warning పరిధిలోకి వస్తుంది. ఈ కేంద్రానికి నిల్వను 14 రోజులకు పెంచడానికి 37 tablets అవసరం.\n\nఈ సరఫరా కొరకు Edlapadu ఎంపిక చేయబడింది, ఇక్కడి నుండి 37 tablets బదిలీ చేయబడతాయి. ఈ నిల్వ batch ZIN2609-205 నుండి పంపబడుతుంది, దీనికి 2026-09-19 నాటికి గడువు ముగుస్తుంది. ఈ బ్యాచ్‌కు కేవలం 27 రోజులు మాత్రమే గడువు ఉన్నందున, ఈ బదిలీ వల్ల ఈ నిల్వ వృధా కాకుండా కాపాడబడుతుంది. బదిలీ తర్వాత Edlapadu వద్ద 453 నుండి 416 tablets నిల్వ ఉంటాయి, ఇది 31.8 రోజుల కవరేజ్‌ను నిలుపుకుంటూ 14 రోజుల కనీస భద్రతా పరిమితి కంటే 17.8 రోజులు అదనంగా ఉంటుంది.\n\nసమీపంలో ఉన్న కొన్ని ఇతర కేంద్రాలు తిరస్కరించబడ్డాయి. ముఖ్యంగా, 43.5 km దూరంలో ఉన్న Guntur II UFWC నిరాకరించబడింది. ఇక్కడ 548 tablets నిల్వ 45.7 వినియోగంతో కేవలం 12.0 రోజుల కవరేజ్ మాత్రమే అందిస్తుంది, ఇది 14 రోజుల కనీస భద్రతా పరిమితి కంటే తక్కువగా ఉంది.",
+  "risk_notes": [
+   "The transferred lot ZIN2609-205 expires on 2026-09-19, leaving a short window of 27 days for transit and consumption.",
+   "Following the transfer, Narasaraopet PPU will have 14.0 days of cover, which sits exactly on the safety threshold.",
+   "The transfer assumes a standard transit window of 2 days."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_guntur_ii_ufwc_22b2ad",
+    "reason": "Guntur II UFWC has 12.0 days of cover with 548 tablets and a burn rate of 45.7, which is below the 14-day safety floor."
+   }
+  ]
+ }
+}

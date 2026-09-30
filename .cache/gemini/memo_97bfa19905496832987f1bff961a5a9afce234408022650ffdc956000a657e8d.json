@@ -1,0 +1,38 @@
+{
+ "sha256": "97bfa19905496832987f1bff961a5a9afce234408022650ffdc956000a657e8d",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-24T14:06:45+00:00",
+ "recipient": "phc_guntur_ii_ufwc_22b2ad",
+ "medicine": "iv_fluids_rl",
+ "today": "2026-08-24",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_nuthakki_4f3825",
+    "quantity": 12
+   }
+  ],
+  "rationale_en": "Guntur II UFWC is currently facing a critical shortage of IV Fluids (Ringer Lactate), holding a stock of 12 litres which provides only 7.8 days of cover. This is below the critical threshold of 8 days. This supply constraint is driven by an outbreak of Acute Diarrhoeal Disease (ID: AP/GUN/2025/45/1997), which has raised the consumption rate to 1.53 litres per day (comprising a 0.98 baseline burn rate and a 0.56 outbreak surge). To address this, we recommend transferring 12 litres of IV Fluids (Ringer Lactate) from Nuthakki, drawing from batch IVF2812-262 (expiry 2028-12-11). After this transfer, Guntur II UFWC will reach a safe level of 24 litres of stock, representing 15.6 days of cover. Nuthakki will retain a stock of 11 litres, which ensures 17.7 days of cover—3.7 days above the 14-day donor safety floor. While a close call was identified with Peravali and IPD Colony UPHC, Nuthakki is selected as it can comfortably supply the full 12 litres in a single transfer while maintaining a safe margin of 3.7 days above the floor. In contrast, IPD Colony UPHC could only provide a maximum of 9 litres. The closest neighboring facilities, Salipet UPHC (1.1 km away), Srinivasa Rao Thota UPHC (1.7 km away), and NGO Colony UPHC (3.9 km away), were rejected because they are already in the warning band with days of cover of 9.6, 13.0, and 11.7 respectively, falling below the mandatory 14-day safety floor.",
+  "rationale_te": "Guntur II UFWC ప్రస్తుతం IV Fluids (Ringer Lactate) తీవ్రమైన కొరతను ఎదుర్కొంటోంది, ఇక్కడ ఉన్న 12 లీటర్ల నిల్వ కేవలం 7.8 రోజుల కవరేజీని మాత్రమే అందిస్తుంది. ఇది 8 రోజుల క్రిటికల్ పరిమితి కంటే తక్కువ. Acute Diarrhoeal Disease (ID: AP/GUN/2025/45/1997) వ్యాప్తి కారణంగా వినియోగం రోజుకు 1.53 లీటర్లకు పెరిగింది (ఇందులో 0.98 బేస్‌లైన్ వినియోగం మరియు 0.56 వ్యాప్తి ఉధృతి ఉన్నాయి). దీనిని పరిష్కరించడానికి, Nuthakki నుండి batch IVF2812-262 (expiry 2028-12-11) నుండి 12 లీటర్ల IV Fluids (Ringer Lactate) బదిలీ చేయాలని మేము సిఫార్సు చేస్తున్నాము. ఈ బదిలీ తర్వాత, Guntur II UFWC నిల్వ 24 లీటర్లకు చేరుకుంటుంది, ఇది 15.6 రోజుల కవరేజీని ఇస్తుంది. Nuthakki వద్ద 11 లీటర్ల నిల్వ మిగులుతుంది, ఇది 17.7 రోజుల కవరేజీని నిర్ధారిస్తుంది—ఇది 14 రోజుల సేఫ్టీ ఫ్లోర్ కంటే 3.7 రోజులు ఎక్కువ. Peravali మరియు IPD Colony UPHC లతో ఇది చాలా దగ్గరి ఎంపిక అయినప్పటికీ, Nuthakki ఒకే బదిలీ ద్వారా పూర్తి 12 లీటర్లను అందించగలదు కాబట్టి దీనిని ఎంచుకున్నాము. దీనికి భిన్నంగా IPD Colony UPHC గరిష్టంగా 9 లీటర్లను మాత్రమే ఇవ్వగలదు. అతి సమీపంలో ఉన్న Salipet UPHC (1.1 km), Srinivasa Rao Thota UPHC (1.7 km), మరియు NGO Colony UPHC (3.9 km) లు వరుసగా 9.6, 13.0, మరియు 11.7 రోజుల కవరేజీతో ఇప్పటికే వార్నింగ్ జోన్‌లో ఉన్నందున తిరస్కరించబడ్డాయి.",
+  "risk_notes": [
+   "The recipient's projected stock cover of 15.6 days after transfer is only slightly above the target cover of 15 days, leaving a thin buffer if the outbreak of Acute Diarrhoeal Disease intensifies.",
+   "The transfer relies on a standard transit time assumption of 2 days, during which Guntur II UFWC must operate on its remaining 12 litres of stock.",
+   "The donor facility Nuthakki will experience a reduction in stock cover from 37.1 days to 17.7 days, which remains above the safety floor of 14 days but reduces its capacity to absorb sudden local surges."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_salipet_uphc_ebf170",
+    "reason": "This facility is currently in the warning band with only 5 litres of stock, providing 9.6 days of cover which is below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_srinivasa_rao_thota_uphc_ad420c",
+    "reason": "This facility is currently in the warning band with only 4 litres of stock, providing 13.0 days of cover which is below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_ngo_colony_uphc_cd2600",
+    "reason": "This facility is currently in the warning band with only 5 litres of stock, providing 11.7 days of cover which is below the 14-day safety floor."
+   }
+  ]
+ }
+}

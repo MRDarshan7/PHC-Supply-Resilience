@@ -1,0 +1,35 @@
+{
+ "sha256": "3b1e962c79fc8c0be5ac9894ac6ad30964347687e5472629c2db8da348420819",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-24T12:09:31+00:00",
+ "recipient": "phc_machavaram_ec9b07",
+ "medicine": "iv_fluids_rl",
+ "today": "2026-08-24",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_khambampadu_441c72",
+    "quantity": 11
+   }
+  ],
+  "rationale_en": "The recipient facility, Machavaram, is in a critical stock situation for IV Fluids (Ringer Lactate) with only 13 litres remaining. Driven by an outbreak of Acute Diarrhoeal Disease (outbreak ID AP/GUN/2025/45/1997), consumption has surged to 1.69 litres per day (comprising a baseline burn rate of 1.08 litres and an outbreak surge of 0.61 litres), leaving the facility with just 7.7 days of cover, which is below the critical threshold of 8 days. To restore the stock level to a safe target cover of 14 days, a transfer of 11 litres of IV Fluids (Ringer Lactate) is required. To meet this urgent need, it is recommended to transfer 11 litres of IV Fluids (Ringer Lactate) from Khambampadu, which is located 50.0 km away. The transfer will be sourced from batch IVF2610-843 (expiry date 2026-10-10). Khambampadu currently has a safe stock of 25 litres and 35.6 days of cover. Following the transfer of 11 litres, it will retain a stock of 14 litres, representing 19.9 days of cover, which is safely 5.9 days above the mandatory donor safety floor of 14 days. Although Atchampet was a close-run option at a shorter distance of 37.7 km, it could only supply 10 litres if chosen first due to having only 10 spare units, which would leave its remaining cover at 14.3 days, barely 0.3 days above the safety floor. Utilizing Khambampadu as the sole donor ensures the entire deficit of 11 litres is satisfied in a single shipment while preserving a healthier margin of safety for the donor. Closer facilities like Krosuru (31.0 km away) and Muppalla  A (36.7 km away) were rejected because they are already in the warning band with days of cover of 10.9 and 12.9 respectively, which are below the 14-day safety floor, meaning they cannot spare any stock.",
+  "rationale_te": "స్వీకర్త ఆరోగ్య కేంద్రమైన Machavaram వద్ద IV Fluids (Ringer Lactate) నిల్వలు 13 litres మాత్రమే ఉండటంతో పరిస్థితి ఆందోళనకరంగా ఉంది. Acute Diarrhoeal Disease వ్యాప్తి (outbreak ID AP/GUN/2025/45/1997) కారణంగా ఈ మందు వినియోగం రోజుకు 1.69 litres కు పెరిగింది (ఇందులో baseline burn rate 1.08 litres మరియు outbreak surge 0.61 litres ఉన్నాయి). దీనివల్ల ఇక్కడ కేవలం 7.7 days of cover మాత్రమే నిల్వ ఉంది, ఇది 8 days అనే క్లిష్టమైన పరిమితి కంటే తక్కువ. సురక్షితమైన లక్ష్య నిల్వ పరిమితి అయిన 14 days కి చేరుకోవడానికి 11 litres IV Fluids (Ringer Lactate) బదిలీ అవసరం. ఈ అత్యవసర అవసరాన్ని తీర్చడానికి, 50.0 km దూరంలో ఉన్న Khambampadu నుండి 11 litres IV Fluids (Ringer Lactate) ను బదిలీ చేయాలని ప్రతిపాదించడమైనది. ఈ బదిలీ batch IVF2610-843 (expiry date 2026-10-10) నుండి సరఫరా చేయబడుతుంది. Khambampadu ప్రస్తుతం 25 litres నిల్వలు మరియు 35.6 days of cover తో సురక్షిత స్థితిలో ఉంది. ఈ 11 litres బదిలీ చేసిన తర్వాత కూడా అక్కడ 14 litres నిల్వలు మిగులుతాయి, ఇది 19.9 days of cover కి సమానం. ఈ నిల్వ నిర్ణీత donor safety floor పరిమితి అయిన 14 days కంటే 5.9 days అదనంగా ఉంటుంది. దగ్గరి దూరంలో (37.7 km) ఉన్న Atchampet మరొక ఎంపికగా నిలిచినప్పటికీ, దాని వద్ద కేవలం 10 spare units మాత్రమే ఉండటంతో అది గరిష్టంగా 10 litres మాత్రమే ఇవ్వగలదు, మరియు బదిలీ తర్వాత అక్కడ నిల్వ 14.3 days కు పడిపోయి safety floor కంటే కేవలం 0.3 days మాత్రమే ఎక్కువగా ఉంటుంది. అందువల్ల Khambampadu ని ఎంపిక చేయడం ద్వారా మొత్తం 11 litres అవసరాన్ని ఒకేసారి తీర్చడమే కాకుండా దాత వద్ద మెరుగైన భద్రతా నిల్వలను నిర్వహించవచ్చు. అత్యంత సమీపంలో ఉన్న Krosuru (31.0 km దూరం) మరియు Muppalla  A (36.7 km దూరం) వంటి కేంద్రాలు ఇప్పటికే వరుసగా 10.9 days మరియు 12.9 days of cover కలిగి ఉండి 14-day safety floor కంటే తక్కువగా ఉన్నందున వాటిని తిరస్కరించడం జరిగింది.",
+  "risk_notes": [
+   "The recipient Machavaram will have 14.2 days of cover after the transfer, representing a small margin of 0.2 days above the target of 14 days.",
+   "The transferred lot IVF2610-843 has only 47 days to expiry from the transfer date of 2026-08-24.",
+   "The transfer assumes a transit time of 2 days, during which the recipient's stock of 13 litres will continue to deplete at a rate of 1.69 litres per day.",
+   "The recipient's elevated consumption rate of 1.69 litres per day is driven by an outbreak surge of 0.61 litres per day on top of its baseline burn rate of 1.08 litres per day."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_krosuru_64a236",
+    "reason": "Is itself warning: 9 litres at 0.83/day (0.53 baseline + 0.30 outbreak surge) is 10.9 days of cover, at or below the 14-day safety floor (spare = 9 - 0.83 x 14 = -2.6). It needs stock; it cannot give any."
+   },
+   {
+    "facility_id": "phc_muppalla_a_4c443f",
+    "reason": "Is itself warning: 4 litres at 0.31/day (0.20 baseline + 0.11 outbreak surge) is 12.9 days of cover, at or below the 14-day safety floor (spare = 4 - 0.31 x 14 = -0.3). It needs stock; it cannot give any."
+   }
+  ]
+ }
+}

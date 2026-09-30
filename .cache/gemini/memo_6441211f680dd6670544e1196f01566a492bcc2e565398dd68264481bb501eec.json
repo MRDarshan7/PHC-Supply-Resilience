@@ -1,0 +1,38 @@
+{
+ "sha256": "6441211f680dd6670544e1196f01566a492bcc2e565398dd68264481bb501eec",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-24T14:08:30+00:00",
+ "recipient": "phc_guntur_ii_ufwc_22b2ad",
+ "medicine": "ors_packets",
+ "today": "2026-08-24",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_nuthakki_4f3825",
+    "quantity": 150
+   }
+  ],
+  "rationale_en": "The recipient facility, Guntur II UFWC, is currently experiencing a critical shortage of ORS (Oral Rehydration Salts). Its existing stock of 157 packets is insufficient to handle the current consumption rate of 20.46 packets per day (which includes a baseline burn rate of 13.06 and an outbreak surge of 7.4 packets per day). This high demand is driven by the Acute Diarrhoeal Disease outbreak (ID: AP/GUN/2025/45/1997), leaving the facility with only 7.7 days of cover, which is below the critical threshold of 8 days. To resolve this, we recommend transferring 150 packets of ORS (Oral Rehydration Salts) from Nuthakki. This transfer will be fulfilled entirely from lot ORS2810-791 (expiry 2028-10-04). After donating 150 packets, Nuthakki will retain a stock of 154 packets, providing 18.6 days of cover. This remains safely above the 14-day donor safety floor with a margin of 4.6 days. This single-source transfer will restore Guntur II UFWC to a safe level of 15.0 days of cover. While IPD Colony UPHC is closer at 4.1 km, it was not selected as it could only provide 126 spare units, failing to meet the full requirement of 150 packets. Tenali Municipality is also a close-call candidate at 23.1 km, but after transfer it would retain only 14.5 days of cover (a margin of just 0.5 days above the floor). Nuthakki represents a more robust choice than Tenali Municipality and is closer than Peravali (36.6 km). Furthermore, nearest facilities like Salipet UPHC (1.1 km away), NGO Colony UPHC (3.9 km away), and Nallacheruvu UPHC (3.9 km away) were rejected because they are already in the warning band with days of cover at 9.5, 12.2, and 10.1 respectively, falling below the 14-day safety floor.",
+  "rationale_te": "The recipient facility, Guntur II UFWC, ప్రస్తుతం ORS (Oral Rehydration Salts) తీవ్ర కొరతను ఎదుర్కొంటోంది. దీని వద్ద ఉన్న 157 packets నిల్వ, ప్రస్తుత వినియోగ రేటు అయిన రోజుకు 20.46 packets (ఇందులో baseline burn rate 13.06 మరియు outbreak surge 7.4 packets ఉన్నాయి) చొప్పున సరిపోదు. ఈ తీవ్రమైన అవసరం Acute Diarrhoeal Disease outbreak (ID: AP/GUN/2025/45/1997) వల్ల ఏర్పడింది, దీనివలన ఈ కేంద్రంలో కేవలం 7.7 రోజులకు సరిపడే cover మాత్రమే మిగిలి ఉంది, ఇది critical threshold అయిన 8 రోజుల కంటే తక్కువ. దీనిని పరిష్కరించడానికి, Nuthakki నుండి 150 packets ల ORS (Oral Rehydration Salts) బదిలీ చేయాలని మేము సిఫార్సు చేస్తున్నాము. ఈ బదిలీ పూర్తిగా batch ORS2810-791 (expiry 2028-10-04) నుండి సరఫరా చేయబడుతుంది. ఈ 150 packets ఇచ్చిన తర్వాత కూడా, Nuthakki వద్ద 154 packets ల నిల్వ ఉంటుంది, ఇది 18.6 రోజుల cover ను అందిస్తుంది. ఇది 14 రోజుల donor safety floor కంటే 4.6 రోజుల అదనపు మార్జిన్‌తో సురక్షితంగా ఉంటుంది. ఈ ఏకైక బదిలీ ద్వారా Guntur II UFWC నిల్వలను 15.0 రోజుల సురక్షిత స్థాయికి పెంచవచ్చు. IPD Colony UPHC కేవలం 4.1 km దూరంలో ఉన్నప్పటికీ, అది కేవలం 126 spare units మాత్రమే ఇవ్వగలదు కాబట్టి ఎంపిక చేయబడలేదు, ఇది మనకు కావలసిన 150 packets అవసరాన్ని పూర్తిగా తీర్చలేదు. Tenali Municipality కూడా 23.1 km వద్ద సమీప ప్రత్యామ్నాయంగా ఉన్నప్పటికీ, బదిలీ తర్వాత దాని వద్ద కేవలం 14.5 రోజుల cover మాత్రమే మిగులుతుంది (safety floor కంటే కేవలం 0.5 రోజుల మార్జిన్ మాత్రమే అదనం). కాబట్టి Tenali Municipality కంటే Nuthakki మరింత సురక్షితమైన ఎంపిక మరియు Peravali (36.6 km) కంటే సమీపంలో ఉంది. అంతేకాకుండా, అత్యంత సమీపంలో ఉన్న Salipet UPHC (1.1 km), NGO Colony UPHC (3.9 km) మరియు Nallacheruvu UPHC (3.9 km) వంటి కేంద్రాలు ఇప్పటికే warning band లో వరుసగా 9.5, 12.2 మరియు 10.1 రోజుల cover కలిగి ఉండి, 14 రోజుల safety floor కంటే తక్కువగా ఉండటం వల్ల తిరస్కరించబడ్డాయి.",
+  "risk_notes": [
+   "The recipient's projected days of cover will be restored to exactly 15.0 days, which is just above the warning band threshold of 14 days.",
+   "The transfer relies on a standard transit assumption of 2 days, during which the recipient's stock will continue to deplete rapidly.",
+   "The donor facility, Nuthakki, will see its cover reduced to 18.6 days, though this remains 4.6 days above the 14-day safety floor."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_salipet_uphc_ebf170",
+    "reason": "Salipet UPHC has only 9.5 days of cover (66 packets with a burn rate of 6.96 packets per day), which is below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_ngo_colony_uphc_cd2600",
+    "reason": "NGO Colony UPHC has 12.2 days of cover (69 packets with a burn rate of 5.68 packets per day), which is below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_nallacheruvu_uphc_31cacd",
+    "reason": "Nallacheruvu UPHC has 10.1 days of cover (141 packets with a burn rate of 13.92 packets per day), which is below the 14-day safety floor."
+   }
+  ]
+ }
+}

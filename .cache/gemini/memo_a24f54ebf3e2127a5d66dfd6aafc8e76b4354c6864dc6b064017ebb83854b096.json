@@ -1,0 +1,30 @@
+{
+ "sha256": "a24f54ebf3e2127a5d66dfd6aafc8e76b4354c6864dc6b064017ebb83854b096",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:30:44+00:00",
+ "recipient": "phc_narasaraopet_ppu_6fd4f1",
+ "medicine": "iv_fluids_rl",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_ipd_colony_uphc_1efd17",
+    "quantity": 1
+   }
+  ],
+  "rationale_en": "Narasaraopet PPU is currently facing a stock warning for IV Fluids (Ringer Lactate) with 5 litres in stock. At a baseline consumption rate of 0.38 litres per day and with 0 outbreak surge, the facility has only 13.1 days of cover. A transfer of 1 litres is recommended to raise its stock to 6 litres and restore its days of cover to a safe level of 15.7 days.\n\nThe recommended donor is IPD Colony UPHC, which will transfer 1 litres of IV Fluids (Ringer Lactate) from batch IVF2609-495 (expiry date 2026-09-26). Following this transfer, IPD Colony UPHC will retain 22 litres in stock, representing 36.6 days of cover. This is a safe 22.6 days above the required 14-day safety floor.\n\nThis donor is selected over the closer runner-up Bollapalli (at 3.5 km) because it rescues 1 litres of stock from expiring unused. Additionally, nearby facilities like Guntur II UFWC (at 43.5 km) were rejected because they are in a warning state with only 12.3 days of cover (12 litres stock against a daily burn rate of 0.98), falling below the 14-day safety floor.",
+  "rationale_te": "Narasaraopet PPU ప్రస్తుతం 5 litres నిల్వతో IV Fluids (Ringer Lactate) కొరతను ఎదుర్కొంటోంది. రోజువారీ సగటు వినియోగం 0.38 litres మరియు 0 outbreak surge ఉన్నందున, ఈ సదుపాయంలో కేవలం 13.1 days of cover మాత్రమే అందుబాటులో ఉంది. నిల్వను 6 litres కు పెంచి, రక్షణ స్థాయిని 15.7 days of cover కు పునరుద్ధరించడానికి 1 litres బదిలీ చేయాలని సిఫార్సు చేయబడింది.\n\nఇందుకోసం ప్రతిపాదించిన దాత IPD Colony UPHC. ఇది batch IVF2609-495 (expiry date 2026-09-26) నుండి 1 litres IV Fluids (Ringer Lactate) ను బదిలీ చేస్తుంది. ఈ బదిలీ తర్వాత కూడా, IPD Colony UPHC వద్ద 22 litres నిల్వ మిగులుతుంది, ఇది 36.6 days of cover కు సమానం. ఇది అవసరమైన 14-day safety floor కంటే సురక్షితంగా 22.6 days ఎక్కువగా ఉంది.\n\nసమీపంలో ఉన్న Bollapalli (3.5 km వద్ద) కంటే ఈ దాతను ఎంచుకోవడానికి కారణం, దీనివల్ల వృథాగా కాలపరిమితి ముగిసిపోయే 1 litres నిల్వను కాపాడవచ్చు. అంతేకాకుండా, సమీపంలోని Guntur II UFWC (43.5 km వద్ద) వంటి సదుపాయాలు తమ స్వంత రక్షణ పరిమితి కంటే తక్కువగా ఉన్నందున తిరస్కరించబడ్డాయి. Guntur II UFWC లో కేవలం 12.3 days of cover (12 litres నిల్వ మరియు రోజువారీ వినియోగం 0.98) మాత్రమే ఉంది, ఇది 14-day safety floor కంటే తక్కువ.",
+  "risk_notes": [
+   "The incoming stock from IPD Colony UPHC must be utilized quickly as lot IVF2609-495 expires on 2026-09-26, leaving only 34 days to expiry.",
+   "The recipient Narasaraopet PPU's projected cover of 15.7 days is slightly above the warning band threshold of 14 days, requiring close monitoring.",
+   "The transfer assumes a transit time of 2 days, during which the recipient's stock will continue to deplete at a rate of 0.38 litres per day."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_guntur_ii_ufwc_22b2ad",
+    "reason": "Guntur II UFWC is excluded because it is itself in the warning band with only 12.3 days of cover (12 litres stock against a 0.98 litres per day burn rate), which falls below the 14-day safety floor."
+   }
+  ]
+ }
+}

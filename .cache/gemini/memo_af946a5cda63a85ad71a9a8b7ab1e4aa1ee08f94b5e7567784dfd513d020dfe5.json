@@ -1,0 +1,35 @@
+{
+ "sha256": "af946a5cda63a85ad71a9a8b7ab1e4aa1ee08f94b5e7567784dfd513d020dfe5",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:32:50+00:00",
+ "recipient": "phc_thulluru_40a5f3",
+ "medicine": "ors_packets",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_indhiranagar_uphc_9e0343",
+    "quantity": 97
+   }
+  ],
+  "rationale_en": "Thulluru is currently facing a critical shortage of ORS (Oral Rehydration Salts). Its current stock of 93 packets provides only 6.9 days of cover, which is below the critical threshold of 8 days. This supply constraint is driven by an outbreak of Acute Diarrhoeal Disease (outbreak ID: AP/GUN/2025/45/1997), which has caused 457 cases, raising the daily consumption rate to 13.51 packets (including an outbreak surge of 9.99 packets over the baseline burn rate of 3.52 packets). To restore the facility to a safe target of 14 days of cover, a transfer of 97 packets is urgently required. Indhiranagar UPHC is selected as the primary donor. It will transfer 97 packets of ORS (Oral Rehydration Salts) from lot ORS2711-942, which expires on 2027-11-01. Prior to this transfer, Indhiranagar UPHC held 345 packets representing 34.7 days of cover. After releasing 97 packets, the facility will retain 248 packets, which provides 24.9 days of cover. This leaves them safely above the safety floor of 14 days by a margin of 10.9 days. Indhiranagar UPHC was chosen over Nuthakki (which scored closely) because of its closer proximity (15.3 km compared to 22.1 km) and status as an urban facility. Several nearby facilities were excluded due to safety floor limits. The nearest of these, Pedavadlapudi (at 17.0 km) and L B Nagar UPHC (at 18.3 km), are both in the warning band. Pedavadlapudi has 101 packets representing 11.0 days of cover, and L B Nagar UPHC has 84 packets representing 9.9 days of cover, meaning neither could spare inventory without falling below the 14-day safety floor.",
+  "rationale_te": "Thulluru ప్రస్తుతం ORS (Oral Rehydration Salts) తీవ్రమైన కొరతను ఎదుర్కొంటోంది. దీని ప్రస్తుత నిల్వ 93 packets కేవలం 6.9 రోజుల కవరేజీని మాత్రమే అందిస్తుంది, ఇది క్లిష్టమైన పరిమితి అయిన 8 రోజుల కంటే తక్కువగా ఉంది. ఈ కొరత Acute Diarrhoeal Disease వ్యాప్తి (outbreak ID: AP/GUN/2025/45/1997) వల్ల ఏర్పడింది, దీని వలన 457 కేసులు నమోదయ్యాయి, దీనితో రోజువారీ వినియోగ రేటు 13.51 packets కు పెరిగింది (ఇందులో బేస్‌లైన్ వినియోగ రేటు 3.52 packets పై 9.99 packets వ్యాప్తి ఉధృతి కూడా ఉంది). ఈ సదుపాయాన్ని సురక్షితమైన 14 రోజుల కవరేజీ లక్ష్యానికి చేర్చడానికి, 97 packets బదిలీ అత్యవసరంగా అవసరం. Indhiranagar UPHC ప్రధాన దాతగా ఎంపిక చేయబడింది. ఇది 2027-11-01 న గడువు ముగిసే ORS2711-942 బ్యాచ్ నుండి 97 packets ORS (Oral Rehydration Salts) ను బదిలీ చేస్తుంది. ఈ బదిలీకి ముందు, Indhiranagar UPHC వద్ద 345 packets నిల్వ ఉంది, ఇది 34.7 రోజుల కవరేజీని సూచిస్తుంది. 97 packets ను విడుదల చేసిన తర్వాత, ఈ కేంద్రం వద్ద 248 packets నిల్వ ఉంటుంది, ఇది 24.9 రోజుల కవరేజీని అందిస్తుంది. ఇది వారికి 14 రోజుల సురక్షిత పరిమితి కంటే 10.9 రోజుల అదనపు కవరేజీని అందిస్తుంది. సమీపంలో ఉన్న Nuthakki తో పోలిస్తే, Indhiranagar UPHC చాలా దగ్గరగా ఉండటం (22.1 km తో పోలిస్తే 15.3 km దూరం) మరియు పట్టణ ప్రాంత సదుపాయం కావడం వల్ల దీనిని ఎంపిక చేయడం జరిగింది. సమీపంలోని కొన్ని కేంద్రాలు సురక్షిత నిల్వల పరిమితి కారణంగా మినహాయించబడ్డాయి. వీటిలో అత్యంత సమీపంలో ఉన్న Pedavadlapudi (17.0 km దూరం) మరియు L B Nagar UPHC (18.3 km దూరం) రెండూ ప్రమాదకర హెచ్చరికల పరిధిలో ఉన్నాయి. Pedavadlapudi వద్ద 101 packets నిల్వతో 11.0 రోజుల కవరేజీ ఉండగా, L B Nagar UPHC వద్ద 84 packets నిల్వతో 9.9 రోజుల కవరేజీ మాత్రమే ఉంది, అందువల్ల ఇవి 14 రోజుల కనీస సురక్షిత నిల్వ పరిమితిని కోల్పోకుండా ఎటువంటి నిల్వలను ఇవ్వలేవు.",
+  "risk_notes": [
+   "The recipient facility Thulluru will achieve 14.1 days of cover after the transfer, which is just slightly above the 14 target cover days.",
+   "The transferred ORS (Oral Rehydration Salts) batch ORS2711-942 has 435 days to expiry, meaning there is no immediate risk of obsolescence.",
+   "The transit-and-use window assumes 2 days of transit and 5 days minimum dispensing to avoid any wastage before the lot expires.",
+   "The donor Indhiranagar UPHC has an outbreak surge of 3.6 packets itself, which has been factored into its remaining 24.9 days of cover."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_pedavadlapudi_b4b02c",
+    "reason": "Pedavadlapudi has 101 packets with a burn rate of 9.16 packets per day, giving 11.0 days of cover which is below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_l_b_nagar_uphc_36f347",
+    "reason": "L B Nagar UPHC has 84 packets with a burn rate of 8.44 packets per day, giving 9.9 days of cover which is below the 14-day safety floor."
+   }
+  ]
+ }
+}

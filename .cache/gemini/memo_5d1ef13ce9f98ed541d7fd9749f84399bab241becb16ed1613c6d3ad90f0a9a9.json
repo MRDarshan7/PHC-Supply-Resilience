@@ -1,0 +1,35 @@
+{
+ "sha256": "5d1ef13ce9f98ed541d7fd9749f84399bab241becb16ed1613c6d3ad90f0a9a9",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:10:31+00:00",
+ "recipient": "phc_narasaraopet_ppu_6fd4f1",
+ "medicine": "ors_packets",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_kanagala_e93212",
+    "quantity": 51
+   }
+  ],
+  "rationale_en": "The recipient facility, Narasaraopet PPU, is in a critical state with only 61 packets of ORS (Oral Rehydration Salts) in stock. This leaves the facility with only 7.6 days of cover, which is below the critical threshold of 8 days. This supply crunch is driven by an outbreak of Acute Diarrhoeal Disease (outbreak ID AP/GUN/2025/45/1997, which has 457 cases and 0 deaths), causing an outbreak surge of 2.89 packets per day on top of a baseline burn rate of 5.1 packets per day, resulting in a total burn rate of 8.0 packets per day. To bring the facility back to a safe level of 14.0 days of cover, a transfer of 51 packets is required.\n\nIt is recommended to transfer 51 packets from Kanagala. This donor currently holds 138 packets (25.4 days of cover) and will transfer 51 packets from batch ORS2609-672, which expires on 2026-09-02 (in 10 days). After this transfer, Kanagala will retain a stock of 87 packets, translating to 16.0 days of cover. This is 2.0 days of cover above the donor safety floor of 14 days. Although Muppalla (at 12.2 km away) and Nadendla (at 16.1 km away) are much closer, Kanagala is the preferred donor because transferring from it rescues 51 packets of ORS (Oral Rehydration Salts) that would otherwise expire unused.\n\nNearby facilities were considered but excluded due to safety concerns. Reddipalem, located just 1.1 km away, is in the warning band with 59 packets and a burn rate of 4.35 packets per day (2.77 baseline plus 1.57 outbreak surge), providing only 13.6 days of cover. This is below the safety floor of 14 days. Similarly, Muppalla  A, which is 21.5 km away, has only 47 packets and 11.3 days of cover against a burn rate of 4.14 packets per day (2.64 baseline plus 1.5 outbreak surge), also failing the safety check.",
+  "rationale_te": "స్వీకర్త సౌకర్యం అయిన Narasaraopet PPU లో కేవలం 61 packets ల ORS (Oral Rehydration Salts) నిల్వ ఉండటంతో అది క్లిష్ట పరిస్థితిలో ఉంది. దీనివల్ల ఈ సౌకర్యానికి కేవలం 7.6 రోజుల కవరేజ్ మాత్రమే ఉంది, ఇది 8 రోజుల క్లిష్టమైన పరిమితి కంటే తక్కువ. ఈ సరఫరా కొరత Acute Diarrhoeal Disease వ్యాప్తి (outbreak ID AP/GUN/2025/45/1997, దీనిలో 457 కేసులు మరియు 0 మరణాలు నమోదయ్యాయి) వల్ల ఏర్పడింది. ఇది బేస్‌లైన్ వినియోగం అయిన 5.1 packets లపై 2.89 packets ల రోజువారీ అదనపు వినియోగాన్ని పెంచి, మొత్తం రోజువారీ వినియోగాన్ని 8.0 packets లకు చేర్చింది. ఈ సౌకర్యాన్ని తిరిగి సురక్షితమైన 14.0 రోజుల కవరేజ్ స్థాయికి తీసుకురావడానికి 51 packets బదిలీ చేయాల్సి ఉంది.\n\nKanagala నుండి 51 packets బదిలీ చేయాలని సిఫార్సు చేయబడింది. ఈ దాత వద్ద ప్రస్తుతం 138 packets (25.4 రోజుల కవరేజ్) నిల్వ ఉన్నాయి. దీని నుండి 2026-09-02 న (10 రోజుల్లో) గడువు ముగిసే ORS2609-672 బ్యాచ్ నుండి 51 packets బదిలీ చేయబడతాయి. ఈ బదిలీ తర్వాత, Kanagala వద్ద 87 packets నిల్వ మిగులుతుంది, ఇది 16.0 రోజుల కవరేజ్‌కు సమానం. ఇది దాత భద్రతా పరిమితి అయిన 14 రోజుల కంటే 2.0 రోజులు ఎక్కువ. Muppalla (12.2 km దూరంలో) మరియు Nadendla (16.1 km దూరంలో) చాలా దగ్గరగా ఉన్నప్పటికీ, Kanagala ను ఎంచుకోవడానికి కారణం దీనివల్ల గడువు ముగిసిపోయే 51 packets ల ORS (Oral Rehydration Salts) ని వృధా కాకుండా కాపాడవచ్చు.\n\nదగ్గరిలోని ఇతర సౌకర్యాలను పరిశీలించినప్పటికీ భద్రతా కారణాల వల్ల వాటిని తిరస్కరించాము. కేవలం 1.1 km దూరంలో ఉన్న Reddipalem సౌకర్యంలో 59 packets నిల్వ మాత్రమే ఉన్నాయి మరియు రోజువారీ వినియోగం 4.35 packets (2.77 బేస్‌లైన్ మరియు 1.57 అదనపు వినియోగం) గా ఉంది. దీనివల్ల దీనికి కేవలం 13.6 రోజుల కవరేజ్ మాత్రమే లభిస్తుంది, ఇది భద్రతా పరిమితి అయిన 14 రోజుల కంటే తక్కువ. అదేవిధంగా, 21.5 km దూరంలో ఉన్న Muppalla  A వద్ద కేవలం 47 packets నిల్వ ఉన్నాయి మరియు రోజువారీ వినియోగం 4.14 packets (2.64 బేస్‌లైన్ మరియు 1.5 అదనపు వినియోగం) తో దీనికి కేవలం 11.3 రోజుల కవరేజ్ మాత్రమే ఉంది. ఇది కూడా భద్రతా పరీక్షలో విఫలమైంది.",
+  "risk_notes": [
+   "After the transfer, Narasaraopet PPU will have 14.0 days of cover, which sits exactly at the target cover safety line.",
+   "The transferred stock from Kanagala belongs to batch ORS2609-672, which expires on 2026-09-02, leaving a narrow window of 10 days for transit and consumption.",
+   "This transfer assumes a standard transit-and-use window of 7 days including 2 days of transit time.",
+   "The recipient's high burn rate of 8.0 packets per day is driven by an active Acute Diarrhoeal Disease outbreak and must be closely monitored."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_reddipalem_e247c9",
+    "reason": "Reddipalem is only 1.1 km away but has 59 packets of stock, giving it 13.6 days of cover which is below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_muppalla_a_4c443f",
+    "reason": "Muppalla  A is 21.5 km away but has 47 packets of stock, giving it 11.3 days of cover which is below the 14-day safety floor."
+   }
+  ]
+ }
+}

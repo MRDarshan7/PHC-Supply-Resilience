@@ -1,0 +1,34 @@
+{
+ "sha256": "2c4c96396435c90aafed1a204558b42c1f2013e23d657dddf046dcce13f4f7b3",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-24T11:56:19+00:00",
+ "recipient": "phc_thulluru_40a5f3",
+ "medicine": "iv_fluids_rl",
+ "today": "2026-08-24",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_indhiranagar_uphc_9e0343",
+    "quantity": 8
+   }
+  ],
+  "rationale_en": "The recipient facility, Thulluru, is currently facing a critical shortage of IV Fluids (Ringer Lactate) with a stock of 7 litres. Driven by an outbreak of Acute Diarrhoeal Disease (outbreak ID AP/GUN/2025/45/1997) with 457 cases, the consumption has risen with an outbreak surge of 0.75 litres/day on top of the 0.26 litres/day baseline, leading to a total burn rate of 1.01 litres/day. This leaves the facility with only 6.9 days of cover, which is critically below the 8 days threshold. To resolve this, we recommend transferring 8 litres from Indhiranagar UPHC. This stock will be sourced from batch IVF2711-501 (expiring 2027-11-04). After the transfer, Indhiranagar UPHC will retain 18 litres of stock, leaving it with 24.1 days of cover, which is safely 10.1 days above the 14-day safety floor. Although Nuthakki was a highly viable close-call candidate scoring 0.586, Indhiranagar UPHC (score 0.608) was selected because it is closer to the recipient (15.3 km versus 22.1 km). Closer candidates like Pedavadlapudi (17.0 km away) and L B Nagar UPHC (18.3 km away) were rejected because their days of cover (11.6 and 9.5 respectively) are already below the 14-day safety floor.",
+  "rationale_te": "Thulluru లో IV Fluids (Ringer Lactate) నిల్వలు చాలా క్లిష్టమైన స్థాయికి పడిపోయాయి, ప్రస్తుతం అక్కడ కేవలం 7 litres నిల్వలు మాత్రమే ఉన్నాయి. AP/GUN/2025/45/1997 ఐడి గల Acute Diarrhoeal Disease వ్యాప్తి వల్ల రోజువారీ వినియోగం 0.26 litres baseline వినియోగానికి అదనంగా 0.75 litres outbreak surge పెరిగి, మొత్తం 1.01 litres గా నమోదవుతోంది. దీనివల్ల ఇక్కడ నిల్వలు కేవలం 6.9 days of cover మాత్రమే సరిపోతాయి, ఇది 8 days threshold కంటే తక్కువగా ఉంది. ఈ కొరతను నివారించడానికి Indhiranagar UPHC నుండి 8 litres ని బదిలీ చేయాలని ప్రతిపాదించడమైనది. ఈ నిల్వలు batch IVF2711-501 (expiry 2027-11-04) నుండి తీసుకోబడతాయి. ఈ బదిలీ తర్వాత Indhiranagar UPHC వద్ద 18 litres నిల్వలు మిగులుతాయి, ఇది 24.1 days of cover ని కలిగి ఉండి, 14-day safety floor కంటే 10.1 days అదనపు మార్జిన్‌తో సురక్షితంగా ఉంటుంది. ఈ ఎంపికలో Nuthakki అనే మరో ప్రాథమిక ఆరోగ్య కేంద్రం 0.586 స్కోరుతో పోటీలో నిలిచినప్పటికీ, 15.3 km దూరంలో ఉండి 0.608 స్కోరు సాధించిన Indhiranagar UPHC ని ప్రధాన దాతగా ఎంపిక చేశాము (Nuthakki దూరం 22.1 km). సమీపంలో ఉన్న Pedavadlapudi (17.0 km) మరియు L B Nagar UPHC (18.3 km) వంటి కేంద్రాలను అవి 14-day safety floor కంటే తక్కువ నిల్వలు (వరుసగా 11.6 మరియు 9.5 days of cover) కలిగి ఉన్నందున తిరస్కరించడం జరిగింది.",
+  "risk_notes": [
+   "The recipient's projected cover days after receiving the transfer will be 14.8, which is only slightly above the warning threshold of 14 days.",
+   "During the 2 days of transit, Thulluru must rely on its critically low current stock of 7 litres.",
+   "The recipient burn rate of 1.01 litres/day remains high due to the active outbreak of Acute Diarrhoeal Disease."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_pedavadlapudi_b4b02c",
+    "reason": "Is itself warning: 8 litres at 0.69/day (0.44 baseline + 0.25 outbreak surge) is 11.6 days of cover, at or below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_l_b_nagar_uphc_36f347",
+    "reason": "Is itself warning: 6 litres at 0.63/day (0.40 baseline + 0.23 outbreak surge) is 9.5 days of cover, at or below the 14-day safety floor."
+   }
+  ]
+ }
+}

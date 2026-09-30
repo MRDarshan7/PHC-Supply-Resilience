@@ -1,0 +1,34 @@
+{
+ "sha256": "40378dda2938740852e309118cf3d28510d8665089e72f375eeb1a70adc08121",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:27:14+00:00",
+ "recipient": "phc_machavaram_ec9b07",
+ "medicine": "zinc_20mg",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_khambampadu_441c72",
+    "quantity": 101
+   }
+  ],
+  "rationale_en": "Machavaram is currently facing a stock warning with 603 tablets of Zinc Sulphate 20mg, representing 12.0 days of cover. To meet the target cover of 14 days and prevent stockout, a transfer of 101 tablets is required. The recipient's daily burn rate is 50.24 tablets, and there is no active outbreak surge driving current consumption.\n\nKhambampadu, located 50.0 km away, is selected as the optimal donor. It will transfer 101 tablets from lot ZIN2610-183, which expires on 2026-10-02 (40 days to expiry). After this transfer of 101 tablets, Khambampadu retains a robust stock of 1082 tablets, providing 51.7 days of cover. This leaves a comfortable cover margin of 37.7 days above the 14-day donor safety floor.\n\nEdlapadu was considered as a close alternative, scoring 0.794 compared to Khambampadu's score of 0.833. While Edlapadu is located 56.9 km away with 453 tablets of stock and 34.6 days of cover, transferring from Khambampadu is superior because it fully rescues 101 tablets of near-expiry stock from lot ZIN2610-183.\n\nTo ensure safety, nearer facilities were excluded. Narasaraopet PPU, which is only 40.6 km away, has 214 tablets and a burn rate of 17.87, leaving it at 12.0 days of cover. Guntur II UFWC, located 66.2 km away, has 548 tablets and a burn rate of 45.7, also at 12.0 days of cover. Both facilities are below the 14-day safety floor and are thus excluded from donating.",
+  "rationale_te": "Machavaram ప్రస్తుతం Zinc Sulphate 20mg యొక్క 603 tablets నిల్వతో warning లో ఉంది, ఇది 12.0 రోజుల రోజుల కవరేజీని (days of cover) సూచిస్తుంది. 14 రోజుల లక్ష్య కవరేజీని చేరుకోవడానికి మరియు స్టాక్ అవుట్ కాకుండా నిరోధించడానికి 101 tablets బదిలీ అవసరం. ఈ స్వీకర్త సౌకర్యం యొక్క రోజువారీ వినియోగం (burn rate) 50.24 tablets గా ఉంది మరియు ప్రస్తుత వినియోగాన్ని పెంచేలా ఎటువంటి outbreak surge లేదు.\n\n50.0 km దూరంలో ఉన్న Khambampadu అత్యంత అనుకూలమైన దాతగా ఎంపిక చేయబడింది. ఇది ZIN2610-183 బ్యాచ్ నుండి 101 tablets ని బదిలీ చేస్తుంది, ఈ బ్యాచ్ గడువు 2026-10-02 (గడువు ముగియడానికి 40 రోజులు ఉన్నాయి) తో ముగుస్తుంది. ఈ 101 tablets బదిలీ తర్వాత కూడా Khambampadu వద్ద 1082 tablets బలమైన నిల్వ ఉంటుంది, ఇది 51.7 రోజుల కవరేజీని అందిస్తుంది. ఇది 14 రోజుల దాత రక్షణ పరిమితి (donor safety floor) కంటే 37.7 రోజుల కవరేజ్ మార్జిన్‌ను సురక్షితంగా ఉంచుతుంది.\n\nEdlapadu ఒక ప్రత్యామ్నాయంగా పరిశీలించబడింది, దీని స్కోరు 0.794 కాగా Khambampadu స్కోరు 0.833 గా ఉంది. Edlapadu సౌకర్యం 56.9 km దూరంలో 453 tablets స్టాక్ మరియు 34.6 రోజుల కవరేజీతో ఉన్నప్పటికీ, Khambampadu నుండి బదిలీ చేయడం ఉత్తమం ఎందుకంటే ఇది గడువు ముగియడానికి దగ్గరగా ఉన్న ZIN2610-183 బ్యాచ్ నుండి 101 tablets స్టాక్‌ను పూర్తిగా కాపాడుతుంది.\n\nభద్రతను నిర్ధారించడానికి, దగ్గరగా ఉన్న సౌకర్యాలు నివారించబడ్డాయి. కేవలం 40.6 km దూరంలో ఉన్న Narasaraopet PPU వద్ద 214 tablets స్టాక్ మరియు 17.87 వినియోగ రేటు ఉన్నాయి, దీని కవరేజ్ 12.0 రోజులుగా ఉంది. 66.2 km దూరంలో ఉన్న Guntur II UFWC వద్ద 548 tablets స్టాక్ మరియు 45.7 వినియోగ రేటు ఉన్నాయి, దీని కవరేజ్ కూడా 12.0 రోజులుగా ఉంది. ఈ రెండు సౌకర్యాలు 14 రోజుల రక్షణ పరిమితి కంటే తక్కువగా ఉన్నందున దాతలుగా తిరస్కరించబడ్డాయి.",
+  "risk_notes": [
+   "The transfer of 101 tablets brings Machavaram to exactly 14.0 days of cover, which is right on the boundary of the warning band of 14 days.",
+   "The transferred lot ZIN2610-183 from Khambampadu expires on 2026-10-02, leaving only 40 days to consume the tablets.",
+   "The transfer plan assumes a transit time of 2 days, meaning the tablets must be delivered quickly to avoid local stock disruption."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_narasaraopet_ppu_6fd4f1",
+    "reason": "Located 40.6 km away, Narasaraopet PPU has 214 tablets of stock with a burn rate of 17.87 tablets per day, yielding 12.0 days of cover which is below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_guntur_ii_ufwc_22b2ad",
+    "reason": "Located 66.2 km away, Guntur II UFWC has 548 tablets of stock with a burn rate of 45.7 tablets per day, yielding 12.0 days of cover which is below the 14-day safety floor."
+   }
+  ]
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "sha256": "558c14119e252aeae3415d0fbe4951518f9a72b13e9be1152c008fa27f353049",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T09:41:48+00:00",
+ "recipient": "phc_thulluru_40a5f3",
+ "medicine": "zinc_20mg",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_tsunduru_acac14",
+    "quantity": 336
+   }
+  ],
+  "rationale_en": "Thulluru is experiencing an outbreak of Acute Diarrhoeal Disease (outbreak ID: AP/GUN/2025/45/1997), which has caused consumption of Zinc Sulphate 20mg to rise to 47.28 tablets daily, driven by an outbreak surge of 34.95 tablets on top of a 12.33 baseline. Current stock is 326 tablets, leaving only 6.9 days of cover, which is critical as it is below the critical threshold of 8 days.\n\nTo address this shortage, we recommend transferring 336 tablets of Zinc Sulphate 20mg from Tsunduru, sourced from batch ZIN2609-161 (expiry 2026-09-13). After this transfer of 336 tablets, Tsunduru will retain 271 tablets of its initial 607 tablets. This leaves them with 15.5 days of cover, which is 1.5 days above the safety floor of 14 days, keeping them in the safe band.\n\nAlthough Indhiranagar UPHC and Nuthakki are eligible and closer candidates, Tsunduru is the preferred donor because this transfer rescues 239.93 tablets of near-expiry stock from being wasted, given that batch ZIN2609-161 has only 21 days remaining before expiry on 2026-09-13. The nearest facilities, Pedavadlapudi and L B Nagar UPHC, were excluded due to falling below the donor safety floor.",
+  "rationale_te": "Thulluru లో Acute Diarrhoeal Disease వ్యాప్తి (outbreak ID: AP/GUN/2025/45/1997) కారణంగా Zinc Sulphate 20mg వినియోగం పెరిగింది. ఇక్కడ రోజువారీ వినియోగం 12.33 baseline నుండి 34.95 outbreak surge పెరిగి మొత్తం 47.28 tablets గా ఉంది. ప్రస్తుత నిల్వ 326 tablets కేవలం 6.9 రోజుల రక్షణ మాత్రమే అందిస్తుంది, ఇది 8 రోజుల critical పరిమితి కంటే తక్కువ.\n\nదీనిని నివారించడానికి Tsunduru నుండి 336 tablets బదిలీ చేయాలని ప్రతిపాదించడమైనది. ఈ నిల్వను ZIN2609-161 (expiry 2026-09-13) బ్యాచ్ నుండి సేకరించబడుతుంది. ఈ బదిలీ తర్వాత Tsunduru వద్ద 271 tablets నిల్వ మిగులుతుంది, ఇది వారికి 15.5 రోజుల రక్షణను అందిస్తుంది. ఇది వారి కనీస రక్షణ పరిమితి 14 రోజుల కంటే 1.5 రోజులు ఎక్కువగా ఉంది.\n\nIndhiranagar UPHC మరియు Nuthakki సమీపంలో ఉన్నప్పటికీ, Tsunduru ని ఎంపిక చేయడానికి కారణం అక్కడ రాబోయే 21 రోజుల్లో (2026-09-13 నాటికి) గడువు ముగియబోయే 239.93 tablets నిల్వను వృథా కాకుండా కాపాడవచ్చు. Pedavadlapudi మరియు L B Nagar UPHC వంటి సమీప ఆరోగ్య కేంద్రాలు ఇప్పటికే warning పరిధిలో ఉన్నందున తిరస్కరించబడ్డాయి.",
+  "risk_notes": [
+   "Thulluru will have exactly 14.0 days of cover after receiving the 336 tablets.",
+   "The transferred stock from Tsunduru of batch ZIN2609-161 expires on 2026-09-13, meaning it must be consumed within 21 days.",
+   "The shipment assumes a transit time of 2 days."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_pedavadlapudi_b4b02c",
+    "reason": "Is itself warning: 355 tablets at 32.07/day (20.47 baseline + 11.60 outbreak surge) is 11.1 days of cover, at or below the 14-day safety floor (spare = 355 - 32.07 x 14 = -93.9). It needs stock; it cannot give any."
+   },
+   {
+    "facility_id": "phc_l_b_nagar_uphc_36f347",
+    "reason": "Is itself warning: 295 tablets at 29.56/day (18.86 baseline + 10.69 outbreak surge) is 10.0 days of cover, at or below the 14-day safety floor (spare = 295 - 29.56 x 14 = -118.8). It needs stock; it cannot give any."
+   }
+  ]
+ }
+}

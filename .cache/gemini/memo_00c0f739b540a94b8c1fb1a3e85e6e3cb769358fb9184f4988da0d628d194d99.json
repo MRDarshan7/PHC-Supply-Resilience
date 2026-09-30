@@ -1,0 +1,30 @@
+{
+ "sha256": "00c0f739b540a94b8c1fb1a3e85e6e3cb769358fb9184f4988da0d628d194d99",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:30:17+00:00",
+ "recipient": "phc_guntur_ii_ufwc_22b2ad",
+ "medicine": "zinc_20mg",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_tsunduru_acac14",
+    "quantity": 92
+   }
+  ],
+  "rationale_en": "Guntur II UFWC is currently facing a stock shortage of Zinc Sulphate 20mg, with a current stock of 548 tablets. Based on a baseline burn rate of 45.7 tablets per day, the facility has only 12.0 days of cover, placing it in the warning band. To secure the target cover of 14 days, a transfer of 92 tablets is required.\n\nTsunduru is selected as the donor facility, transferring 92 tablets from lot ZIN2609-161 with expiry date 2026-09-13. Before the transfer, Tsunduru holds 607 tablets with 54.4 days of cover. After sending the required quantity, it will retain 515 tablets, equivalent to 46.2 days of cover, which is 32.2 days above the donor safety floor of 14 days. This ensures the donor remains fully safe.\n\nAlthough Edlapadu was a close selectable runner-up at 26.9 km away, Tsunduru is closer at 21.6 km and its transferred lot has 21 days to expiry, compared to 27 days for Edlapadu, making it optimal to rescue these near-expiry tablets. Other closer facilities were excluded due to safety concerns. Notably, Narasaraopet PPU, located 43.5 km away, was rejected because its stock of 214 tablets with a burn rate of 17.87 tablets per day leaves it with 12.0 days of cover, which is below the 14-day donor safety floor.",
+  "rationale_te": "Guntur II UFWC లో ప్రస్తుతం Zinc Sulphate 20mg నిల్వలు తక్కువగా ఉన్నాయి, ప్రస్తుతం 548 tablets నిల్వ మాత్రమే ఉంది. రోజువారీ వినియోగం 45.7 tablets ఆధారంగా, ఈ సదుపాయానికి కేవలం 12.0 రోజుల నిల్వ మాత్రమే ఉంది, దీనివల్ల ఇది warning band లో ఉంది. 14 రోజుల లక్ష్య నిల్వను చేరుకోవడానికి, 92 tablets బదిలీ అవసరం.\n\nదాత సదుపాయంగా Tsunduru ఎంపిక చేయబడింది, ఇది batch ZIN2609-161 (expiry 2026-09-13) నుండి 92 tablets ను బదిలీ చేస్తుంది. ఈ బదిలీకి ముందు Tsunduru వద్ద 607 tablets నిల్వతో 54.4 రోజుల రక్షణ ఉంది. ఈ బదిలీ తర్వాత, దీని వద్ద 515 tablets మిగులుతాయి, ఇది 46.2 రోజుల రక్షణను ఇస్తుంది, ఇది 14 రోజుల donor safety floor కంటే 32.2 రోజులు ఎక్కువగా ఉంది. దీనివల్ల Tsunduru సురక్షితంగా ఉంటుంది.\n\nEdlapadu సదుపాయం 26.9 km దూరంలో ఉన్నప్పటికీ, Tsunduru సదుపాయం 21.6 km దూరంలో ఉండి, దీని గడువు ముగిసే కాలం 21 రోజులు మాత్రమే ఉండటంతో (Edlapadu ది 27 రోజులు), దీనిని ఎంపిక చేయడం లాభదాయకం. కాగా, 43.5 km దూరంలో ఉన్న Narasaraopet PPU ను తిరస్కరించడం జరిగింది, ఎందుకంటే దీని వద్ద 214 tablets నిల్వ ఉండి, రోజువారీ వినియోగం 17.87 tablets గా ఉంది, దీనివల్ల దీనికి 12.0 రోజుల రక్షణ మాత్రమే ఉంది, ఇది 14 రోజుల donor safety floor కంటే తక్కువ.",
+  "risk_notes": [
+   "The transferred stock of 92 tablets of Zinc Sulphate 20mg from batch ZIN2609-161 is close to expiry with only 21 days remaining as of 2026-08-23.",
+   "After the transfer, Guntur II UFWC will have exactly 14.0 days of cover, which sits at the warning band limit.",
+   "This plan relies on a 2-day transit time and requires immediate consumption of the transferred batch."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_narasaraopet_ppu_6fd4f1",
+    "reason": "Narasaraopet PPU is 43.5 km away and has only 12.0 days of cover (214 tablets at 17.87 tablets per day), which is below the 14-day donor safety floor."
+   }
+  ]
+ }
+}

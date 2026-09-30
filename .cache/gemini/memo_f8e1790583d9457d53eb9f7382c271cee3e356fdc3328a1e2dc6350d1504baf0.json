@@ -1,0 +1,30 @@
+{
+ "sha256": "f8e1790583d9457d53eb9f7382c271cee3e356fdc3328a1e2dc6350d1504baf0",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:28:54+00:00",
+ "recipient": "phc_mutukur_6d5ef9",
+ "medicine": "iv_fluids_rl",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_khambampadu_441c72",
+    "quantity": 1
+   }
+  ],
+  "rationale_en": "Mutukur is experiencing a stock shortage of IV Fluids (Ringer Lactate), with current stock at 1 litres. With a burn rate of 0.08 litres/day, the facility has only 13.1 days of cover, placing it in the warning band. To prevent stockout, a transfer of 1 litres of IV Fluids (Ringer Lactate) is required to bring its stock to 2 litres, raising its days of cover to 26.1 days.\n\nIt is recommended to source 1 litres of IV Fluids (Ringer Lactate) from Khambampadu, specifically from batch IVF2610-843 which expires on 2026-10-09. This transfer will reduce Khambampadu's stock from 22 litres to 21 litres. It leaves the donor with 46.8 days of cover, which is 32.8 days above the donor safety floor of 14 days, ensuring its own operations are unaffected.\n\nKhambampadu was selected over other eligible clinics like Rentachinthala and Gadevaripalli. Rentachinthala was not chosen as it would be left with a small cover margin of 1.4 days above the safety floor. Gadevaripalli is closer at 14.2 km but had no expiring stock, while this transfer rescues 0.92 units from expiry at Khambampadu. Narasaraopet PPU was rejected because its 13.1 days of cover (with 5 litres of stock and 0.38 burn rate) falls below the 14-day safety floor.",
+  "rationale_te": "Mutukur లో IV Fluids (Ringer Lactate) నిల్వ కొరత ఉంది, ప్రస్తుతం ఇక్కడ 1 లీటర్ల స్టాక్ మాత్రమే ఉంది. రోజువారీ వినియోగం 0.08 లీటర్లతో, ఈ కేంద్రంలో 13.1 రోజుల కవరేజ్ మాత్రమే ఉంది, ఇది warning బ్యాండ్‌లో ఉంది. ఈ పరిస్థితిని నివారించడానికి, 1 లీటర్ల IV Fluids (Ringer Lactate) బదిలీ చేయాల్సి ఉంది. దీనివల్ల Mutukur స్టాక్ 2 లీటర్లకు చేరుకుంటుంది మరియు కవరేజ్ 26.1 రోజులకు పెరుగుతుంది.\n\nఈ స్టాక్‌ను Khambampadu నుండి బదిలీ చేయాలని ప్రతిపాదించడమైనది. Khambampadu లోని 2026-10-09 నాటికి గడువు ముగిసే IVF2610-843 బ్యాచ్ నుండి 1 లీటర్ల మందును బదిలీ చేస్తాము. దీనివల్ల Khambampadu స్టాక్ 22 లీటర్ల నుండి 21 లీటర్లకు తగ్గుతుంది. అయినప్పటికీ, అక్కడ 46.8 రోజుల కవరేజ్ ఉంటుంది, ఇది 14 రోజుల సేఫ్టీ ఫ్లోర్ కంటే 32.8 రోజులు ఎక్కువగా ఉంది.\n\nRentachinthala మరియు Gadevaripalli వంటి ఇతర కేంద్రాల కంటే Khambampadu ను ఎంపిక చేయడం జరిగింది. Rentachinthala నుండి బదిలీ చేస్తే అక్కడ సేఫ్టీ ఫ్లోర్ కంటే కేవలం 1.4 రోజుల కవరేజ్ మాత్రమే మిగులుతుంది. Gadevaripalli 14.2 కిలోమీటర్ల దూరంలో ఉన్నప్పటికీ అక్కడ గడువు ముగిసే స్టాక్ లేదు, కానీ ఈ బదిలీ ద్వారా Khambampadu లోని 0.92 యూనిట్లు వృధా కాకుండా కాపాడవచ్చు. Narasaraopet PPU కేంద్రం వద్ద 5 లీటర్ల స్టాక్ మరియు 0.38 వినియోగ రేటుతో 13.1 రోజుల కవరేజ్ మాత్రమే ఉన్నందున అది 14 రోజుల సేఫ్టీ ఫ్లోర్ కంటే తక్కువగా ఉంది, కాబట్టి దాన్ని తిరస్కరించాము.",
+  "risk_notes": [
+   "The recipient's projected cover of 26.1 days depends on maintaining the baseline burn rate of 0.08.",
+   "The transfer assumes a transit time of 2 days to complete the delivery.",
+   "The incoming lot IVF2610-843 from Khambampadu has 47 days to expiry."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_narasaraopet_ppu_6fd4f1",
+    "reason": "Is itself warning: 5 litres at 0.38/day (0.38 baseline + 0.00 outbreak surge) is 13.1 days of cover, at or below the 14-day safety floor (spare = 5 - 0.38 x 14 = -0.4). It needs stock; it cannot give any."
+   }
+  ]
+ }
+}

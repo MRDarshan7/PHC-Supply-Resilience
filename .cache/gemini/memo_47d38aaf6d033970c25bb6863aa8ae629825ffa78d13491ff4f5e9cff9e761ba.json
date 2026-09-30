@@ -1,0 +1,34 @@
+{
+ "sha256": "47d38aaf6d033970c25bb6863aa8ae629825ffa78d13491ff4f5e9cff9e761ba",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:27:41+00:00",
+ "recipient": "phc_machavaram_ec9b07",
+ "medicine": "iv_fluids_rl",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_khambampadu_441c72",
+    "quantity": 3
+   }
+  ],
+  "rationale_en": "Machavaram is currently running low on IV Fluids (Ringer Lactate) with a stock level of 13 litres. With a daily consumption rate of 1.08 litres, this stock provides only 12.1 days of cover, placing the facility in the warning band. To secure its supply and reach the target cover of 14 days, a transfer of 3 litres is required.  Khambampadu is selected to donate 3 litres from batch IVF2610-843 (expiry 2026-10-09). After this transfer, Khambampadu will retain a robust stock of 22 litres, providing 49.1 days of cover, which is safely 35.1 days above the 14-day safety floor. This selection is highly optimal because it rescues 3 litres of stock that would otherwise expire unused.  The nearest facilities, Narasaraopet PPU and Mutukur, were excluded because they are already operating in the warning band with only 13.1 days of cover, which falls below the 14-day donor safety floor. Choosing Khambampadu ensures that we resolve the deficit at Machavaram without compromising other local units.",
+  "rationale_te": "Machavaram లో IV Fluids (Ringer Lactate) నిల్వలు 13 లీటర్లకు పడిపోయాయి. రోజువారీ వాడకం 1.08 లీటర్లు కాగా, ఈ నిల్వలు కేవలం 12.1 రోజుల అవసరాలకు మాత్రమే సరిపోతాయి, దీనివల్ల ఈ సౌకర్యం warning పరిధిలోకి వచ్చింది. నిల్వలను సురక్షితం చేయడానికి మరియు 14 రోజుల లక్ష్యాన్ని చేరుకోవడానికి 3 లీటర్ల బదిలీ అవసరం.  Khambampadu నుండి batch IVF2610-843 (expiry 2026-10-09) నుండి 3 లీటర్లను బదిలీ చేయడానికి ఎంపిక చేయడం జరిగింది. బదిలీ తర్వాత, Khambampadu వద్ద 22 లీటర్ల నిల్వ ఉంటుంది, ఇది 49.1 రోజుల అవసరాలకు సరిపోతుంది మరియు 14 రోజుల రక్షణ పరిమితి కంటే 35.1 రోజులు ఎక్కువగా ఉంటుంది. ఈ ఎంపిక అత్యంత సరైనది ఎందుకంటే ఇది గడువు ముగిసి వృథా అయ్యే 3 లీటర్ల నిల్వను కాపాడుతుంది.  సమీపంలో ఉన్న Narasaraopet PPU మరియు Mutukur లను మినహాయించడం జరిగింది ఎందుకంటే అవి కేవలం 13.1 రోజుల నిల్వతో ఇప్పటికే warning పరిధిలో ఉన్నాయి, ఇది 14 రోజుల కనీస రక్షణ పరిమితి కంటే తక్కువగా ఉంది. Khambampadu ని ఎంపిక చేయడం ద్వారా ఇతర స్థానిక కేంద్రాలకు ఎటువంటి నష్టం కలగకుండా Machavaram లో ఉన్న కొరతను తీర్చవచ్చు.",
+  "risk_notes": [
+   "The recipient facility Machavaram will have 14.9 days of cover after the transfer, which is a tight margin above the target.",
+   "The transferred batch IVF2610-843 expires on 2026-10-09, leaving only 47 days for consumption.",
+   "The transfer relies on a standard transit time of 2 days to avoid stockout."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_narasaraopet_ppu_6fd4f1",
+    "reason": "Is itself warning: 5 litres at 0.38/day (0.38 baseline + 0.00 outbreak surge) is 13.1 days of cover, at or below the 14-day safety floor (spare = 5 - 0.38 x 14 = -0.4). It needs stock; it cannot give any."
+   },
+   {
+    "facility_id": "phc_mutukur_6d5ef9",
+    "reason": "Is itself warning: 1 litres at 0.08/day (0.08 baseline + 0.00 outbreak surge) is 13.1 days of cover, at or below the 14-day safety floor (spare = 1 - 0.08 x 14 = -0.1). It needs stock; it cannot give any."
+   }
+  ]
+ }
+}

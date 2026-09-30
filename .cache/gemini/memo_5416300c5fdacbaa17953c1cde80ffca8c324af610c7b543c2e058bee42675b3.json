@@ -1,0 +1,30 @@
+{
+ "sha256": "5416300c5fdacbaa17953c1cde80ffca8c324af610c7b543c2e058bee42675b3",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:26:41+00:00",
+ "recipient": "phc_machavaram_ec9b07",
+ "medicine": "ors_packets",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_gmc_c0145d",
+    "quantity": 29
+   }
+  ],
+  "rationale_en": "Machavaram is currently experiencing a shortage of ORS (Oral Rehydration Salts). The facility has a current stock of 172 packets, which translates to 12.0 days of cover at a baseline burn rate of 14.35 packets per day. Since this falls into the warning band of under 14 days of cover, a transfer of 29 packets is required to restore the target cover of 14 days.\n\nGMC is selected as the donor to transfer 29 packets from lot ORS2609-712, which is near-expiry with a date of 2026-09-05 (13 days to expiry). GMC has a safe starting stock of 79 packets (38.0 days of cover) and will retain 50 packets (24.1 days of cover) after the transfer, which is 10.1 days above the safety floor of 14 days.\n\nAlthough Macherla T was identified as a selectable close-call runner-up at 48.4 km away with lot ORS2609-106 (expiring in 24 days), GMC was chosen because its transfer rescues 29 packets of near-expiry stock that would otherwise go unused. We excluded Guntur II UFWC, which is 66.2 km away, because it is already in the warning band with 12.0 days of cover (157 packets remaining and a burn rate of 13.06 per day) and cannot spare any stock.",
+  "rationale_te": "Machavaram ప్రస్తుతం ORS (Oral Rehydration Salts) కొరతను ఎదుర్కొంటోంది. ఈ కేంద్రంలో ప్రస్తుతం 172 packets నిల్వ ఉంది, ఇది రోజువారీ 14.35 packets వినియోగం ప్రకారం 12.0 రోజుల రక్షణను అందిస్తుంది. ఇది హెచ్చరిక స్థాయి (14 రోజుల కంటే తక్కువ రక్షణ) లో ఉన్నందున, రక్షణ స్థాయిని తిరిగి 14 రోజులకు పెంచడానికి 29 packets బదిలీ అవసరం.\n\nఈ కొరతను తీర్చడానికి GMC నుండి 29 packets బదిలీ చేయాలని ప్రతిపాదిస్తున్నాము. ఈ బదిలీ ORS2609-712 బ్యాచ్ (గడువు తేదీ 2026-09-05, గడువు ముగియడానికి 13 రోజులు మాత్రమే ఉంది) నుండి చేయబడుతుంది. GMC వద్ద ప్రారంభ నిల్వ 79 packets (38.0 రోజుల రక్షణ) ఉండగా, బదిలీ తర్వాత కూడా సురక్షితంగా 50 packets నిల్వ ఉంటుంది (24.1 రోజుల రక్షణ), ఇది 14 రోజుల రక్షణ పరిమితి కంటే 10.1 రోజులు ఎక్కువ.\n\nరన్నరప్ అయిన Macherla T (48.4 కిమీ దూరం, బ్యాచ్ ORS2609-106 గడువు 24 రోజులు) లభ్యతలో ఉన్నప్పటికీ, GMC లోని 13 రోజులలో గడువు ముగిసే 29 packets ను వృధా కాకుండా వినియోగంలోకి తీసుకురావడానికి దీనిని ప్రాధాన్యతగా ఎంచుకున్నాము. సమీపంలోని Guntur II UFWC (66.2 కిమీ) నిల్వ కొరత కారణంగా తిరస్కరించబడింది, ఎందుకంటే అక్కడ 157 packets నిల్వ మరియు 13.06 రోజువారీ వినియోగం ప్రకారం 12.0 రోజుల రక్షణ మాత్రమే ఉంది, ఇది 14 రోజుల రక్షణ పరిమితి కంటే తక్కువ.",
+  "risk_notes": [
+   "The incoming lot ORS2609-712 from GMC will expire in 13 days on 2026-09-05, requiring immediate distribution and consumption at Machavaram.",
+   "After receiving the transfer, Machavaram's cover will be exactly 14.0 days, which offers no margin above the warning band.",
+   "The transfer relies on a standard transit and use window of 7 days, with transit taking 2 days."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_guntur_ii_ufwc_22b2ad",
+    "reason": "Guntur II UFWC is itself warning with 157 packets at a burn rate of 13.06 per day, resulting in 12.0 days of cover, which is below the 14-day safety floor."
+   }
+  ]
+ }
+}

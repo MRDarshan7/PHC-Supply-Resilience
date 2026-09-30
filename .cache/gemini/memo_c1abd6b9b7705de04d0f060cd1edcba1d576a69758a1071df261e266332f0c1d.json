@@ -1,0 +1,34 @@
+{
+ "sha256": "c1abd6b9b7705de04d0f060cd1edcba1d576a69758a1071df261e266332f0c1d",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:24:09+00:00",
+ "recipient": "phc_narasaraopet_ppu_6fd4f1",
+ "medicine": "ors_packets",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_reddipalem_e247c9",
+    "quantity": 11
+   }
+  ],
+  "rationale_en": "Narasaraopet PPU is currently holding a stock of 61 packets of ORS (Oral Rehydration Salts). With a daily burn rate of 5.1 packets, this stock provides only 12.0 days of cover, placing the facility in the warning band. To bring the facility up to the target cover of 14 days, a transfer of 11 packets is required.\n\nThe primary donor recommended is Reddipalem, located just 1.1 km away. It will transfer 11 packets from batch ORS2609-375 (expiry date 2026-09-01), which has only 9 days remaining to expiry. This transfer effectively rescues these packets from expiring unused at Reddipalem, where the current stock is 59 packets with 21.3 days of cover. After transferring 11 packets, Reddipalem will retain a stock of 48 packets, equivalent to 17.3 days of cover. This leaves them with a comfortable cover margin of 3.3 days above the 14-day donor safety floor.\n\nOther highly ranked selectable candidates include GMC (40.3 km away) and Gottipadu (35.2 km away). Although both could also supply the required stock and rescue near-expiry lots, Reddipalem is selected due to its extreme proximity of 1.1 km and the imminent expiry of its stock in 9 days. Notably, nearby facilities such as Machavaram and Guntur II UFWC were rejected during the donor safety check. Machavaram has 12.0 days of cover with 172 packets in stock, and Guntur II UFWC has 12.0 days of cover with 157 packets in stock; both are at or below the 14-day safety floor and are thus excluded from donating.",
+  "rationale_te": "Narasaraopet PPU ప్రస్తుతం 61 packets ల ORS (Oral Rehydration Salts) నిల్వలను కలిగి ఉంది. రోజువారీ వినియోగం 5.1 packets గా ఉన్నందున, ఈ నిల్వ కేవలం 12.0 రోజుల రక్షణను మాత్రమే అందిస్తుంది, దీనివల్ల ఈ సౌకర్యం warning band లోకి చేరింది. దీనిని 14 రోజుల లక్ష్య రక్షణ స్థాయికి చేర్చడానికి, 11 packets ల బదిలీ అవసరం.\n\nఇందుకు సిఫార్సు చేయబడిన ప్రధాన దాత కేవలం 1.1 km దూరంలో ఉన్న Reddipalem. ఇది batch ORS2609-375 (expiry date 2026-09-01) నుండి 11 packets లను బదిలీ చేస్తుంది, దీని గడువు ముగియడానికి కేవలం 9 రోజుల సమయం మాత్రమే ఉంది. ఈ బదిలీ ద్వారా Reddipalem లో ఉపయోగించకుండా వృధాగా పోయే ఈ నిల్వలను సద్వినియోగం చేసుకోవచ్చు. బదిలీకి ముందు Reddipalem వద్ద 59 packets ల నిల్వ మరియు 21.3 రోజుల రక్షణ ఉంది. ఈ 11 packets ల బదిలీ తర్వాత, Reddipalem వద్ద 48 packets ల నిల్వ మిగులుతుంది, ఇది 17.3 రోజుల రక్షణకు సమానం. ఇది 14-day donor safety floor కంటే 3.3 రోజుల అదనపు రక్షణను కలిగి ఉంటుంది.\n\nGMC (40.3 km దూరం) మరియు Gottipadu (35.2 km దూరం) వంటి ఇతర సౌకర్యాలు కూడా ఎంపిక జాబితాలో ఉన్నప్పటికీ, Reddipalem కేవలం 1.1 km అత్యంత సమీపంలో ఉండడం మరియు దాని నిల్వల గడువు 9 రోజుల్లో ముగియనుండడం వల్ల దీనిని ఎంపిక చేయడం జరిగింది. భద్రతా కారణాల దృష్ట్యా తిరస్కరించబడిన సమీప సౌకర్యాలలో Machavaram మరియు Guntur II UFWC ఉన్నాయి. Machavaram వద్ద 172 packets నిల్వతో 12.0 రోజుల రక్షణ ఉంది, మరియు Guntur II UFWC వద్ద 157 packets నిల్వతో 12.0 రోజుల రక్షణ ఉంది. ఈ రెండూ కూడా 14-day safety floor పరిమితి కంటే తక్కువగా ఉండటం వల్ల వీటిని దాతలుగా పరిగణించలేదు.",
+  "risk_notes": [
+   "The recipient Narasaraopet PPU will have 14.1 days of cover after the transfer, which is just slightly above the warning band threshold of 14 days.",
+   "The transferred lot ORS2609-375 from Reddipalem has only 9 days remaining to expiry as of 2026-08-23, requiring immediate consumption upon arrival.",
+   "This transfer assumes a standard transit-and-use window of 7 days including 2 days of transit."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_machavaram_ec9b07",
+    "reason": "Machavaram has 172 packets of stock but only 12.0 days of cover, which falls below the 14-day donor safety floor."
+   },
+   {
+    "facility_id": "phc_guntur_ii_ufwc_22b2ad",
+    "reason": "Guntur II UFWC has 157 packets of stock but only 12.0 days of cover, which falls below the 14-day donor safety floor."
+   }
+  ]
+ }
+}

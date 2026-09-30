@@ -1,0 +1,30 @@
+{
+ "sha256": "bea1c3d5ec5c16fa055d2aff53cf476886c5abe690d0e904a02872b4aca7e8ca",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-24T12:18:15+00:00",
+ "recipient": "phc_narasaraopet_ppu_6fd4f1",
+ "medicine": "zinc_20mg",
+ "today": "2026-08-24",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_nadendla_0ff30a",
+    "quantity": 178
+   }
+  ],
+  "rationale_en": "Narasaraopet PPU is experiencing a critical stock deficiency of Zinc Sulphate 20mg, holding only 214 tablets. Due to the active Acute Diarrhoeal Disease outbreak (ID AP/GUN/2025/45/1997), consumption has surged to 27.99 tablets per day, comprising a 17.87 baseline burn rate and a 10.13 outbreak surge. This leaves the facility with only 7.6 days of cover, which is below the critical threshold of 8 days. To resolve this, we recommend transferring 178 tablets from Nadendla. This transfer will be drawn from lot ZIN2705-964, which has 266 days remaining until its expiry on 2027-05-17. After donating, Nadendla will retain a safe stock level of 653 tablets, providing 23.7 days of cover, which is 9.7 days above the 14-day safety floor. While Bollapalli is much closer at 3.5 km and Muppalla is 12.2 km away, they were bypassed in favor of Nadendla. Bollapalli would be left with a slim margin of only 2.7 days above the safety floor, whereas Nadendla maintains a comfortable 9.7 days of cover margin. The closest facility, Reddipalem, which is only 1.1 km away, was rejected because its stock of 205 tablets provides only 13.5 days of cover under its 15.22 daily burn rate, falling below the mandatory 14-day safety floor.",
+  "rationale_te": "Narasaraopet PPU లో Zinc Sulphate 20mg నిల్వలు తీవ్ర కొరతను ఎదుర్కొంటున్నాయి, ప్రస్తుతం అక్కడ కేవలం 214 టాబ్లెట్లు మాత్రమే ఉన్నాయి. తీవ్రమైన Acute Diarrhoeal Disease అవుట్‌బ్రేక్ (ID AP/GUN/2025/45/1997) కారణంగా, రోజువారీ వినియోగం 27.99 టాబ్లెట్లకు పెరిగింది. ఇందులో 17.87 బేస్‌లైన్ వినియోగం కాగా, 10.13 అవుట్‌బ్రేక్ సర్జ్ కారణంగా పెరిగిన వినియోగం. ఇది ప్రస్తుతం ఈ కేంద్రానికి కేవలం 7.6 రోజుల కవరేజీని మాత్రమే అందిస్తోంది, ఇది క్లిష్టమైన 8 రోజుల థ్రెషోల్డ్ కంటే తక్కువ. ఈ సమస్యను పరిష్కరించడానికి, Nadendla నుండి 178 టాబ్లెట్లను బదిలీ చేయాలని మేము సిఫార్సు చేస్తున్నాము. ఈ బదిలీ ZIN2705-964 బ్యాచ్ నుండి చేయబడుతుంది, ఇది 2027-05-17 నాటికి గడువు ముగుస్తుంది (ఇంకా 266 రోజుల సమయం ఉంది). ఈ బదిలీ తర్వాత కూడా, Nadendla వద్ద 653 టాబ్లెట్ల సురక్షిత నిల్వ ఉంటుంది, ఇది 23.7 రోజుల కవరేజీని అందిస్తుంది. ఇది నిబంధనల ప్రకారం నిర్దేశించిన 14 రోజుల సేఫ్టీ ఫ్లోర్ కంటే 9.7 రోజులు ఎక్కువగా ఉంటుంది. Bollapalli కేవలం 3.5 km మరియు Muppalla 12.2 km దూరంలో ఉన్నప్పటికీ, Nadendla ని ఎంచుకున్నాము. ఎందుకంటే Bollapalli నుండి బదిలీ చేస్తే దానికి కేవలం 2.7 రోజుల మార్జిన్ మాత్రమే మిగులుతుంది, కానీ Nadendla వద్ద సురక్షితమైన 9.7 రోజుల మార్జిన్ ఉంటుంది. అత్యంత సమీపంలో ఉన్న Reddipalem (కేవలం 1.1 km దూరం) నిరాకరించబడింది ఎందుకంటే అక్కడ ఉన్న 205 టాబ్లెట్ల నిల్వ, 15.22 రోజువారీ వినియోగంతో కేవలం 13.5 రోజుల కవరేజీని మాత్రమే ఇస్తుంది, ఇది 14 రోజుల సేఫ్టీ ఫ్లోర్ కంటే తక్కువ.",
+  "risk_notes": [
+   "The recipient Narasaraopet PPU will have 14.0 days of cover after the transfer, which is exactly at the target cover of 14 days and leaves no buffer against further consumption surges.",
+   "The transferred lot ZIN2705-964 has 266 days to expiry (expiring on 2027-05-17), requiring diligent monitoring to ensure usage before expiry.",
+   "The transit is estimated to take 2 days, during which the recipient's stock of 214 tablets will further deplete."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_reddipalem_e247c9",
+    "reason": "Is itself warning: 205 tablets at 15.22/day (9.71 baseline + 5.5 outbreak surge) is 13.5 days of cover, at or below the 14-day safety floor."
+   }
+  ]
+ }
+}

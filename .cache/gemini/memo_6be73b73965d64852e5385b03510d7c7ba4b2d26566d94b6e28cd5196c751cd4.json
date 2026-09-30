@@ -1,0 +1,34 @@
+{
+ "sha256": "6be73b73965d64852e5385b03510d7c7ba4b2d26566d94b6e28cd5196c751cd4",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-24T12:08:48+00:00",
+ "recipient": "phc_machavaram_ec9b07",
+ "medicine": "zinc_20mg",
+ "today": "2026-08-24",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_khambampadu_441c72",
+    "quantity": 500
+   }
+  ],
+  "rationale_en": "Machavaram is facing a critical shortage of Zinc Sulphate 20mg, with its stock of 603 tablets providing only 7.7 days of cover. This critical shortage is driven by an outbreak of Acute Diarrhoeal Disease (outbreak ID AP/GUN/2025/45/1997) that has caused an outbreak surge of 28.48 tablets/day, bringing the total burn rate to 78.72 tablets/day (with a baseline burn rate of 50.24 tablets/day). To bring the recipient facility up to the target of 14 days of cover, a transfer of 500 tablets is required.\n\nAlthough a close call exists between Khambampadu and Atchampet, Khambampadu is selected as the sole donor. Khambampadu will transfer 500 tablets from lot ZIN2610-183 (expiry 2026-10-03). This reduces its stock from 1183 tablets to 683 tablets, leaving it with 20.8 days of cover, which is 6.8 days above the 14-day safety floor. The runner-up, Atchampet, is closer at 37.7 km compared to Khambampadu at 50.0 km, but Atchampet has only 476 spare units, which is insufficient to cover the entire need of 500 tablets on its own.\n\nNearest facilities like Krosuru (31.0 km away) and Muppalla  A (36.7 km away) were rejected during the safety check. Krosuru has only 10.6 days of cover with 409 tablets and a burn rate of 38.68 tablets/day, while Muppalla  A has only 11.5 days of cover with 166 tablets and a burn rate of 14.5 tablets/day, both falling below the 14-day safety floor.",
+  "rationale_te": "Machavaram లో Zinc Sulphate 20mg నిల్వలు 603 tablets మాత్రమే ఉండటం వల్ల కేవలం 7.7 రోజుల అవసరాలకు సరిపోతాయి. Acute Diarrhoeal Disease వ్యాప్తి (outbreak ID AP/GUN/2025/45/1997) కారణంగా పెరిగిన outbreak surge 28.48 tablets/day తో కలిపి మొత్తం వినియోగం 78.72 tablets/day కు చేరుకుంది (దీని baseline burn rate 50.24 tablets/day). ఈ లోటును పూడ్చి 14 రోజుల రక్షణ స్థాయికి చేర్చడానికి 500 tablets బదిలీ చేయడం అత్యవసరం.\n\nAtchampet మరియు Khambampadu ల మధ్య గట్టి పోటీ ఉన్నప్పటికీ, Khambampadu ను ఏకైక దాతగా ఎంచుకోవడం జరిగింది. ఇది తన ZIN2610-183 (expiry 2026-10-03) బ్యాచ్ నుండి 500 tablets ను పంపుతుంది. దీనివల్ల Khambampadu లో నిల్వ 1183 tablets నుండి 683 tablets కు తగ్గుతుంది, కానీ అక్కడ 20.8 రోజుల నిల్వ మిగులుతుంది, ఇది 14 రోజుల భద్రతా పరిమితి కంటే 6.8 రోజులు ఎక్కువ. రన్నరప్ అయిన Atchampet కేవలం 37.7 km దూరంలో ఉన్నప్పటికీ, దాని వద్ద కేవలం 476 spare units మాత్రమే ఉండటం వల్ల అది మొత్తం 500 tablets అవసరాన్ని ఒంటరిగా తీర్చలేదు.\n\nసమీపంలో ఉన్న Krosuru (31.0 km) మరియు Muppalla  A (36.7 km) వంటి సౌకర్యాలు దాతల భద్రతా తనిఖీలో తిరస్కరించబడ్డాయి. Krosuru వద్ద 409 tablets తో కేవలం 10.6 రోజుల నిల్వ (burn rate 38.68 tablets/day) ఉంది, మరియు Muppalla  A వద్ద 166 tablets తో కేవలం 11.5 రోజుల నిల్వ (burn rate 14.5 tablets/day) ఉంది, ఇవి రెండూ కూడా 14 రోజుల భద్రతా పరిమితి కంటే తక్కువ.",
+  "risk_notes": [
+   "Following the transfer, the recipient facility Machavaram will have exactly 14.0 days of cover, which matches the target level with no extra buffer.",
+   "The transferred tablets from lot ZIN2610-183 have only 40 days to expiry (expiring on 2026-10-03), demanding rapid distribution and use.",
+   "The plan assumes a 2-day transit window during which Machavaram must rely on its remaining critical stock of 603 tablets."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_krosuru_64a236",
+    "reason": "Krosuru is 31.0 km away and has only 10.6 days of cover with 409 tablets, which is below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_muppalla_a_4c443f",
+    "reason": "Muppalla  A is 36.7 km away and has only 11.5 days of cover with 166 tablets, which is below the 14-day safety floor."
+   }
+  ]
+ }
+}

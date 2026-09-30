@@ -1,0 +1,35 @@
+{
+ "sha256": "76e3269c41296f383880e134d8bfa6472529509902ab2e67fce9de90d4bc1652",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-24T12:18:28+00:00",
+ "recipient": "phc_narasaraopet_ppu_6fd4f1",
+ "medicine": "iv_fluids_rl",
+ "today": "2026-08-24",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_nadendla_0ff30a",
+    "quantity": 4
+   }
+  ],
+  "rationale_en": "Narasaraopet PPU is currently experiencing a warning stock level of IV Fluids (Ringer Lactate) with only 5 litres in stock, providing 8.3 days of cover. This critical shortage is driven by an outbreak of Acute Diarrhoeal Disease (outbreak ID: AP/GUN/2025/45/1997), which has introduced an outbreak surge of 0.22 litres/day on top of the baseline burn rate of 0.38 litres/day, resulting in a total burn rate of 0.6 litres/day. To secure a safe target cover of 14 days, the facility urgently requires 4 litres.\\n\\nTo meet this demand, we recommend transferring 4 litres from Nadendla, located 16.1 km away. The transfer will be drawn from lot IVF2712-430 (expiry 2027-12-26). Nadendla has a safe stock of 18 litres (30.4 days of cover) and after giving 4 litres, it will retain 14 litres. This leaves them with 23.7 days of cover, which represents a comfortable cover margin of 9.7 days above the 14-day donor safety floor.\\n\\nWhile Bollapalli is closer at 3.5 km, its high burn rate of 0.94 litres/day would leave it with only 17.0 days of cover after donating. Meanwhile, nearby facilities like Reddipalem (1.1 km away) and Muppalla A (21.5 km away) were rejected because their covers of 12.3 days and 12.9 days are below the 14-day donor safety floor. Other selectable options like Muppalla, Atchampet, Kotappakonda, and Pedapalakaluru were also considered but Nadendla remains the most optimal choice.",
+  "rationale_te": "Narasaraopet PPU లో IV Fluids (Ringer Lactate) నిల్వలు హెచ్చరిక స్థాయికి పడిపోయాయి. ప్రస్తుతం ఇక్కడ కేవలం 5 litres నిల్వ మాత్రమే ఉంది, ఇది 8.3 days of cover ను మాత్రమే అందిస్తుంది. Acute Diarrhoeal Disease (ఆధార ID: AP/GUN/2025/45/1997) వ్యాప్తి కారణంగా రోజువారీ అవసరాలు పెరిగాయి. దీనివలన సాధారణ వినియోగం 0.38 litres/day పై అదనంగా 0.22 litres/day outbreak surge ఏర్పడి, మొత్తం వినియోగ రేటు 0.6 litres/day కి చేరింది. సురక్షితమైన 14 days target cover ను సాధించడానికి ఈ కేంద్రానికి అత్యవసరంగా 4 litres బదిలీ చేయాల్సి ఉంది.\\n\\nఈ కొరతను తీర్చడానికి, 16.1 km దూరంలో ఉన్న Nadendla నుండి 4 litres పరిమాణంలో IV Fluids (Ringer Lactate) ను బదిలీ చేయాలని సిఫార్సు చేస్తున్నాము. ఈ బదిలీ lot IVF2712-430 (expiry 2027-12-26) నుండి తీసుకోబడుతుంది. Nadendla వద్ద ప్రస్తుతం 18 litres నిల్వ (30.4 days of cover) ఉంది. బదిలీ చేసిన తరువాత కూడా ఈ కేంద్రంలో 14 litres నిల్వ ఉంటుంది, ఇది 23.7 days of cover ను అందిస్తూ, సురక్షిత పరిమితి అయిన 14-day donor safety floor కన్నా 9.7 days అదనంగా ఉంటుంది.\\n\\nబదిలీ ఎంపిక కోసం Bollapalli (3.5 km) వంటి ఇతర కేంద్రాలను కూడా పరిశీలించాము, కానీ అక్కడ వినియోగ రేటు 0.94 litres/day గా ఎక్కువగా ఉండటంతో, బదిలీ తర్వాత కేవలం 17.0 days of cover మాత్రమే మిగులుతుంది. అత్యంత సమీపంలో ఉన్న Reddipalem (1.1 km) ప్రస్తుతం warning band లో 4 litres నిల్వతో మరియు 12.3 days of cover కలిగి ఉండి 14-day safety floor కన్నా తక్కువ ఉన్నందున తిరస్కరించబడింది. అదేవిధంగా Muppalla A (21.5 km) కూడా కేవలం 12.9 days of cover కలిగి ఉన్నందున తిరస్కరించబడింది. బదిలీ కోసం Muppalla, Atchampet, Kotappakonda, మరియు Pedapalakaluru ల కన్నా Nadendla మరింత అనువైనదిగా నిర్ధారించబడింది.",
+  "risk_notes": [
+   "The recipient Narasaraopet PPU will have 15.0 days of cover after the transfer of 4 litres, which is just slightly above the warning threshold of 14 days.",
+   "The transferred lot IVF2712-430 has 489 days to expiry as of 2026-08-24, posing no risk of wastage.",
+   "A 2 days transit window is assumed, during which the recipient will continue to burn stock at 0.6 litres/day.",
+   "Any surge in the Acute Diarrhoeal Disease outbreak (AP/GUN/2025/45/1997) beyond the projected 0.22 litres/day will deplete stock faster than anticipated."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_reddipalem_e247c9",
+    "reason": "Reddipalem is only 1.1 km away but has 12.3 days of cover, which is below the 14-day donor safety floor."
+   },
+   {
+    "facility_id": "phc_muppalla_a_4c443f",
+    "reason": "Muppalla A is 21.5 km away but was rejected because its 12.9 days of cover is below the 14-day donor safety floor."
+   }
+  ]
+ }
+}

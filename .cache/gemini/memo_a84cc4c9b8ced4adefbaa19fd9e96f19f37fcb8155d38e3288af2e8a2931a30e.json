@@ -1,0 +1,34 @@
+{
+ "sha256": "a84cc4c9b8ced4adefbaa19fd9e96f19f37fcb8155d38e3288af2e8a2931a30e",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T09:30:58+00:00",
+ "recipient": "phc_thulluru_40a5f3",
+ "medicine": "ors_packets",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_indhiranagar_uphc_9e0343",
+    "quantity": 97
+   }
+  ],
+  "rationale_en": "Thulluru is currently in a critical stock situation with 93 packets of ORS (Oral Rehydration Salts) in stock, providing only 6.9 days of cover. This is driven by an outbreak of Acute Diarrhoeal Disease (outbreak ID: AP/GUN/2025/45/1997) which has increased the daily burn rate to 13.51 packets (composed of a baseline burn rate of 3.52 and an outbreak surge of 9.99 packets per day). To secure the target cover of 14 days, a transfer of 97 packets is needed. We recommend transferring 97 packets from Indhiranagar UPHC, drawing from batch ORS2711-942 (expiry date: 2027-11-01). Indhiranagar UPHC currently has 345 packets in stock (34.7 days of cover) and will retain 248 packets (24.9 days of cover) after the transfer, keeping it 10.9 days above the 14-day safety floor. This selection is made because Indhiranagar UPHC is only 15.3 km away, which is closer than the other selectable close-call candidate Nuthakki at 22.1 km. Nearby options like Pedavadlapudi (17.0 km) and L B Nagar UPHC (18.3 km) were rejected because their stocks are below the safety floor of 14 days, having only 11.0 and 9.9 days of cover respectively.",
+  "rationale_te": "Thulluru ప్రస్తుతం 93 packets ల ORS (Oral Rehydration Salts) నిల్వతో క్లిష్టమైన పరిస్థితిలో ఉంది, ఇది కేవలం 6.9 రోజుల రక్షణను మాత్రమే ఇస్తుంది. Acute Diarrhoeal Disease (ఆట్ బ్రేక్ ID: AP/GUN/2025/45/1997) కారణంగా పెరిగిన 13.51 packets ప్రతి రోజు వినియోగ రేటు (baseline burn rate 3.52 మరియు outbreak surge 9.99) దీనికి కారణం. లక్ష్య రక్షణ స్థాయి 14 రోజులు సాధించడానికి 97 packets బదిలీ అవసరం. మేము Indhiranagar UPHC నుండి ORS2711-942 బ్యాచ్ (expiry date: 2027-11-01) నుండి 97 packets బదిలీ చేయాలని ప్రతిపాదిస్తున్నాము. బదిలీ తరువాత కూడా Indhiranagar UPHC వద్ద 248 packets మిగులుతాయి (24.9 రోజుల రక్షణ, ఇది 14 రోజుల సేఫ్టీ ఫ్లోర్ కంటే 10.9 రోజులు ఎక్కువ). సమీపంలో ఉన్న Nuthakki (22.1 km) కంటే Indhiranagar UPHC మరింత దగ్గరగా (15.3 km) ఉండటం వల్ల దీనిని ఎంపిక చేసాము. Pedavadlapudi (17.0 km) మరియు L B Nagar UPHC (18.3 km) వంటి సమీప కేంద్రాలు ఇప్పటికే 11.0 మరియు 9.9 రోజుల రక్షణతో 14 రోజుల సేఫ్టీ ఫ్లోర్ కంటే తక్కువగా ఉండటం వల్ల తిరస్కరించబడ్డాయి.",
+  "risk_notes": [
+   "The recipient facility will have 14.1 days of cover post-transfer, which is just slightly above the warning threshold of 14 days.",
+   "The transfer must be completed within the transit window of 2 days to prevent a stockout.",
+   "The donor facility Indhiranagar UPHC has an outbreak surge of 3.6 packets per day, which must be monitored."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_pedavadlapudi_b4b02c",
+    "reason": "Is itself warning: 101 packets at 9.16/day (5.85 baseline + 3.31 outbreak surge) is 11.0 days of cover, at or below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_l_b_nagar_uphc_36f347",
+    "reason": "Is itself warning: 84 packets at 8.44/day (5.39 baseline + 3.05 outbreak surge) is 9.9 days of cover, at or below the 14-day safety floor."
+   }
+  ]
+ }
+}

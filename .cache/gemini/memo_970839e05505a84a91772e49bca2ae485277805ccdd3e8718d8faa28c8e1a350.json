@@ -1,0 +1,30 @@
+{
+ "sha256": "970839e05505a84a91772e49bca2ae485277805ccdd3e8718d8faa28c8e1a350",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:31:22+00:00",
+ "recipient": "phc_guntur_ii_ufwc_22b2ad",
+ "medicine": "iv_fluids_rl",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_ipd_colony_uphc_1efd17",
+    "quantity": 2
+   }
+  ],
+  "rationale_en": "Guntur II UFWC is currently facing a stock warning for IV Fluids (Ringer Lactate), holding a stock of 12 litres. With a baseline burn rate of 0.98 litres per day and no outbreak surge, its stock provides only 12.3 days of cover, which falls within the warning band of 8 to 14 days. To restore the recipient facility to a safe target cover of 14 days, a transfer of 2 litres is required.\n\nIPD Colony UPHC is selected to donate 2 litres of IV Fluids (Ringer Lactate) from batch IVF2609-495 (expiry date 2026-09-26). Prior to transfer, the donor holds 22 litres, which will drop to 20 litres after the transfer. This leaves the donor with 33.3 days of cover, representing a safe margin of 19.3 days above the donor safety floor of 14 days.\n\nThis donor is preferred over the closer runner-up Mallikarjunapet UPHC (which is 0.2 km away) because the selected lot at IPD Colony UPHC will rescue 1.56 litres from expiring unused, whereas the runner-up would rescue 0 litres. We have also bypassed Salipet UPHC, which is closer at 1.1 km, because it has only 0.34 litres to spare, failing the donor safety check.",
+  "rationale_te": "Guntur II UFWC లో IV Fluids (Ringer Lactate) నిల్వలు హెచ్చరిక స్థాయికి పడిపోయాయి, ప్రస్తుతం ఇక్కడ కేవలం 12 litres నిల్వలు మాత్రమే ఉన్నాయి. ఎటువంటి outbreak surge లేనప్పటికీ, రోజువారీ వినియోగం 0.98 litres చొప్పున దీని నిల్వలు కేవలం 12.3 days of cover மட்டுமே అందిస్తాయి, ఇది 8 నుండి 14 రోజుల warning band లోకి వస్తుంది. ఈ సదుపాయాన్ని సురక్షితమైన 14 days target cover కి చేర్చడానికి 2 litres బదిలీ అవసరం.\n\nఈ బదిలీ కోసం IPD Colony UPHC నుండి batch IVF2609-495 (expiry date 2026-09-26) కి చెందిన 2 litres నిల్వలను ఎంపిక చేయడం జరిగింది. బదిలీకి ముందు ఈ donor వద్ద 22 litres నిల్వలు ఉండగా, బదిలీ తర్వాత అది 20 litres కి తగ్గుతుంది. దీనివల్ల donor వద్ద 33.3 days of cover మిగులుతుంది, ఇది నిబంధనల ప్రకారం నిర్దేశించిన 14 రోజుల safety floor కంటే 19.3 రోజులు అదనంగా సురక్షితంగా ఉంటుంది.\n\nసమీపంలో ఉన్న Mallikarjunapet UPHC (0.2 km దూరం) కంటే ఈ donor ను ఎంచుకోవడానికి ప్రధాన కారణం, IPD Colony UPHC నుండి బదిలీ చేసే నిల్వల వల్ల గడువు ముగిసిపోయే ప్రమాదం ఉన్న 1.56 litres నిల్వలను మనం కాపాడగలం, కానీ runner-up ద్వారా 0 litres కాపాడబడుతుంది. కేవలం 1.1 km దూరంలో ఉన్న Salipet UPHC ని మనం తిరస్కరించాము, ఎందుకంటే దీని వద్ద కేవలం 0.34 litres మాత్రమే అదనంగా ఉన్నాయి, ఇది కనీస సురక్షిత ప్రమాణాలకు సరిపోదు.",
+  "risk_notes": [
+   "The recipient Guntur II UFWC will have 14.3 days of cover after the transfer, which is very close to the warning band threshold of 14 days.",
+   "The transferred lot IVF2609-495 has an expiry date of 2026-09-26, leaving only 34 days to expiry from the transfer date of 2026-08-23.",
+   "This transfer assumes a transit and use window of 7 days, which requires immediate dispatch and utilization of the stock."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_salipet_uphc_ebf170",
+    "reason": "Passes the safety check with only 0.34 litres to spare - less than one whole unit."
+   }
+  ]
+ }
+}

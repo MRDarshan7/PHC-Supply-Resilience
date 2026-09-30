@@ -1,0 +1,35 @@
+{
+ "sha256": "ea58fa01b0daf27f6a568cbaa5934dec06c9b6b46ca9dbdc8176cc41bfc7e36e",
+ "model": "gemini-3.5-flash",
+ "prompt_version": 1,
+ "cached_at": "2026-08-23T12:34:21+00:00",
+ "recipient": "phc_thulluru_40a5f3",
+ "medicine": "zinc_20mg",
+ "today": "2026-08-23",
+ "response": {
+  "chosen_donors": [
+   {
+    "facility_id": "phc_indhiranagar_uphc_9e0343",
+    "quantity": 336
+   }
+  ],
+  "rationale_en": "The recipient facility, Thulluru, is facing a critical stock shortage of Zinc Sulphate 20mg with only 326 tablets remaining, which provides just 6.9 days of cover. This depletion is driven by an outbreak of Acute Diarrhoeal Disease under outbreak ID AP/GUN/2025/45/1997, which has caused a daily outbreak surge of 34.95 tablets on top of the 12.33 baseline burn rate, resulting in a total burn rate of 47.28 tablets per day. To restore Thulluru to its target cover of 14 days, a transfer of 336 tablets is required.\n\nIt is recommended to transfer 336 tablets from Indhiranagar UPHC out of batch ZIN2810-315 (expiry 2028-10-18). Indhiranagar UPHC has a starting stock of 1207 tablets and will retain 871 tablets after the transfer. This leaves the donor with 25.0 days of cover, which is 11.0 days above the 14-day safety floor, keeping it in the safe band. Indhiranagar UPHC was selected over the runner-up, Nuthakki, because it is closer at 15.3 km compared to Nuthakki's distance of 22.1 km, and as an urban facility, it has easier access to resupply from the district store.\n\nProximity-based options were rejected because they failed the safety floor check. Pedavadlapudi (17.0 km away) is currently in the warning band with 11.1 days of cover and cannot spare stock. Similarly, L B Nagar UPHC (18.3 km away) is in the warning band with 10.0 days of cover and is unable to donate.",
+  "rationale_te": "గ్రహీత సదుపాయమైన Thulluru వద్ద కేవలం 326 tablets నిల్వతో Zinc Sulphate 20mg తీవ్రమైన కొరతను ఎదుర్కొంటుోంది. ఇది కేవలం 6.9 రోజుల కవరేజీని మాత్రమే అందిస్తుంది. ఈ కొరత Acute Diarrhoeal Disease వ్యాప్తి (outbreak ID: AP/GUN/2025/45/1997) వల్ల సంభవించింది. ఇది 12.33 సాధారణ వినియోగ రేటుపై 34.95 ప్రకోప ఉధృతిని పెంచి, మొత్తం వినియోగ రేటును రోజుకు 47.28 tablets కు చేర్చింది. Thulluru ను 14 రోజుల లక్ష్య కవరేజీకి తీసుకురావడానికి 336 tablets బదిలీ అవసరం.\n\nIndhiranagar UPHC నుండి batch ZIN2810-315 (expiry 2028-10-18) నుండి 336 tablets ల Zinc Sulphate 20mg ను బదిలీ చేయాలని సిఫార్సు చేయబడింది. Indhiranagar UPHC వద్ద ప్రస్తుతం 1207 tablets నిల్వ ఉన్నాయి మరియు 336 tablets ఇచ్చిన తర్వాత వారి వద్ద 871 tablets నిల్వ ఉంటాయి. ఇది వారికి 25.0 రోజుల కవరేజీని అందిస్తుంది, ఇది 14 రోజుల భద్రతా పరిమితి కంటే 11.0 రోజులు ఎక్కువగా ఉండి, వారిని సురక్షితమైన పరిధిలో ఉంచుతుంది. రన్నరప్ అయిన Nuthakki (22.1 km దూరం) కంటే తక్కువ దూరంలో (15.3 km) ఉన్నందున మరియు పట్టణ ప్రాంత సదుపాయం కావడంతో సులభంగా తిరిగి నిల్వ పొందే అవకాశం ఉన్నందున Indhiranagar UPHC ను ఎంపిక చేయడం జరిగింది.\n\nసమీపంలో ఉన్న కొన్ని సదుపాయాలు భద్రతా కారణాల వల్ల మినహాయించబడ్డాయి. 17.0 km దూరంలో ఉన్న Pedavadlapudi కేవలం 11.1 రోజుల కవరేజీతో హెచ్చరిక పరిధిలో ఉంది మరియు అదనపు నిల్వలను ఇవ్వలేదు. అలాగే 18.3 km దూరంలో ఉన్న L B Nagar UPHC కూడా 10.0 రోజుల కవరేజీతో హెచ్చరిక పరిధిలో ఉన్నందున విరాళం ఇవ్వడానికి నిల్వలు లేవు.",
+  "risk_notes": [
+   "The recipient facility Thulluru is projected to achieve exactly 14.0 days of cover after the transfer, leaving no buffer above the target.",
+   "The donor facility Indhiranagar UPHC is currently managing its own outbreak surge of 12.59 tablets per day, which has been factored into its remaining cover.",
+   "The transferred batch ZIN2810-315 has 787 days to expiry, presenting no risk of near-expiry wastage.",
+   "The transfer transit is estimated to take 2 days, during which the recipient will consume its remaining stock."
+  ],
+  "notable_rejections": [
+   {
+    "facility_id": "phc_pedavadlapudi_b4b02c",
+    "reason": "Pedavadlapudi has only 11.1 days of cover, which is below the 14-day safety floor."
+   },
+   {
+    "facility_id": "phc_l_b_nagar_uphc_36f347",
+    "reason": "L B Nagar UPHC is in the warning band with 10.0 days of cover, which is below the 14-day safety floor."
+   }
+  ]
+ }
+}
