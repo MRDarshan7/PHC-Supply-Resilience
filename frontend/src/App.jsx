@@ -370,7 +370,7 @@ export default function App() {
     <div>
       <header className="top">
         <div className="wordmark">
-          <b>SUPPLY RESILIENCE</b>
+          <b>PHC SUPPLY RESILIENCE</b>
           <span>Guntur · A.P.</span>
         </div>
         <nav className="tabs" aria-label="Primary">
